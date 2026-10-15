@@ -628,136 +628,76 @@
     /* ==========================================================================
        5. LEFT COLUMN: EXAMS & TO-DOS
        ========================================================================== */
-    /* Featured Closest Exam Hero Countdown */
-    .exam-hero-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-strong);
-      border-radius: var(--radius);
-      padding: 12px 14px;
-      margin-bottom: 12px;
+    /* ==========================================================================
+       8. EXAM COUNTDOWN LIST (Clean, High Contrast, Real-Time)
+       ========================================================================== */
+    .exam-list {
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      position: relative;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      cursor: pointer;
-      transition: var(--transition);
+      gap: 10px;
     }
-    .exam-hero-card:hover {
-      border-color: var(--accent);
-    }
-    .exam-hero-header {
+    .exam-item {
+      padding: 12px 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      gap: 8px;
+      transition: var(--transition);
+      position: relative;
+      cursor: pointer;
+    }
+    .exam-item:hover {
+      border-color: var(--border-strong);
+    }
+    .exam-header {
+      display: flex;
+      align-items: flex-start;
       justify-content: space-between;
+      gap: 10px;
     }
-    .exam-hero-badge {
-      font-family: var(--font-mono);
-      font-size: 9px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--accent-inv);
-      background: var(--accent);
-      padding: 2px 6px;
-      border-radius: 2px;
+    .exam-title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      flex: 1;
+      min-width: 0;
     }
-    .exam-hero-date {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--text-muted);
-    }
-    .exam-hero-name {
+    .exam-name {
       font-weight: 700;
       font-size: 13px;
       color: var(--text);
-      line-height: 1.3;
-      margin-top: 2px;
+      line-height: 1.35;
+      word-break: break-word;
     }
-    .exam-hero-timer {
-      display: flex;
+    .exam-date-str {
+      display: inline-flex;
       align-items: center;
-      gap: 4px;
-      margin-top: 4px;
-    }
-    .hero-chip {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background: var(--bg-sub);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 4px 2px;
-    }
-    .hero-num {
-      font-family: var(--font-mono);
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--text);
-      line-height: 1.1;
-      font-variant-numeric: tabular-nums;
-    }
-    .hero-lbl {
-      font-size: 8px;
-      font-weight: 600;
-      color: var(--text-muted);
-      letter-spacing: 0.08em;
-    }
-    .hero-sep {
-      font-family: var(--font-mono);
-      font-weight: 700;
-      font-size: 14px;
-      color: var(--text-muted);
-      user-select: none;
-      padding: 0 1px;
-    }
-
-    .exam-list { display: flex; flex-direction: column; gap: 10px; }
-    .exam-item {
-      padding: 10px 12px;
-      background: var(--bg-sub);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      transition: var(--transition);
-      position: relative;
-    }
-    .exam-item:hover { border-color: var(--border-strong); }
-    .exam-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
-    .exam-name { font-weight: 600; font-size: 12px; color: var(--text); }
-    .exam-date-str { font-size: 10px; color: var(--text-muted); font-family: var(--font-mono); }
-    .exam-countdown-chips { display: flex; align-items: center; gap: 6px; margin-top: 2px; }
-    .time-chip {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 3px 6px;
+      gap: 5px;
       font-family: var(--font-mono);
       font-size: 11px;
-      font-weight: 600;
-      color: var(--text);
-      display: flex;
-      align-items: baseline;
-      gap: 2px;
+      font-weight: 500;
+      color: var(--text-sub);
     }
-    .time-chip span { font-size: 9px; font-weight: 400; color: var(--text-muted); text-transform: uppercase; }
+    .exam-date-str svg {
+      opacity: 0.7;
+    }
     .exam-actions-group {
       display: flex;
       align-items: center;
       gap: 5px;
+      flex-shrink: 0;
     }
     .btn-exam-action {
       height: 22px;
-      padding: 0 8px;
+      padding: 0 7px;
       font-size: 11px;
       font-family: var(--font-sans);
       font-weight: 500;
       border: 1px solid var(--border);
-      background: var(--bg);
-      color: var(--text-sub);
+      background: var(--bg-sub);
+      color: var(--text);
       border-radius: var(--radius-sm);
       cursor: pointer;
       display: inline-flex;
@@ -768,7 +708,6 @@
     }
     .btn-exam-action:hover {
       background: var(--bg-hover);
-      color: var(--text);
       border-color: var(--border-strong);
     }
     .btn-exam-action.btn-exam-del:hover {
@@ -776,8 +715,67 @@
       border-color: #ff5555;
       color: #ff5555;
     }
-    .exam-item {
-      cursor: pointer;
+
+    /* High Contrast Countdown Board */
+    .exam-countdown-board {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 2px;
+      background: var(--bg-sub);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 6px 8px;
+    }
+    .cd-unit-box {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: 0;
+    }
+    .cd-val {
+      font-family: var(--font-mono);
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+    }
+    .cd-lbl {
+      font-size: 8px;
+      font-weight: 700;
+      color: var(--text-sub);
+      letter-spacing: 0.08em;
+      margin-top: 2px;
+      text-transform: uppercase;
+    }
+    .cd-sep {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text-muted);
+      user-select: none;
+      padding: 0 1px;
+      margin-top: -6px;
+    }
+    .cd-unit-secs .cd-val {
+      color: var(--accent);
+    }
+    .exam-expired-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      padding: 6px 10px;
+      background: var(--bg-sub);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-sm);
+      text-align: center;
+      width: 100%;
+      margin-top: 2px;
     }
 
     /* To-Do List with Enhanced Delete and Actions */
@@ -1504,7 +1502,6 @@
           </button>
         </div>
         <div class="panel-content">
-          <div id="exam-hero-container"></div>
           <div class="exam-list" id="exam-items-container">
             <!-- Dynamically populated -->
           </div>
@@ -2742,7 +2739,6 @@
 
       // 8. EXAMS COUNTDOWN
       const examContainer = document.getElementById('exam-items-container');
-      const examHeroContainer = document.getElementById('exam-hero-container');
       const addExamBtn = document.getElementById('btn-add-exam-modal');
       const modalAddExam = document.getElementById('modal-add-exam');
       const closeExamModalBtn = document.getElementById('btn-close-exam-modal');
@@ -2766,7 +2762,6 @@
       }
 
       function renderExams() {
-        if (examHeroContainer) examHeroContainer.innerHTML = '';
         examContainer.innerHTML = '';
 
         if (state.exams.length === 0) {
@@ -2791,91 +2786,76 @@
         // Sort chronologically
         const sorted = [...state.exams].sort((a, b) => new Date(a.date) - new Date(b.date));
 
-        // Find upcoming closest exam (first non-expired, or closest)
-        const upcoming = sorted.find(e => !calculateRemainingTime(e.date).expired) || sorted[0];
-
-        // Render Hero Card for closest exam
-        if (examHeroContainer && upcoming) {
-          const ht = calculateRemainingTime(upcoming.date);
-          const heroDateObj = new Date(upcoming.date);
-          const heroDateFormatted = isNaN(heroDateObj.getTime()) ? upcoming.date : heroDateObj.toLocaleDateString('vi-VN', { weekday: 'short', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-          const pad2 = (n) => String(Math.max(0, n)).padStart(2, '0');
-
-          examHeroContainer.innerHTML = `
-            <div class="exam-hero-card" data-id="${upcoming.id}" title="Kỳ thi trọng tâm - Bấm để chỉnh sửa">
-              <div class="exam-hero-header">
-                <span class="exam-hero-badge">KỲ THI TRỌNG TÂM GẦN NHẤT</span>
-                <span class="exam-hero-date">${heroDateFormatted}</span>
-              </div>
-              <div class="exam-hero-name">${escapeHtml(upcoming.name)}</div>
-              <div class="exam-hero-timer">
-                <div class="hero-chip">
-                  <span class="hero-num" id="hero-chip-days">${ht.days}</span>
-                  <span class="hero-lbl">NGÀY</span>
-                </div>
-                <span class="hero-sep">:</span>
-                <div class="hero-chip">
-                  <span class="hero-num" id="hero-chip-hours">${pad2(ht.hours)}</span>
-                  <span class="hero-lbl">GIỜ</span>
-                </div>
-                <span class="hero-sep">:</span>
-                <div class="hero-chip">
-                  <span class="hero-num" id="hero-chip-mins">${pad2(ht.mins)}</span>
-                  <span class="hero-lbl">PHÚT</span>
-                </div>
-                <span class="hero-sep">:</span>
-                <div class="hero-chip" style="background: var(--bg-hover); border-color: var(--accent);">
-                  <span class="hero-num" id="hero-chip-secs" style="color: var(--accent);">${pad2(ht.secs)}</span>
-                  <span class="hero-lbl">GIÂY</span>
-                </div>
-              </div>
-            </div>
-          `;
-
-          examHeroContainer.querySelector('.exam-hero-card').addEventListener('click', () => {
-            openExamEditModal(upcoming.id);
-          });
-        }
-
-        // Render exam items list
+        // Render each exam with its direct real-time countdown
         sorted.forEach(exam => {
           const t = calculateRemainingTime(exam.date);
           const dateObj = new Date(exam.date);
-          const dateFormatted = isNaN(dateObj.getTime()) ? exam.date : dateObj.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+          const pad2 = (n) => String(Math.max(0, n)).padStart(2, '0');
+          const dateFormatted = isNaN(dateObj.getTime()) ? exam.date : dateObj.toLocaleDateString('vi-VN', {
+            weekday: 'short',
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
 
           const item = document.createElement('div');
           item.className = 'exam-item';
           item.setAttribute('data-id', exam.id);
           item.title = 'Bấm để chỉnh sửa kỳ thi này';
           item.innerHTML = `
-            <div class="exam-top">
-              <span class="exam-name">${escapeHtml(exam.name)}</span>
+            <div class="exam-header">
+              <div class="exam-title-block">
+                <span class="exam-name">${escapeHtml(exam.name)}</span>
+                <span class="exam-date-str">
+                  <svg class="icon-sm" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                  <span>${dateFormatted}</span>
+                </span>
+              </div>
               <div class="exam-actions-group">
                 <button type="button" class="btn-exam-action btn-exam-edit" data-id="${exam.id}" title="Chỉnh sửa kỳ thi">
-                  <svg class="icon-sm" style="width: 11px; height: 11px;" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                  <svg class="icon-sm" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                   <span>Sửa</span>
                 </button>
                 <button type="button" class="btn-exam-action btn-exam-del" data-id="${exam.id}" title="Xóa kỳ thi này">
-                  <svg class="icon-sm" style="width: 11px; height: 11px;" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                  <svg class="icon-sm" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                   <span>Xóa</span>
                 </button>
               </div>
             </div>
-            <div class="exam-date-str">${dateFormatted}</div>
-            <div class="exam-countdown-chips" data-exam-target="${exam.date}">
+
+            <div class="exam-countdown-container" data-exam-target="${exam.date}">
               ${t.expired ? 
-                '<span class="mono expired-lbl" style="font-size: 11px; color: var(--text-muted);">ĐÃ DIỄN RA</span>' : 
+                '<div class="exam-expired-tag">ĐÃ DIỄN RA</div>' : 
                 `
-                <div class="time-chip"><span class="chip-val-days">${t.days}</span> <span>NGÀY</span></div>
-                <div class="time-chip"><span class="chip-val-hours">${t.hours}</span> <span>GIỜ</span></div>
-                <div class="time-chip"><span class="chip-val-mins">${t.mins}</span> <span>PHÚT</span></div>
-                <div class="time-chip" style="color: var(--accent);"><span class="chip-val-secs">${t.secs}</span> <span>GIÂY</span></div>
+                <div class="exam-countdown-board">
+                  <div class="cd-unit-box">
+                    <span class="cd-val cd-days">${t.days}</span>
+                    <span class="cd-lbl">NGÀY</span>
+                  </div>
+                  <span class="cd-sep">:</span>
+                  <div class="cd-unit-box">
+                    <span class="cd-val cd-hours">${pad2(t.hours)}</span>
+                    <span class="cd-lbl">GIỜ</span>
+                  </div>
+                  <span class="cd-sep">:</span>
+                  <div class="cd-unit-box">
+                    <span class="cd-val cd-mins">${pad2(t.mins)}</span>
+                    <span class="cd-lbl">PHÚT</span>
+                  </div>
+                  <span class="cd-sep">:</span>
+                  <div class="cd-unit-box cd-unit-secs">
+                    <span class="cd-val cd-secs">${pad2(t.secs)}</span>
+                    <span class="cd-lbl">GIÂY</span>
+                  </div>
+                </div>
                 `
               }
             </div>
           `;
 
-          // Tap anywhere on exam card to edit
+          // Tap card to edit
           item.addEventListener('click', (e) => {
             if (e.target.closest('.exam-actions-group')) return;
             openExamEditModal(exam.id);
@@ -2901,45 +2881,30 @@
       }
 
       function tickLiveExamCountdowns() {
-        // 1. Update hero card if present
-        const heroCard = document.querySelector('.exam-hero-card');
-        if (heroCard) {
-          const heroId = heroCard.getAttribute('data-id');
-          const heroExam = state.exams.find(x => x.id === heroId);
-          if (heroExam) {
-            const t = calculateRemainingTime(heroExam.date);
-            const pad2 = (n) => String(Math.max(0, n)).padStart(2, '0');
-            const dEl = document.getElementById('hero-chip-days');
-            const hEl = document.getElementById('hero-chip-hours');
-            const mEl = document.getElementById('hero-chip-mins');
-            const sEl = document.getElementById('hero-chip-secs');
-            if (dEl) dEl.textContent = t.days;
-            if (hEl) hEl.textContent = pad2(t.hours);
-            if (mEl) mEl.textContent = pad2(t.mins);
-            if (sEl) sEl.textContent = pad2(t.secs);
-          }
-        }
+        const containers = document.querySelectorAll('.exam-countdown-container[data-exam-target]');
+        const pad2 = (n) => String(Math.max(0, n)).padStart(2, '0');
 
-        // 2. Update list chips
-        const chipGroups = document.querySelectorAll('.exam-countdown-chips[data-exam-target]');
-        chipGroups.forEach(group => {
-          const targetIso = group.getAttribute('data-exam-target');
+        containers.forEach(container => {
+          const targetIso = container.getAttribute('data-exam-target');
           if (!targetIso) return;
           const t = calculateRemainingTime(targetIso);
+
           if (t.expired) {
-            if (!group.querySelector('.expired-lbl')) {
-              group.innerHTML = '<span class="mono expired-lbl" style="font-size: 11px; color: var(--text-muted);">ĐÃ DIỄN RA</span>';
+            if (!container.querySelector('.exam-expired-tag')) {
+              container.innerHTML = '<div class="exam-expired-tag">ĐÃ DIỄN RA</div>';
             }
             return;
           }
-          const dEl = group.querySelector('.chip-val-days');
-          const hEl = group.querySelector('.chip-val-hours');
-          const mEl = group.querySelector('.chip-val-mins');
-          const sEl = group.querySelector('.chip-val-secs');
+
+          const dEl = container.querySelector('.cd-days');
+          const hEl = container.querySelector('.cd-hours');
+          const mEl = container.querySelector('.cd-mins');
+          const sEl = container.querySelector('.cd-secs');
+
           if (dEl && dEl.textContent !== String(t.days)) dEl.textContent = t.days;
-          if (hEl && hEl.textContent !== String(t.hours)) hEl.textContent = t.hours;
-          if (mEl && mEl.textContent !== String(t.mins)) mEl.textContent = t.mins;
-          if (sEl && sEl.textContent !== String(t.secs)) sEl.textContent = t.secs;
+          if (hEl && hEl.textContent !== pad2(t.hours)) hEl.textContent = pad2(t.hours);
+          if (mEl && mEl.textContent !== pad2(t.mins)) mEl.textContent = pad2(t.mins);
+          if (sEl) sEl.textContent = pad2(t.secs);
         });
       }
 
