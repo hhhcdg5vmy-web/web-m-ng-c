@@ -628,6 +628,91 @@
     /* ==========================================================================
        5. LEFT COLUMN: EXAMS & TO-DOS
        ========================================================================== */
+    /* Featured Closest Exam Hero Countdown */
+    .exam-hero-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      margin-bottom: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .exam-hero-card:hover {
+      border-color: var(--accent);
+    }
+    .exam-hero-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .exam-hero-badge {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent-inv);
+      background: var(--accent);
+      padding: 2px 6px;
+      border-radius: 2px;
+    }
+    .exam-hero-date {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+    .exam-hero-name {
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.3;
+      margin-top: 2px;
+    }
+    .exam-hero-timer {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 4px;
+    }
+    .hero-chip {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: var(--bg-sub);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 4px 2px;
+    }
+    .hero-num {
+      font-family: var(--font-mono);
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+    }
+    .hero-lbl {
+      font-size: 8px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+    }
+    .hero-sep {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text-muted);
+      user-select: none;
+      padding: 0 1px;
+    }
+
     .exam-list { display: flex; flex-direction: column; gap: 10px; }
     .exam-item {
       padding: 10px 12px;
@@ -881,7 +966,7 @@
     }
     .slider::-webkit-slider-thumb:hover { transform: scale(1.3); }
 
-    .yt-bookmarks-list { display: flex; flex-direction: column; gap: 6px; max-height: 180px; overflow-y: auto; }
+    .yt-bookmarks-list { display: flex; flex-direction: column; gap: 6px; max-height: 200px; overflow-y: auto; }
     .yt-bookmark-item {
       display: flex;
       align-items: center;
@@ -895,6 +980,17 @@
       gap: 8px;
     }
     .yt-bookmark-item:hover { border-color: var(--border-strong); background: var(--bg-hover); }
+    .yt-bookmark-item.active {
+      border-color: var(--accent);
+      background: var(--bg-hover);
+    }
+    .yt-bookmark-info {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex: 1;
+      overflow: hidden;
+    }
     .yt-bookmark-title {
       font-size: 11px;
       font-weight: 500;
@@ -902,10 +998,56 @@
       overflow: hidden;
       text-overflow: ellipsis;
       flex: 1;
+      color: var(--text);
     }
-    .yt-bookmark-del { opacity: 0.6; background: transparent; border: none; color: var(--text-muted); cursor: pointer; padding: 2px; }
-    .yt-bookmark-item:hover .yt-bookmark-del { opacity: 1; }
-    .yt-bookmark-del:hover { color: #ff5555; }
+    .yt-bookmark-actions {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .yt-action-btn {
+      opacity: 0.6;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 3px;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+    .yt-bookmark-item:hover .yt-action-btn { opacity: 1; }
+    .yt-track-edit:hover { color: var(--text); background: var(--bg-card); }
+    .yt-track-del:hover { color: #ff5555; background: rgba(255, 85, 85, 0.1); }
+
+    /* White Noise Preset Chips */
+    .white-noise-presets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+    .wn-preset-btn {
+      height: 24px;
+      padding: 0 8px;
+      font-size: 10px;
+      font-family: var(--font-sans);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg-sub);
+      color: var(--text);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: var(--transition);
+    }
+    .wn-preset-btn:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-strong);
+    }
 
     /* -------------------------------------------------------------
        VNEDU / NOTAN GPA CALCULATOR STYLES
@@ -1362,6 +1504,7 @@
           </button>
         </div>
         <div class="panel-content">
+          <div id="exam-hero-container"></div>
           <div class="exam-list" id="exam-items-container">
             <!-- Dynamically populated -->
           </div>
@@ -1623,11 +1766,17 @@
             </div>
 
             <!-- Saved Playlists Header -->
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 4px;">
-              <span class="mono" style="font-size: 10px; font-weight: 600; text-transform: uppercase; color: var(--text-sub);">
-                Danh sách tuyển chọn
-              </span>
-              <span class="mono" id="yt-tracks-count" style="font-size: 10px; color: var(--text-muted);">4 tracks</span>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 8px;">
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span class="mono" style="font-size: 10px; font-weight: 600; text-transform: uppercase; color: var(--text-sub);">
+                  Tiếng ồn trắng & Nhạc
+                </span>
+                <span class="mono" id="yt-tracks-count" style="font-size: 10px; color: var(--text-muted);">(4)</span>
+              </div>
+              <button class="btn btn-sm" id="btn-add-track-modal" title="Thêm link YouTube hoặc tiếng ồn trắng">
+                <svg class="icon-sm" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <span>+ Thêm link</span>
+              </button>
             </div>
 
             <!-- Bookmarks List -->
@@ -1781,6 +1930,50 @@
     </div>
   </div>
 
+  <!-- Modal: Add / Edit YouTube Track & White Noise -->
+  <div class="modal-overlay" id="modal-add-track">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title" id="modal-track-title">Thêm Link YouTube / Tiếng Ồn Trắng</div>
+        <button class="btn btn-sm btn-icon" id="btn-close-track-modal">
+          <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <form id="form-add-track">
+        <input type="hidden" id="input-track-id" value="">
+        <div class="modal-form-group">
+          <label class="modal-label">Tên bản nhạc / Tiếng ồn</label>
+          <input type="text" id="input-track-title-val" class="input-text" placeholder="VD: White Noise 10h, Tiếng mưa rào, Sóng não Alpha..." required>
+        </div>
+        <div class="modal-form-group" style="margin-top: 10px;">
+          <label class="modal-label">Đường link YouTube (Video hoặc Playlist)</label>
+          <input type="text" id="input-track-url-val" class="input-text" placeholder="VD: https://www.youtube.com/watch?v=... hoặc youtu.be/..." required>
+        </div>
+
+        <!-- Quick White Noise Presets -->
+        <div style="margin-top: 12px;">
+          <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px;">Chọn nhanh tiếng ồn trắng & âm thanh tập trung:</div>
+          <div class="white-noise-presets">
+            <button type="button" class="wn-preset-btn" data-title="Tiếng Ồn Trắng (Pure White Noise)" data-url="https://www.youtube.com/watch?v=nMfPqeZjc2c">White Noise</button>
+            <button type="button" class="wn-preset-btn" data-title="Tiếng Ồn Nâu (Deep Brown Noise - Trầm sâu)" data-url="https://www.youtube.com/watch?v=RqzGargq524">Brown Noise</button>
+            <button type="button" class="wn-preset-btn" data-title="Tiếng Mưa Rơi Êm Dịu & Sấm Nhẹ" data-url="https://www.youtube.com/watch?v=mPZkdNFkNps">Mưa rào ấm</button>
+            <button type="button" class="wn-preset-btn" data-title="Sóng Não Alpha 432Hz - Tăng Trí Nhớ" data-url="https://www.youtube.com/watch?v=WPni755-Krg">Sóng Alpha 432Hz</button>
+            <button type="button" class="wn-preset-btn" data-title="Không Gian Quán Cafe Mưa Paris" data-url="https://www.youtube.com/watch?v=c0_ejQQcrwI">Cafe & Mưa</button>
+            <button type="button" class="wn-preset-btn" data-title="Lofi Hip Hop Study Chill Beats" data-url="https://www.youtube.com/watch?v=jfKfPfyJRdk">Lofi Beats</button>
+          </div>
+        </div>
+
+        <div class="modal-actions" style="display: flex; align-items: center; justify-content: space-between; margin-top: 16px;">
+          <button type="button" class="btn btn-sm" id="btn-modal-delete-track" style="color: #ff5555; border-color: rgba(255,85,85,0.3); display: none;">Xóa track này</button>
+          <div style="display: flex; gap: 8px; margin-left: auto;">
+            <button type="button" class="btn btn-sm" id="btn-cancel-track-modal">Hủy</button>
+            <button type="submit" class="btn btn-solid btn-sm" id="btn-submit-track">Lưu vào danh sách</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Modal: Expanded Grade Matrix (Bảng Điểm VnEdu Khổ Lớn) -->
   <div class="modal-overlay" id="modal-grade-matrix">
     <div class="modal-box modal-box-large">
@@ -1874,10 +2067,13 @@
       ];
 
       const DEFAULT_TRACKS = [
-        { id: 'tr-1', title: 'Lofi Chill Study Beats (Đề xuất)', url: 'https://youtu.be/SnTEWNqd3JY?si=ZFDIoq-uh8uXCbS2' },
-        { id: 'tr-2', title: 'Deep Focus Alpha Waves (432Hz)', url: 'https://www.youtube.com/watch?v=WPni755-Krg' },
-        { id: 'tr-3', title: 'Coffee Shop Acoustic & Ambient Rain', url: 'https://www.youtube.com/watch?v=lTRiuFIWV54' },
-        { id: 'tr-4', title: 'Classical Cello & Piano Study Session', url: 'https://www.youtube.com/watch?v=4xDzrJKXOOY' }
+        { id: 'tr-1', title: 'Tiếng Ồn Nâu (Deep Brown Noise - Tập trung sâu)', url: 'https://www.youtube.com/watch?v=RqzGargq524' },
+        { id: 'tr-2', title: 'Tiếng Ồn Trắng (Pure White Noise 10h)', url: 'https://www.youtube.com/watch?v=nMfPqeZjc2c' },
+        { id: 'tr-3', title: 'Tiếng Mưa Rơi Êm Dịu & Sấm Nhẹ', url: 'https://www.youtube.com/watch?v=mPZkdNFkNps' },
+        { id: 'tr-4', title: 'Sóng Não Alpha 432Hz - Tăng Trí Nhớ', url: 'https://www.youtube.com/watch?v=WPni755-Krg' },
+        { id: 'tr-5', title: 'Lofi Chill Study Beats (Đề xuất)', url: 'https://youtu.be/SnTEWNqd3JY?si=ZFDIoq-uh8uXCbS2' },
+        { id: 'tr-6', title: 'Không Gian Quán Cafe Mưa Paris', url: 'https://www.youtube.com/watch?v=c0_ejQQcrwI' },
+        { id: 'tr-7', title: 'Classical Cello & Piano Study Session', url: 'https://www.youtube.com/watch?v=4xDzrJKXOOY' }
       ];
 
       // Default VnEdu School Subjects
@@ -2546,6 +2742,7 @@
 
       // 8. EXAMS COUNTDOWN
       const examContainer = document.getElementById('exam-items-container');
+      const examHeroContainer = document.getElementById('exam-hero-container');
       const addExamBtn = document.getElementById('btn-add-exam-modal');
       const modalAddExam = document.getElementById('modal-add-exam');
       const closeExamModalBtn = document.getElementById('btn-close-exam-modal');
@@ -2558,17 +2755,20 @@
         const diff = target - now;
 
         if (isNaN(diff) || diff <= 0) {
-          return { days: 0, hours: 0, mins: 0, expired: true };
+          return { days: 0, hours: 0, mins: 0, secs: 0, expired: true };
         }
 
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
         const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        return { days, hours, mins, expired: false };
+        const secs = Math.floor((diff % (1000 * 60)) / 1000);
+        return { days, hours, mins, secs, expired: false };
       }
 
       function renderExams() {
+        if (examHeroContainer) examHeroContainer.innerHTML = '';
         examContainer.innerHTML = '';
+
         if (state.exams.length === 0) {
           examContainer.innerHTML = `
             <div style="font-size: 11px; color: var(--text-muted); text-align: center; padding: 24px 12px; display: flex; flex-direction: column; align-items: center; gap: 10px;">
@@ -2588,10 +2788,60 @@
           return;
         }
 
-        state.exams.forEach(exam => {
+        // Sort chronologically
+        const sorted = [...state.exams].sort((a, b) => new Date(a.date) - new Date(b.date));
+
+        // Find upcoming closest exam (first non-expired, or closest)
+        const upcoming = sorted.find(e => !calculateRemainingTime(e.date).expired) || sorted[0];
+
+        // Render Hero Card for closest exam
+        if (examHeroContainer && upcoming) {
+          const ht = calculateRemainingTime(upcoming.date);
+          const heroDateObj = new Date(upcoming.date);
+          const heroDateFormatted = isNaN(heroDateObj.getTime()) ? upcoming.date : heroDateObj.toLocaleDateString('vi-VN', { weekday: 'short', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+          const pad2 = (n) => String(Math.max(0, n)).padStart(2, '0');
+
+          examHeroContainer.innerHTML = `
+            <div class="exam-hero-card" data-id="${upcoming.id}" title="Kỳ thi trọng tâm - Bấm để chỉnh sửa">
+              <div class="exam-hero-header">
+                <span class="exam-hero-badge">KỲ THI TRỌNG TÂM GẦN NHẤT</span>
+                <span class="exam-hero-date">${heroDateFormatted}</span>
+              </div>
+              <div class="exam-hero-name">${escapeHtml(upcoming.name)}</div>
+              <div class="exam-hero-timer">
+                <div class="hero-chip">
+                  <span class="hero-num" id="hero-chip-days">${ht.days}</span>
+                  <span class="hero-lbl">NGÀY</span>
+                </div>
+                <span class="hero-sep">:</span>
+                <div class="hero-chip">
+                  <span class="hero-num" id="hero-chip-hours">${pad2(ht.hours)}</span>
+                  <span class="hero-lbl">GIỜ</span>
+                </div>
+                <span class="hero-sep">:</span>
+                <div class="hero-chip">
+                  <span class="hero-num" id="hero-chip-mins">${pad2(ht.mins)}</span>
+                  <span class="hero-lbl">PHÚT</span>
+                </div>
+                <span class="hero-sep">:</span>
+                <div class="hero-chip" style="background: var(--bg-hover); border-color: var(--accent);">
+                  <span class="hero-num" id="hero-chip-secs" style="color: var(--accent);">${pad2(ht.secs)}</span>
+                  <span class="hero-lbl">GIÂY</span>
+                </div>
+              </div>
+            </div>
+          `;
+
+          examHeroContainer.querySelector('.exam-hero-card').addEventListener('click', () => {
+            openExamEditModal(upcoming.id);
+          });
+        }
+
+        // Render exam items list
+        sorted.forEach(exam => {
           const t = calculateRemainingTime(exam.date);
           const dateObj = new Date(exam.date);
-          const dateFormatted = isNaN(dateObj.getTime()) ? exam.date : dateObj.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+          const dateFormatted = isNaN(dateObj.getTime()) ? exam.date : dateObj.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
           const item = document.createElement('div');
           item.className = 'exam-item';
@@ -2612,13 +2862,14 @@
               </div>
             </div>
             <div class="exam-date-str">${dateFormatted}</div>
-            <div class="exam-countdown-chips">
+            <div class="exam-countdown-chips" data-exam-target="${exam.date}">
               ${t.expired ? 
-                '<span class="mono" style="font-size: 11px; color: var(--text-muted);">ĐÃ DIỄN RA</span>' : 
+                '<span class="mono expired-lbl" style="font-size: 11px; color: var(--text-muted);">ĐÃ DIỄN RA</span>' : 
                 `
-                <div class="time-chip">${t.days} <span>NGÀY</span></div>
-                <div class="time-chip">${t.hours} <span>GIỜ</span></div>
-                <div class="time-chip">${t.mins} <span>PHÚT</span></div>
+                <div class="time-chip"><span class="chip-val-days">${t.days}</span> <span>NGÀY</span></div>
+                <div class="time-chip"><span class="chip-val-hours">${t.hours}</span> <span>GIỜ</span></div>
+                <div class="time-chip"><span class="chip-val-mins">${t.mins}</span> <span>PHÚT</span></div>
+                <div class="time-chip" style="color: var(--accent);"><span class="chip-val-secs">${t.secs}</span> <span>GIÂY</span></div>
                 `
               }
             </div>
@@ -2626,27 +2877,74 @@
 
           // Tap anywhere on exam card to edit
           item.addEventListener('click', (e) => {
-            if (e.target.closest('.btn-exam-del')) return;
+            if (e.target.closest('.exam-actions-group')) return;
             openExamEditModal(exam.id);
+          });
+
+          // Edit button
+          item.querySelector('.btn-exam-edit').addEventListener('click', (e) => {
+            e.stopPropagation();
+            openExamEditModal(exam.id);
+          });
+
+          // Delete button
+          item.querySelector('.btn-exam-del').addEventListener('click', (e) => {
+            e.stopPropagation();
+            state.exams = state.exams.filter(x => x.id !== exam.id);
+            localStorage.setItem(STORAGE_KEYS.EXAMS, JSON.stringify(state.exams));
+            renderExams();
+            showToast('Đã xóa kỳ thi: ' + exam.name);
           });
 
           examContainer.appendChild(item);
         });
+      }
 
-        // Delete exam listeners
-        examContainer.querySelectorAll('.btn-exam-del').forEach(btn => {
-          btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const id = btn.getAttribute('data-id');
-            const exam = state.exams.find(x => x.id === id);
-            const name = exam ? exam.name : 'kỳ thi';
-            state.exams = state.exams.filter(x => x.id !== id);
-            localStorage.setItem(STORAGE_KEYS.EXAMS, JSON.stringify(state.exams));
-            renderExams();
-            showToast('Đã xóa kỳ thi: ' + name);
-          });
+      function tickLiveExamCountdowns() {
+        // 1. Update hero card if present
+        const heroCard = document.querySelector('.exam-hero-card');
+        if (heroCard) {
+          const heroId = heroCard.getAttribute('data-id');
+          const heroExam = state.exams.find(x => x.id === heroId);
+          if (heroExam) {
+            const t = calculateRemainingTime(heroExam.date);
+            const pad2 = (n) => String(Math.max(0, n)).padStart(2, '0');
+            const dEl = document.getElementById('hero-chip-days');
+            const hEl = document.getElementById('hero-chip-hours');
+            const mEl = document.getElementById('hero-chip-mins');
+            const sEl = document.getElementById('hero-chip-secs');
+            if (dEl) dEl.textContent = t.days;
+            if (hEl) hEl.textContent = pad2(t.hours);
+            if (mEl) mEl.textContent = pad2(t.mins);
+            if (sEl) sEl.textContent = pad2(t.secs);
+          }
+        }
+
+        // 2. Update list chips
+        const chipGroups = document.querySelectorAll('.exam-countdown-chips[data-exam-target]');
+        chipGroups.forEach(group => {
+          const targetIso = group.getAttribute('data-exam-target');
+          if (!targetIso) return;
+          const t = calculateRemainingTime(targetIso);
+          if (t.expired) {
+            if (!group.querySelector('.expired-lbl')) {
+              group.innerHTML = '<span class="mono expired-lbl" style="font-size: 11px; color: var(--text-muted);">ĐÃ DIỄN RA</span>';
+            }
+            return;
+          }
+          const dEl = group.querySelector('.chip-val-days');
+          const hEl = group.querySelector('.chip-val-hours');
+          const mEl = group.querySelector('.chip-val-mins');
+          const sEl = group.querySelector('.chip-val-secs');
+          if (dEl && dEl.textContent !== String(t.days)) dEl.textContent = t.days;
+          if (hEl && hEl.textContent !== String(t.hours)) hEl.textContent = t.hours;
+          if (mEl && mEl.textContent !== String(t.mins)) mEl.textContent = t.mins;
+          if (sEl && sEl.textContent !== String(t.secs)) sEl.textContent = t.secs;
         });
       }
+
+      // Realtime countdown ticker every 1 second
+      setInterval(tickLiveExamCountdowns, 1000);
 
       function openExamEditModal(examId) {
         const exam = state.exams.find(x => x.id === examId);
@@ -3261,44 +3559,164 @@
         }
       });
 
-      ytSaveBtn.addEventListener('click', () => {
-        const url = ytUrlInput.value.trim() || state.currentTrackUrl;
-        if (!url) return;
-        const customTitle = prompt('Nhập tên gợi nhớ cho link nhạc này:', 'Giai điệu tập trung');
-        if (customTitle) {
-          state.tracks.unshift({ id: 'tr-' + Date.now(), title: customTitle, url: url });
+      // Modal: Add / Edit YouTube White Noise Track
+      const modalAddTrack = document.getElementById('modal-add-track');
+      const btnAddTrackModal = document.getElementById('btn-add-track-modal');
+      const btnCloseTrackModal = document.getElementById('btn-close-track-modal');
+      const btnCancelTrackModal = document.getElementById('btn-cancel-track-modal');
+      const formAddTrack = document.getElementById('form-add-track');
+      const btnModalDeleteTrack = document.getElementById('btn-modal-delete-track');
+      const inputTrackId = document.getElementById('input-track-id');
+      const inputTrackTitle = document.getElementById('input-track-title-val');
+      const inputTrackUrl = document.getElementById('input-track-url-val');
+
+      function openAddTrackModal(prefillUrl = '') {
+        document.getElementById('modal-track-title').textContent = 'Thêm Link YouTube / Tiếng Ồn Trắng';
+        inputTrackId.value = '';
+        inputTrackTitle.value = '';
+        inputTrackUrl.value = prefillUrl || ytUrlInput.value.trim() || '';
+        document.getElementById('btn-submit-track').textContent = 'Lưu vào danh sách';
+        btnModalDeleteTrack.style.display = 'none';
+        modalAddTrack.classList.add('active');
+        inputTrackTitle.focus();
+      }
+
+      function openEditTrackModal(trackId) {
+        const track = state.tracks.find(t => t.id === trackId);
+        if (!track) return;
+        document.getElementById('modal-track-title').textContent = 'Chỉnh Sửa Link / Tiếng Ồn Trắng';
+        inputTrackId.value = track.id;
+        inputTrackTitle.value = track.title;
+        inputTrackUrl.value = track.url;
+        document.getElementById('btn-submit-track').textContent = 'Cập nhật track';
+        btnModalDeleteTrack.style.display = 'inline-flex';
+        btnModalDeleteTrack.onclick = () => {
+          state.tracks = state.tracks.filter(t => t.id !== trackId);
           localStorage.setItem(STORAGE_KEYS.TRACKS, JSON.stringify(state.tracks));
           renderBookmarks();
-          showToast('Đã lưu vào danh sách nhạc');
+          closeTrackModal();
+          showToast('Đã xóa link: ' + track.title);
+        };
+        modalAddTrack.classList.add('active');
+        inputTrackTitle.focus();
+      }
+
+      function closeTrackModal() {
+        modalAddTrack.classList.remove('active');
+        inputTrackId.value = '';
+        formAddTrack.reset();
+      }
+
+      if (btnAddTrackModal) {
+        btnAddTrackModal.addEventListener('click', () => openAddTrackModal());
+      }
+      if (btnCloseTrackModal) btnCloseTrackModal.addEventListener('click', closeTrackModal);
+      if (btnCancelTrackModal) btnCancelTrackModal.addEventListener('click', closeTrackModal);
+
+      // Preset buttons for quick white noise
+      document.querySelectorAll('.wn-preset-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const title = btn.getAttribute('data-title');
+          const url = btn.getAttribute('data-url');
+          if (inputTrackTitle) inputTrackTitle.value = title;
+          if (inputTrackUrl) inputTrackUrl.value = url;
+        });
+      });
+
+      formAddTrack.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const id = inputTrackId.value.trim();
+        const title = inputTrackTitle.value.trim();
+        const url = inputTrackUrl.value.trim();
+        if (!title || !url) return;
+
+        if (id) {
+          const track = state.tracks.find(t => t.id === id);
+          if (track) {
+            track.title = title;
+            track.url = url;
+            showToast('Đã cập nhật: ' + title);
+          }
+        } else {
+          const newTrack = { id: 'tr-' + Date.now(), title, url };
+          state.tracks.unshift(newTrack);
+          showToast('Đã thêm: ' + title);
         }
+        localStorage.setItem(STORAGE_KEYS.TRACKS, JSON.stringify(state.tracks));
+        renderBookmarks();
+        closeTrackModal();
+      });
+
+      ytSaveBtn.addEventListener('click', () => {
+        const url = ytUrlInput.value.trim() || state.currentTrackUrl;
+        openAddTrackModal(url);
       });
 
       function renderBookmarks() {
         ytBookmarksContainer.innerHTML = '';
-        ytTracksCount.textContent = `${state.tracks.length} tracks`;
+        ytTracksCount.textContent = `(${state.tracks.length})`;
+
+        if (state.tracks.length === 0) {
+          ytBookmarksContainer.innerHTML = `
+            <div style="font-size: 11px; color: var(--text-muted); text-align: center; padding: 20px 8px; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+              <span>Chưa có liên kết nhạc nào.</span>
+              <button class="btn btn-sm" id="btn-restore-default-tracks" style="font-size: 11px;">Khôi phục tiếng ồn trắng mẫu</button>
+            </div>
+          `;
+          const restoreBtn = document.getElementById('btn-restore-default-tracks');
+          if (restoreBtn) {
+            restoreBtn.addEventListener('click', () => {
+              state.tracks = JSON.parse(JSON.stringify(DEFAULT_TRACKS));
+              localStorage.setItem(STORAGE_KEYS.TRACKS, JSON.stringify(state.tracks));
+              renderBookmarks();
+              showToast('Đã khôi phục danh sách tiếng ồn trắng mẫu');
+            });
+          }
+          return;
+        }
 
         state.tracks.forEach(track => {
+          const isCurrent = (state.currentTrackUrl === track.url);
           const el = document.createElement('div');
-          el.className = 'yt-bookmark-item';
+          el.className = 'yt-bookmark-item' + (isCurrent ? ' active' : '');
+          el.setAttribute('data-id', track.id);
+          el.title = 'Bấm để phát hoặc chọn chỉnh sửa';
           el.innerHTML = `
-            <svg class="icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-            <span class="yt-bookmark-title" title="${escapeHtml(track.title)}">${escapeHtml(track.title)}</span>
-            <button class="yt-bookmark-del" data-id="${track.id}" title="Xóa track này">
-              <svg class="icon-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-            </button>
+            <div class="yt-bookmark-info">
+              <svg class="icon-sm" style="flex-shrink: 0; color: ${isCurrent ? 'var(--accent)' : 'inherit'};" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              <span class="yt-bookmark-title" title="${escapeHtml(track.title)}" style="${isCurrent ? 'font-weight: 700; color: var(--accent);' : ''}">${escapeHtml(track.title)}</span>
+            </div>
+            <div class="yt-bookmark-actions">
+              <button type="button" class="yt-action-btn yt-track-edit" data-id="${track.id}" title="Chỉnh sửa link / tên">
+                <svg class="icon-sm" style="width: 12px; height: 12px;" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+              </button>
+              <button type="button" class="yt-action-btn yt-track-del" data-id="${track.id}" title="Xóa track này">
+                <svg class="icon-sm" style="width: 12px; height: 12px;" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </div>
           `;
 
+          // Click item to load & play
           el.addEventListener('click', (e) => {
-            if (e.target.closest('.yt-bookmark-del')) return;
+            if (e.target.closest('.yt-bookmark-actions')) return;
             ytUrlInput.value = track.url;
             loadTrackByUrl(track.url);
+            renderBookmarks();
           });
 
-          el.querySelector('.yt-bookmark-del').addEventListener('click', (e) => {
+          // Edit button
+          el.querySelector('.yt-track-edit').addEventListener('click', (e) => {
+            e.stopPropagation();
+            openEditTrackModal(track.id);
+          });
+
+          // Del button
+          el.querySelector('.yt-track-del').addEventListener('click', (e) => {
             e.stopPropagation();
             state.tracks = state.tracks.filter(t => t.id !== track.id);
             localStorage.setItem(STORAGE_KEYS.TRACKS, JSON.stringify(state.tracks));
             renderBookmarks();
+            showToast('Đã xóa: ' + track.title);
           });
 
           ytBookmarksContainer.appendChild(el);
@@ -3328,7 +3746,7 @@
       ytUrlInput.value = state.currentTrackUrl;
 
       // Close modals on backdrop click
-      [modalAddExam, modalAddQuote, modalAddSubject, modalGradeMatrix].forEach(modal => {
+      [modalAddExam, modalAddQuote, modalAddSubject, modalGradeMatrix, modalAddTrack].forEach(modal => {
         if (!modal) return;
         modal.addEventListener('click', (e) => {
           if (e.target === modal) {
