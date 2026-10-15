@@ -1258,9 +1258,10 @@
       margin: 0 4px;
     }
     
-    /* Ẩn hoàn toàn các chữ và nút gây xao nhãng khi tập trung */
+    /* Ẩn hoàn toàn các chữ, vạch tiến trình và nút gây xao nhãng khi tập trung */
     body.zen-active .flip-group-tag,
     body.zen-active .timer-meta-bar,
+    body.zen-active .timer-progress-track,
     body.zen-active .controls-row {
       display: none !important;
     }
@@ -1402,6 +1403,164 @@
     .modal-label { font-size: 11px; font-weight: 500; color: var(--text-sub); }
     .modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 6px; }
 
+    /* Sound Settings Options Grid */
+    .sound-options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 220px;
+      overflow-y: auto;
+      padding-right: 2px;
+    }
+    .sound-option-card {
+      padding: 8px 12px;
+      background: var(--bg-sub);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      transition: var(--transition);
+    }
+    .sound-option-card:hover {
+      border-color: var(--border-strong);
+      background: var(--bg-hover);
+    }
+    .sound-option-card.active {
+      border-color: var(--accent);
+      background: var(--bg-hover);
+    }
+    .sound-card-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sound-card-icon {
+      font-size: 14px;
+    }
+    .sound-card-name {
+      font-weight: 700;
+      font-size: 12px;
+      color: var(--text);
+    }
+    .sound-card-desc {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-left: 22px;
+    }
+
+    /* Atmosphere Weather Options Grid */
+    .atmosphere-options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .atmos-card {
+      padding: 10px;
+      background: var(--bg-sub);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: var(--transition);
+    }
+    .atmos-card:hover {
+      border-color: var(--border-strong);
+      background: var(--bg-hover);
+    }
+    .atmos-card.active {
+      border-color: var(--accent);
+      background: var(--bg-hover);
+    }
+    .atmos-card-icon {
+      font-size: 18px;
+    }
+    .atmos-card-title {
+      font-weight: 700;
+      font-size: 12px;
+      color: var(--text);
+    }
+    .atmos-card-sub {
+      font-size: 10px;
+      color: var(--text-muted);
+      line-height: 1.3;
+    }
+
+    /* Ambient Sounds Grid */
+    .ambient-sounds-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    .ambient-sound-btn {
+      padding: 8px 10px;
+      font-size: 11px;
+      font-weight: 500;
+      background: var(--bg-sub);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text);
+      transition: var(--transition);
+      text-align: left;
+    }
+    .ambient-sound-btn:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-strong);
+    }
+    .ambient-sound-btn.active {
+      background: var(--accent);
+      color: var(--accent-inv);
+      border-color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* YouTube Premium Banner */
+    .yt-premium-banner {
+      background: var(--bg-sub);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 8px 10px;
+      margin-bottom: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .yt-premium-badge {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      background: #ff0000;
+      color: #fff;
+      padding: 2px 5px;
+      border-radius: 3px;
+      display: inline-block;
+    }
+    .btn-track-popout {
+      opacity: 0.7;
+      color: var(--accent);
+      cursor: pointer;
+      padding: 2px 5px;
+      border: none;
+      background: transparent;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      transition: var(--transition);
+    }
+    .btn-track-popout:hover {
+      opacity: 1;
+      background: var(--bg-card);
+    }
+
     ::-webkit-scrollbar { width: 4px; height: 4px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
@@ -1449,22 +1608,22 @@
     </div>
 
     <div class="header-actions">
-      <!-- Toggle Mechanical Flip Sound -->
-      <button class="btn btn-sm" id="btn-toggle-flip-sound" title="Bật/Tắt âm lật thẻ cơ học">
+      <!-- Button: Sound Settings Menu (5 Sounds & Volume) -->
+      <button class="btn btn-sm" id="btn-toggle-flip-sound" title="Cài đặt 5 kiểu âm nhịp thời gian & âm lượng">
         <svg class="icon" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
-        <span id="flip-sound-status-label">Âm lật: BẬT</span>
+        <span id="flip-sound-status-label">Âm: Lật thẻ (80%)</span>
       </button>
 
-      <!-- Toggle Ambient Rain -->
-      <button class="btn btn-sm" id="btn-toggle-rain" title="Bật/Tắt hiệu ứng mưa nhẹ rơi">
+      <!-- Button: Atmosphere Weather Menu (Mưa, Tuyết, Lửa, Lá thu, Gió) -->
+      <button class="btn btn-sm" id="btn-toggle-rain" title="Hiệu ứng không gian: Mưa, Tuyết, Lửa than hồng, Lá thu, Gió">
         <svg class="icon" viewBox="0 0 24 24"><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"></path><line x1="8" y1="19" x2="8" y2="21"></line><line x1="12" y1="19" x2="12" y2="21"></line><line x1="16" y1="19" x2="16" y2="21"></line></svg>
-        <span id="rain-status-label">Mưa: BẬT</span>
+        <span id="rain-status-label">Không gian: Mưa</span>
       </button>
 
-      <!-- Test Chime Bell -->
-      <button class="btn btn-sm" id="btn-sound-test" title="Thử âm chuông kết thúc">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-        <span>Test chuông</span>
+      <!-- Button: YouTube Premium & Ambient Audio Hub -->
+      <button class="btn btn-sm" id="btn-header-yt-premium" title="Mở YouTube Premium trực tiếp không dính quảng cáo">
+        <svg class="icon-sm" viewBox="0 0 24 24" style="color: #ff3333;"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        <span style="font-weight: 600;">YouTube Premium</span>
       </button>
 
       <!-- Fullscreen / Zen Mode Button -->
@@ -1731,6 +1890,20 @@
               </div>
             </div>
 
+            <!-- YouTube Premium Banner Direct Popout -->
+            <div class="yt-premium-banner">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <span class="yt-premium-badge">YOUTUBE PREMIUM</span>
+                  <span class="mono" style="font-size: 10px; color: var(--text-sub);">Không quảng cáo</span>
+                </div>
+                <button class="btn btn-sm btn-solid" id="btn-yt-launch-popout" title="Mở YouTube Premium cửa sổ nổi - 100% không quảng cáo">
+                  <svg class="icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                  <span>Mở Mini Player ⚡</span>
+                </button>
+              </div>
+            </div>
+
             <!-- YouTube URL Input Bar -->
             <div style="display: flex; gap: 6px;">
               <input type="text" id="yt-url-input" class="input-text" placeholder="Dán link YouTube (Video / Playlist)..." autocomplete="off">
@@ -1747,7 +1920,10 @@
                   <svg class="icon" id="yt-play-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                   <span id="yt-play-text">Phát</span>
                 </button>
-                <a href="https://youtu.be/SnTEWNqd3JY" target="_blank" rel="noopener noreferrer" class="btn btn-sm" id="btn-yt-external" title="Mở trên YouTube">
+                <button class="btn btn-sm" id="btn-yt-popout-current" title="Mở bài hiện tại bằng YouTube Premium cửa sổ nổi">
+                  <span style="color: #ff4444; font-weight: 700;">⚡ Mini Player</span>
+                </button>
+                <a href="https://youtu.be/SnTEWNqd3JY" target="_blank" rel="noopener noreferrer" class="btn btn-sm" id="btn-yt-external" title="Mở trên YouTube tab mới">
                   <span>Mở tab mới</span>
                   <svg class="icon-sm" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                 </a>
@@ -1831,14 +2007,17 @@
       <span>TẠM DỪNG / TIẾP TỤC</span>
       <span class="kbd">Space</span>
     </button>
-    <button class="btn btn-sm" id="zen-btn-sound-toggle">
-      <span id="zen-sound-label">Âm lật: BẬT</span>
+    <button class="btn btn-sm" id="zen-btn-sound-toggle" title="Đổi kiểu âm nhịp hoặc cài đặt">
+      <span id="zen-sound-label">Âm: Lật thẻ</span>
     </button>
-    <button class="btn btn-sm" id="zen-btn-rain-toggle">
-      <span id="zen-rain-label">Mưa: BẬT</span>
+    <button class="btn btn-sm" id="zen-btn-rain-toggle" title="Chuyển đổi không gian: Mưa, Tuyết, Lửa, Lá thu, Gió, Tắt">
+      <span id="zen-rain-label">Không gian: Mưa</span>
+    </button>
+    <button class="btn btn-sm" id="zen-btn-yt-premium" title="Mở YouTube Premium cửa sổ nổi">
+      <span style="color: #ff4444; font-weight: 700;">⚡ Premium</span>
     </button>
     <button class="btn btn-sm" id="zen-btn-exit">
-      <span>Thoát toàn màn hình</span>
+      <span>Thoát</span>
       <span class="kbd">ESC</span>
     </button>
   </div>
@@ -2021,6 +2200,227 @@
     </div>
   </div>
 
+  <!-- Modal: Sound Settings & Volume -->
+  <div class="modal-overlay" id="modal-sound-settings">
+    <div class="modal-box" style="width: 440px;">
+      <div class="modal-header">
+        <div class="modal-title" style="display: flex; align-items: center; gap: 8px;">
+          <svg class="icon" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+          <span>CÀI ĐẶT ÂM NHỊP THỜI GIAN</span>
+        </div>
+        <button class="btn btn-sm btn-icon" id="btn-close-sound-modal">
+          <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <!-- Master Sound Toggle -->
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: var(--bg-sub); border: 1px solid var(--border); border-radius: var(--radius);">
+        <div>
+          <div style="font-weight: 600; font-size: 13px; color: var(--text);">Âm thanh nhịp lật giây</div>
+          <div style="font-size: 11px; color: var(--text-muted);">Phát âm thanh nhẹ mỗi khi chuyển giây / phút</div>
+        </div>
+        <button type="button" class="btn btn-sm btn-solid" id="btn-modal-toggle-sound-master">BẬT</button>
+      </div>
+
+      <!-- Volume Slider -->
+      <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 6px;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline;">
+          <label class="modal-label">Âm lượng nhịp thời gian:</label>
+          <span class="mono" id="sound-vol-display" style="font-size: 12px; font-weight: 700; color: var(--text);">80%</span>
+        </div>
+        <input type="range" class="slider" id="sound-vol-slider" min="0" max="100" value="80" style="width: 100%;">
+      </div>
+
+      <!-- 5 Sound Types Grid -->
+      <div style="margin-top: 8px;">
+        <label class="modal-label" style="margin-bottom: 8px;">Chọn kiểu âm thanh bạn yêu thích (5 loại):</label>
+        <div class="sound-options-grid">
+          <div class="sound-option-card active" data-sound="flip">
+            <div class="sound-card-header">
+              <span class="sound-card-icon">🎴</span>
+              <span class="sound-card-name">Lật Thẻ Cơ Học</span>
+            </div>
+            <div class="sound-card-desc">Âm thanh lá lật đồng hồ cổ điển, giòn và êm</div>
+          </div>
+          <div class="sound-option-card" data-sound="wood">
+            <div class="sound-card-header">
+              <span class="sound-card-icon">🪵</span>
+              <span class="sound-card-name">Gõ Gỗ Mộc Ấm</span>
+            </div>
+            <div class="sound-card-desc">Tiếng gõ thanh gỗ mộc tự nhiên, ấm cúng và tập trung</div>
+          </div>
+          <div class="sound-option-card" data-sound="keyboard">
+            <div class="sound-card-header">
+              <span class="sound-card-icon">⌨️</span>
+              <span class="sound-card-name">Bàn Phím Cơ</span>
+            </div>
+            <div class="sound-card-desc">Âm switch linear bôi trơn thocky, nhịp gõ êm dịu</div>
+          </div>
+          <div class="sound-option-card" data-sound="tick">
+            <div class="sound-card-header">
+              <span class="sound-card-icon">⏱️</span>
+              <span class="sound-card-name">Đồng Hồ Kim</span>
+            </div>
+            <div class="sound-card-desc">Tiếng tích tắc đồng hồ kim quartz cổ điển, chính xác</div>
+          </div>
+          <div class="sound-option-card" data-sound="drop">
+            <div class="sound-card-header">
+              <span class="sound-card-icon">💧</span>
+              <span class="sound-card-name">Giọt Nước Thiền</span>
+            </div>
+            <div class="sound-card-desc">Tiếng giọt nước rơi hồ đá thiền tịnh, thư thái tâm trí</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Test Button & Actions -->
+      <div class="modal-actions" style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px;">
+        <button type="button" class="btn btn-sm" id="btn-test-current-sound">
+          <svg class="icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          <span>Nghe thử</span>
+        </button>
+        <button type="button" class="btn btn-solid btn-sm" id="btn-save-sound-modal">Lưu & Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Atmosphere & Weather Effects -->
+  <div class="modal-overlay" id="modal-atmosphere-settings">
+    <div class="modal-box" style="width: 460px;">
+      <div class="modal-header">
+        <div class="modal-title" style="display: flex; align-items: center; gap: 8px;">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"></path><line x1="8" y1="19" x2="8" y2="21"></line><line x1="12" y1="19" x2="12" y2="21"></line><line x1="16" y1="19" x2="16" y2="21"></line></svg>
+          <span>KHÔNG GIAN & HIỆU ỨNG THỜI TIẾT</span>
+        </div>
+        <button class="btn btn-sm btn-icon" id="btn-close-atmosphere-modal">
+          <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div style="font-size: 11px; color: var(--text-muted); margin-top: -6px;">
+        Chọn hiệu ứng không gian bao quanh màn hình để tăng cảm xúc và độ tập trung sâu:
+      </div>
+
+      <!-- Atmosphere Grid (6 items) -->
+      <div class="atmosphere-options-grid">
+        <div class="atmos-card active" data-atmos="rain">
+          <div class="atmos-card-icon">🌧️</div>
+          <div class="atmos-card-title">Mưa Rào Êm Dịu</div>
+          <div class="atmos-card-sub">Những vệt mưa rơi nhẹ nhàng trên cửa kính</div>
+        </div>
+        <div class="atmos-card" data-atmos="snow">
+          <div class="atmos-card-icon">❄️</div>
+          <div class="atmos-card-title">Tuyết Rơi Mùa Đông</div>
+          <div class="atmos-card-sub">Bông tuyết trắng tinh khôi rơi chậm rãi, tĩnh lặng</div>
+        </div>
+        <div class="atmos-card" data-atmos="fire">
+          <div class="atmos-card-icon">🔥</div>
+          <div class="atmos-card-title">Lửa Than Hồng</div>
+          <div class="atmos-card-sub">Những đốm than hồng ấm áp bay lên từ bếp lửa</div>
+        </div>
+        <div class="atmos-card" data-atmos="leaves">
+          <div class="atmos-card-icon">🍂</div>
+          <div class="atmos-card-title">Lá Vàng Thu Rơi</div>
+          <div class="atmos-card-sub">Những chiếc lá phong vàng xoay tròn bay theo gió</div>
+        </div>
+        <div class="atmos-card" data-atmos="wind">
+          <div class="atmos-card-icon">💨</div>
+          <div class="atmos-card-title">Gió Thổi Nhẹ</div>
+          <div class="atmos-card-sub">Các luồng khí trong suốt uốn lượn thoáng qua</div>
+        </div>
+        <div class="atmos-card" data-atmos="none">
+          <div class="atmos-card-icon">🚫</div>
+          <div class="atmos-card-title">Tắt Hiệu Ứng</div>
+          <div class="atmos-card-sub">Màn hình đen tối giản tuyệt đối, không hạt chuyển động</div>
+        </div>
+      </div>
+
+      <div class="modal-actions" style="margin-top: 14px; justify-content: flex-end;">
+        <button type="button" class="btn btn-solid btn-sm" id="btn-save-atmosphere-modal">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: YouTube Premium & Ambient Audio Hub -->
+  <div class="modal-overlay" id="modal-youtube-premium">
+    <div class="modal-box" style="width: 500px;">
+      <div class="modal-header">
+        <div class="modal-title" style="display: flex; align-items: center; gap: 8px;">
+          <svg class="icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          <span>YOUTUBE PREMIUM & ÂM THANH TẬP TRUNG</span>
+        </div>
+        <button class="btn btn-sm btn-icon" id="btn-close-yt-premium-modal">
+          <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <!-- Feature 1: Direct YouTube Premium Popout Launcher -->
+      <div style="background: var(--bg-sub); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; display: flex; flex-direction: column; gap: 10px;">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <span class="yt-premium-badge">100% KHÔNG QUẢNG CÁO</span>
+          <span style="font-size: 11px; color: var(--text-muted);">Phiên bản Premium của bạn</span>
+        </div>
+        <div style="font-size: 12px; color: var(--text); line-height: 1.4;">
+          Mở trình phát trong <strong>cửa sổ nổi độc lập</strong>: Safari & Chrome sẽ chạy trực tiếp tài khoản YouTube Premium đã đăng nhập của bạn, hoàn toàn <strong>miễn nhiễm 100% với quảng cáo</strong>!
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-top: 2px;">
+          <button type="button" class="btn btn-solid btn-sm" id="btn-modal-launch-popup" style="flex: 1; justify-content: center; height: 32px;">
+            <svg class="icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            <span>Bật Cửa Sổ Nhạc Nổi (Mini Player)</span>
+          </button>
+          <button type="button" class="btn btn-sm" id="btn-modal-open-new-tab" style="height: 32px;" title="Mở trong tab mới bình thường">
+            <svg class="icon-sm" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            <span>Tab mới</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Feature 2: Built-in Offline Ambient Audio Hub (100% Ad-Free, No network needed) -->
+      <div style="margin-top: 10px;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+          <label class="modal-label">Âm thanh thiên nhiên nền (Không cần mạng, vĩnh viễn không quảng cáo):</label>
+          <span class="mono" id="ambient-vol-display" style="font-size: 11px; color: var(--text-muted);">60%</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
+          <input type="range" class="slider" id="ambient-vol-slider" min="0" max="100" value="60" style="flex: 1;">
+          <button type="button" class="btn btn-sm" id="btn-stop-ambient-audio" style="font-size: 10px; height: 22px;">Tắt âm nền</button>
+        </div>
+        
+        <div class="ambient-sounds-grid">
+          <button type="button" class="ambient-sound-btn" data-ambient="campfire">
+            <span>🔥</span>
+            <span>Lửa trại tí tách</span>
+          </button>
+          <button type="button" class="ambient-sound-btn" data-ambient="rain">
+            <span>🌧️</span>
+            <span>Mưa rào êm</span>
+          </button>
+          <button type="button" class="ambient-sound-btn" data-ambient="waves">
+            <span>🌊</span>
+            <span>Sóng biển đêm</span>
+          </button>
+          <button type="button" class="ambient-sound-btn" data-ambient="alpha">
+            <span>🧠</span>
+            <span>Sóng Alpha 432Hz</span>
+          </button>
+          <button type="button" class="ambient-sound-btn" data-ambient="brown">
+            <span>📻</span>
+            <span>Tiếng ồn nâu</span>
+          </button>
+          <button type="button" class="ambient-sound-btn" data-ambient="wind">
+            <span>💨</span>
+            <span>Gió rừng thông</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="modal-actions" style="margin-top: 14px; justify-content: flex-end;">
+        <button type="button" class="btn btn-solid btn-sm" id="btn-save-yt-premium-modal">Đóng</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ==========================================================================
        JAVASCRIPT LOGIC
        ========================================================================== -->
@@ -2039,7 +2439,12 @@
         CURRENT_TRACK: 'chrono_current_track',
         CUSTOM_MINUTES: 'chrono_custom_mins',
         SOUND_ENABLED: 'chrono_sound_flip',
-        RAIN_ENABLED: 'chrono_rain_enabled'
+        RAIN_ENABLED: 'chrono_rain_enabled',
+        SOUND_TYPE: 'chrono_sound_type',
+        SOUND_VOLUME: 'chrono_sound_vol',
+        ATMOSPHERE_MODE: 'chrono_atmos_mode',
+        AMBIENT_AUDIO: 'chrono_ambient_audio',
+        AMBIENT_VOLUME: 'chrono_ambient_vol'
       };
 
       const DEFAULT_QUOTES = [
@@ -2098,7 +2503,12 @@
           currentDigits: { h1: '0', h2: '1', m1: '3', m2: '0', s1: '0', s2: '0' }
         },
         soundEnabled: localStorage.getItem(STORAGE_KEYS.SOUND_ENABLED) !== 'false',
+        soundType: localStorage.getItem(STORAGE_KEYS.SOUND_TYPE) || 'flip',
+        soundVolume: parseInt(localStorage.getItem(STORAGE_KEYS.SOUND_VOLUME) || '80', 10),
         rainEnabled: localStorage.getItem(STORAGE_KEYS.RAIN_ENABLED) !== 'false',
+        atmosphereMode: localStorage.getItem(STORAGE_KEYS.ATMOSPHERE_MODE) || (localStorage.getItem(STORAGE_KEYS.RAIN_ENABLED) === 'false' ? 'none' : 'rain'),
+        ambientAudio: '',
+        ambientVolume: parseInt(localStorage.getItem(STORAGE_KEYS.AMBIENT_VOLUME) || '60', 10),
         exams: JSON.parse(localStorage.getItem(STORAGE_KEYS.EXAMS)) || DEFAULT_EXAMS,
         todos: JSON.parse(localStorage.getItem(STORAGE_KEYS.TODOS)) || DEFAULT_TODOS,
         tracks: JSON.parse(localStorage.getItem(STORAGE_KEYS.TRACKS)) || DEFAULT_TRACKS,
@@ -2114,74 +2524,194 @@
       };
 
       // -------------------------------------------------------------
-      // 2. SYNTHESIZED TACTILE SOUNDS (Web Audio API)
+      // 2. SYNTHESIZED TACTILE SOUNDS & AMBIENT AUDIO (Web Audio API)
       // -------------------------------------------------------------
       const AudioEngine = {
         ctx: null,
+        ambientSource: null,
+        ambientGain: null,
+        ambientType: null,
+
         init() {
           if (!this.ctx) {
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
-            this.ctx = new AudioContext();
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            this.ctx = new AudioCtx();
           }
           if (this.ctx.state === 'suspended') {
             this.ctx.resume();
           }
         },
-        
-        playPaperFlip() {
-          if (!state.soundEnabled) return;
+
+        getEffectiveVolume(previewVol = null) {
+          const raw = (previewVol !== null ? previewVol : state.soundVolume);
+          return Math.max(0.01, Math.min(1.0, (raw / 100)));
+        },
+
+        playSound(type = state.soundType, previewVol = null) {
+          if (!state.soundEnabled && previewVol === null) return;
           this.init();
+          const vol = this.getEffectiveVolume(previewVol);
           const now = this.ctx.currentTime;
 
           try {
-            // Paper friction flutter (noise)
-            const bufferSize = Math.floor(this.ctx.sampleRate * 0.04);
-            const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
-            const data = buffer.getChannelData(0);
-            for (let i = 0; i < bufferSize; i++) {
-              data[i] = Math.random() * 2 - 1;
+            switch(type) {
+              case 'wood':
+                this.playWood(now, vol);
+                break;
+              case 'keyboard':
+                this.playKeyboard(now, vol);
+                break;
+              case 'tick':
+                this.playTick(now, vol);
+                break;
+              case 'drop':
+                this.playDrop(now, vol);
+                break;
+              case 'flip':
+              default:
+                this.playFlip(now, vol);
+                break;
             }
-
-            const noiseSource = this.ctx.createBufferSource();
-            noiseSource.buffer = buffer;
-
-            const bandpass = this.ctx.createBiquadFilter();
-            bandpass.type = 'bandpass';
-            bandpass.frequency.setValueAtTime(2200, now);
-            bandpass.Q.setValueAtTime(2.2, now);
-
-            const noiseGain = this.ctx.createGain();
-            noiseGain.gain.setValueAtTime(0.0001, now);
-            noiseGain.gain.linearRampToValueAtTime(0.045, now + 0.005);
-            noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.038);
-
-            noiseSource.connect(bandpass);
-            bandpass.connect(noiseGain);
-            noiseGain.connect(this.ctx.destination);
-
-            noiseSource.start(now);
-            noiseSource.stop(now + 0.04);
-
-            // Subtle mechanical click / thump
-            const osc = this.ctx.createOscillator();
-            const clickGain = this.ctx.createGain();
-
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(420, now + 0.012);
-            osc.frequency.exponentialRampToValueAtTime(80, now + 0.042);
-
-            clickGain.gain.setValueAtTime(0.0001, now + 0.012);
-            clickGain.gain.linearRampToValueAtTime(0.05, now + 0.015);
-            clickGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.045);
-
-            osc.connect(clickGain);
-            clickGain.connect(this.ctx.destination);
-
-            osc.start(now + 0.012);
-            osc.stop(now + 0.048);
-          } catch(e) {}
+          } catch(e) {
+            console.warn('Audio playback error', e);
+          }
         },
 
+        // Backwards compatibility alias for flip clock
+        playPaperFlip() {
+          this.playSound(state.soundType);
+        },
+
+        // Sound 1: Lật Thẻ Cơ Học (Mechanical Flip Card)
+        playFlip(now, vol) {
+          const bufferSize = Math.floor(this.ctx.sampleRate * 0.04);
+          const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+          const data = buffer.getChannelData(0);
+          for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+
+          const noiseSource = this.ctx.createBufferSource();
+          noiseSource.buffer = buffer;
+
+          const bandpass = this.ctx.createBiquadFilter();
+          bandpass.type = 'bandpass';
+          bandpass.frequency.setValueAtTime(2200, now);
+          bandpass.Q.setValueAtTime(2.2, now);
+
+          const noiseGain = this.ctx.createGain();
+          noiseGain.gain.setValueAtTime(0.0001, now);
+          noiseGain.gain.linearRampToValueAtTime(0.06 * vol, now + 0.005);
+          noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.038);
+
+          noiseSource.connect(bandpass);
+          bandpass.connect(noiseGain);
+          noiseGain.connect(this.ctx.destination);
+          noiseSource.start(now);
+          noiseSource.stop(now + 0.04);
+
+          const osc = this.ctx.createOscillator();
+          const clickGain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(420, now + 0.012);
+          osc.frequency.exponentialRampToValueAtTime(80, now + 0.042);
+          clickGain.gain.setValueAtTime(0.0001, now + 0.012);
+          clickGain.gain.linearRampToValueAtTime(0.07 * vol, now + 0.015);
+          clickGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.045);
+          osc.connect(clickGain);
+          clickGain.connect(this.ctx.destination);
+          osc.start(now + 0.012);
+          osc.stop(now + 0.048);
+        },
+
+        // Sound 2: Gõ Gỗ Mộc Ấm (Warm Woodblock)
+        playWood(now, vol) {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(880, now);
+          osc.frequency.exponentialRampToValueAtTime(260, now + 0.045);
+
+          gain.gain.setValueAtTime(0.0001, now);
+          gain.gain.linearRampToValueAtTime(0.25 * vol, now + 0.003);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.05);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.052);
+        },
+
+        // Sound 3: Bàn Phím Cơ (Mechanical Keyboard Thock)
+        playKeyboard(now, vol) {
+          const bufferSize = Math.floor(this.ctx.sampleRate * 0.016);
+          const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+          const data = buffer.getChannelData(0);
+          for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.3));
+
+          const noise = this.ctx.createBufferSource();
+          noise.buffer = buffer;
+          const filter = this.ctx.createBiquadFilter();
+          filter.type = 'highpass';
+          filter.frequency.setValueAtTime(1500, now);
+          const nGain = this.ctx.createGain();
+          nGain.gain.setValueAtTime(0.14 * vol, now);
+
+          noise.connect(filter);
+          filter.connect(nGain);
+          nGain.connect(this.ctx.destination);
+          noise.start(now);
+
+          const osc = this.ctx.createOscillator();
+          const oGain = this.ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(220, now);
+          osc.frequency.exponentialRampToValueAtTime(80, now + 0.032);
+          oGain.gain.setValueAtTime(0.0001, now);
+          oGain.gain.linearRampToValueAtTime(0.20 * vol, now + 0.002);
+          oGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.035);
+
+          osc.connect(oGain);
+          oGain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.038);
+        },
+
+        // Sound 4: Đồng Hồ Kim Quartz (Vintage Clock Tick)
+        playTick(now, vol) {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(1950, now);
+          osc.frequency.exponentialRampToValueAtTime(1250, now + 0.018);
+
+          gain.gain.setValueAtTime(0.0001, now);
+          gain.gain.linearRampToValueAtTime(0.18 * vol, now + 0.001);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.02);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.022);
+        },
+
+        // Sound 5: Giọt Nước Thiền (Serene Zen Water Drop)
+        playDrop(now, vol) {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(450, now);
+          osc.frequency.exponentialRampToValueAtTime(1450, now + 0.048);
+
+          gain.gain.setValueAtTime(0.0001, now);
+          gain.gain.linearRampToValueAtTime(0.26 * vol, now + 0.008);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.075);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.08);
+        },
+
+        // Alarm Chiming
         playAlarm(type = 'alarm') {
           this.init();
           const now = this.ctx.currentTime;
@@ -2194,6 +2724,7 @@
             this.createHarmonicChime(now + 1.35, 1046.50);
           }
         },
+
         createHarmonicChime(startTime, fundamentalFreq) {
           const osc1 = this.ctx.createOscillator();
           const osc2 = this.ctx.createOscillator();
@@ -2217,18 +2748,126 @@
           osc2.start(startTime);
           osc1.stop(startTime + 1.85);
           osc2.stop(startTime + 1.85);
+        },
+
+        // Ambient Audio Generator (100% Offline, Ad-Free)
+        startAmbient(type) {
+          this.stopAmbient();
+          this.init();
+          this.ambientType = type;
+          const now = this.ctx.currentTime;
+
+          this.ambientGain = this.ctx.createGain();
+          const vol = (state.ambientVolume / 100) * 0.35;
+          this.ambientGain.gain.setValueAtTime(0.0001, now);
+          this.ambientGain.gain.linearRampToValueAtTime(vol, now + 0.5);
+          this.ambientGain.connect(this.ctx.destination);
+
+          if (type === 'alpha') {
+            // Binaural 432Hz sine tone with 4Hz difference
+            const o1 = this.ctx.createOscillator();
+            const o2 = this.ctx.createOscillator();
+            o1.type = 'sine';
+            o1.frequency.setValueAtTime(432, now);
+            o2.type = 'sine';
+            o2.frequency.setValueAtTime(436, now);
+            const g = this.ctx.createGain();
+            g.gain.setValueAtTime(0.2, now);
+            o1.connect(g);
+            o2.connect(g);
+            g.connect(this.ambientGain);
+            o1.start();
+            o2.start();
+            this.ambientSource = { stop: () => { o1.stop(); o2.stop(); } };
+          } else {
+            const bufferSize = this.ctx.sampleRate * 4;
+            const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+            const data = buffer.getChannelData(0);
+            let lastOut = 0.0;
+
+            for (let i = 0; i < bufferSize; i++) {
+              const white = Math.random() * 2 - 1;
+              if (type === 'brown') {
+                lastOut = (lastOut + (0.02 * white)) / 1.02;
+                data[i] = lastOut * 3.5;
+              } else if (type === 'campfire') {
+                const crackle = Math.random() > 0.9982 ? (Math.random() * 4 - 2) : 0;
+                lastOut = (lastOut + (0.05 * white)) / 1.05;
+                data[i] = (lastOut * 1.5) + crackle;
+              } else {
+                lastOut = (lastOut + (0.06 * white)) / 1.06;
+                data[i] = lastOut * 2.0;
+              }
+            }
+
+            const noiseSource = this.ctx.createBufferSource();
+            noiseSource.buffer = buffer;
+            noiseSource.loop = true;
+
+            const filter = this.ctx.createBiquadFilter();
+            if (type === 'rain') {
+              filter.type = 'lowpass';
+              filter.frequency.setValueAtTime(1100, now);
+            } else if (type === 'waves') {
+              filter.type = 'lowpass';
+              filter.frequency.setValueAtTime(450, now);
+              const lfo = this.ctx.createOscillator();
+              const lfoGain = this.ctx.createGain();
+              lfo.frequency.setValueAtTime(0.14, now);
+              lfoGain.gain.setValueAtTime(300, now);
+              lfo.connect(filter.frequency);
+              lfo.start();
+            } else if (type === 'wind') {
+              filter.type = 'bandpass';
+              filter.frequency.setValueAtTime(520, now);
+              filter.Q.setValueAtTime(3.0, now);
+              const lfo = this.ctx.createOscillator();
+              lfo.frequency.setValueAtTime(0.2, now);
+              const lfoGain = this.ctx.createGain();
+              lfoGain.gain.setValueAtTime(220, now);
+              lfo.connect(filter.frequency);
+              lfo.start();
+            } else if (type === 'campfire') {
+              filter.type = 'lowpass';
+              filter.frequency.setValueAtTime(1600, now);
+            } else {
+              filter.type = 'lowpass';
+              filter.frequency.setValueAtTime(600, now);
+            }
+
+            noiseSource.connect(filter);
+            filter.connect(this.ambientGain);
+            noiseSource.start();
+            this.ambientSource = noiseSource;
+          }
+        },
+
+        stopAmbient() {
+          if (this.ambientSource) {
+            try { this.ambientSource.stop(); } catch(e) {}
+            this.ambientSource = null;
+          }
+          this.ambientType = null;
+        },
+
+        setAmbientVolume(val) {
+          if (this.ambientGain && this.ctx) {
+            const vol = (val / 100) * 0.35;
+            this.ambientGain.gain.setTargetAtTime(vol, this.ctx.currentTime, 0.05);
+          }
         }
       };
 
       function showToast(msg) {
         const toast = document.getElementById('app-toast');
+        if (!toast) return;
         toast.textContent = msg;
         toast.classList.add('show');
         setTimeout(() => toast.classList.remove('show'), 2600);
       }
 
       // -------------------------------------------------------------
-      // 3. THEME & SOUND CONTROLS
+      // 3. THEME & TACTILE SOUND MENU CONTROLS
       // -------------------------------------------------------------
       const themeToggleBtn = document.getElementById('btn-theme-toggle');
       function applyTheme(theme) {
@@ -2244,48 +2883,134 @@
         showToast(nextTheme === 'dark' ? 'Đã bật chế độ Tối (Tương phản cao)' : 'Đã bật chế độ Sáng');
       });
 
-      const flipSoundBtn = document.getElementById('btn-toggle-flip-sound');
+      // Sound Modal Elements
+      const modalSoundSettings = document.getElementById('modal-sound-settings');
+      const btnToggleFlipSound = document.getElementById('btn-toggle-flip-sound');
       const flipSoundLabel = document.getElementById('flip-sound-status-label');
       const zenSoundBtn = document.getElementById('zen-btn-sound-toggle');
       const zenSoundLabel = document.getElementById('zen-sound-label');
+      const soundVolSlider = document.getElementById('sound-vol-slider');
+      const soundVolDisplay = document.getElementById('sound-vol-display');
+      const btnModalToggleSoundMaster = document.getElementById('btn-modal-toggle-sound-master');
+      const btnTestCurrentSound = document.getElementById('btn-test-current-sound');
+      const btnCloseSoundModal = document.getElementById('btn-close-sound-modal');
+      const btnSaveSoundModal = document.getElementById('btn-save-sound-modal');
+      const soundOptionCards = document.querySelectorAll('.sound-option-card');
 
       function updateSoundUI() {
-        const txt = state.soundEnabled ? 'Âm lật: BẬT' : 'Âm lật: TẮT';
-        flipSoundLabel.textContent = txt;
-        zenSoundLabel.textContent = txt;
+        const soundNames = {
+          flip: 'Lật thẻ',
+          wood: 'Gõ gỗ',
+          keyboard: 'Bàn phím',
+          tick: 'Đồng hồ',
+          drop: 'Giọt nước'
+        };
+        const currentName = soundNames[state.soundType] || 'Lật thẻ';
+        const txt = state.soundEnabled ? `Âm: ${currentName} (${state.soundVolume}%)` : 'Âm: TẮT';
+        if (flipSoundLabel) flipSoundLabel.textContent = txt;
+        if (zenSoundLabel) zenSoundLabel.textContent = txt;
+
+        if (btnModalToggleSoundMaster) {
+          btnModalToggleSoundMaster.textContent = state.soundEnabled ? 'BẬT' : 'TẮT';
+          if (state.soundEnabled) {
+            btnModalToggleSoundMaster.classList.add('btn-solid');
+          } else {
+            btnModalToggleSoundMaster.classList.remove('btn-solid');
+          }
+        }
+
+        if (soundVolSlider) soundVolSlider.value = state.soundVolume;
+        if (soundVolDisplay) soundVolDisplay.textContent = `${state.soundVolume}%`;
+
+        // Update active sound card
+        soundOptionCards.forEach(card => {
+          const s = card.getAttribute('data-sound');
+          if (s === state.soundType) {
+            card.classList.add('active');
+          } else {
+            card.classList.remove('active');
+          }
+        });
+
         localStorage.setItem(STORAGE_KEYS.SOUND_ENABLED, state.soundEnabled);
+        localStorage.setItem(STORAGE_KEYS.SOUND_TYPE, state.soundType);
+        localStorage.setItem(STORAGE_KEYS.SOUND_VOLUME, state.soundVolume);
       }
       updateSoundUI();
 
-      function toggleFlipSound() {
-        state.soundEnabled = !state.soundEnabled;
+      function openSoundSettingsModal() {
         updateSoundUI();
-        if (state.soundEnabled) {
-          AudioEngine.playPaperFlip();
-          showToast('Đã bật âm lật thẻ cơ học');
-        } else {
-          showToast('Đã tắt âm lật thẻ (Chế độ im lặng)');
-        }
+        modalSoundSettings.classList.add('active');
       }
-      flipSoundBtn.addEventListener('click', toggleFlipSound);
-      zenSoundBtn.addEventListener('click', toggleFlipSound);
 
-      document.getElementById('btn-sound-test').addEventListener('click', () => {
-        AudioEngine.playAlarm('test');
-        showToast('Đang phát chuông thử nghiệm');
+      function closeSoundSettingsModal() {
+        modalSoundSettings.classList.remove('active');
+      }
+
+      if (btnToggleFlipSound) btnToggleFlipSound.addEventListener('click', openSoundSettingsModal);
+      if (zenSoundBtn) zenSoundBtn.addEventListener('click', openSoundSettingsModal);
+      if (btnCloseSoundModal) btnCloseSoundModal.addEventListener('click', closeSoundSettingsModal);
+      if (btnSaveSoundModal) btnSaveSoundModal.addEventListener('click', closeSoundSettingsModal);
+
+      if (btnModalToggleSoundMaster) {
+        btnModalToggleSoundMaster.addEventListener('click', () => {
+          state.soundEnabled = !state.soundEnabled;
+          updateSoundUI();
+          if (state.soundEnabled) {
+            AudioEngine.playSound();
+            showToast('Đã bật âm thanh nhịp thời gian');
+          } else {
+            showToast('Đã tắt âm thanh (Chế độ im lặng)');
+          }
+        });
+      }
+
+      if (soundVolSlider) {
+        soundVolSlider.addEventListener('input', (e) => {
+          state.soundVolume = parseInt(e.target.value, 10);
+          if (soundVolDisplay) soundVolDisplay.textContent = `${state.soundVolume}%`;
+          localStorage.setItem(STORAGE_KEYS.SOUND_VOLUME, state.soundVolume);
+          updateSoundUI();
+        });
+      }
+
+      soundOptionCards.forEach(card => {
+        card.addEventListener('click', () => {
+          const type = card.getAttribute('data-sound');
+          state.soundType = type;
+          state.soundEnabled = true;
+          updateSoundUI();
+          AudioEngine.playSound(type, state.soundVolume);
+          showToast(`Đã chọn âm: ${card.querySelector('.sound-card-name')?.textContent || type}`);
+        });
       });
 
+      if (btnTestCurrentSound) {
+        btnTestCurrentSound.addEventListener('click', () => {
+          AudioEngine.playSound(state.soundType, state.soundVolume);
+          showToast('Nghe thử âm nhịp');
+        });
+      }
+
+      const btnSoundTest = document.getElementById('btn-sound-test');
+      if (btnSoundTest) {
+        btnSoundTest.addEventListener('click', () => {
+          AudioEngine.playAlarm('test');
+          showToast('Đang phát chuông thử nghiệm');
+        });
+      }
+
       // -------------------------------------------------------------
-      // RAIN AMBIENT ENGINE (Ultra-lightweight, Sub-0.1% CPU, Cold & Smooth)
+      // 4. MULTI-ATMOSPHERE CANVAS ENGINE (Rain, Snow, Fire, Leaves, Wind)
       // -------------------------------------------------------------
-      const RainEngine = {
+      const AtmosphereEngine = {
         canvas: null,
         ctx: null,
-        drops: [],
-        count: 90,
-        rafId: null,
+        particles: [],
+        mode: state.atmosphereMode || 'rain',
         width: 0,
         height: 0,
+        rafId: null,
         isRunning: false,
 
         init() {
@@ -2299,33 +3024,15 @@
           this.resize();
           window.addEventListener('resize', () => this.resize(), { passive: true });
 
-          // Pre-allocate drops to prevent GC spikes & laptop heat
-          this.drops = [];
-          for (let i = 0; i < this.count; i++) {
-            this.drops.push({
-              x: Math.random() * (this.width || window.innerWidth),
-              y: Math.random() * (this.height || window.innerHeight),
-              len: 16 + Math.random() * 22,
-              speed: 13 + Math.random() * 9,
-              slant: 1.4 + Math.random() * 0.8
-            });
-          }
-
-          // Auto-pause when tab is hidden or minimized -> 0% CPU consumption
           document.addEventListener('visibilitychange', () => {
             if (document.hidden) {
               this.stop();
-            } else if (state.rainEnabled) {
+            } else if (this.mode !== 'none') {
               this.start();
             }
           });
 
-          this.updateUI();
-          if (state.rainEnabled) {
-            this.start();
-          } else {
-            if (this.canvas) this.canvas.classList.add('rain-disabled');
-          }
+          this.setMode(this.mode, true);
         },
 
         resize() {
@@ -2343,6 +3050,74 @@
               if (this.ctx.resetTransform) this.ctx.resetTransform();
               else this.ctx.setTransform(1, 0, 0, 1, 0, 0);
               this.ctx.scale(dpr, dpr);
+            }
+          }
+        },
+
+        initParticles() {
+          this.particles = [];
+          const w = this.width || window.innerWidth;
+          const h = this.height || window.innerHeight;
+
+          if (this.mode === 'rain') {
+            for (let i = 0; i < 85; i++) {
+              this.particles.push({
+                x: Math.random() * w,
+                y: Math.random() * h,
+                len: 16 + Math.random() * 22,
+                speed: 13 + Math.random() * 9,
+                slant: 1.4 + Math.random() * 0.8
+              });
+            }
+          } else if (this.mode === 'snow') {
+            for (let i = 0; i < 65; i++) {
+              this.particles.push({
+                x: Math.random() * w,
+                y: Math.random() * h,
+                radius: 1.2 + Math.random() * 2.8,
+                speed: 0.8 + Math.random() * 1.6,
+                phase: Math.random() * Math.PI * 2,
+                swaySpeed: 0.015 + Math.random() * 0.02,
+                alpha: 0.45 + Math.random() * 0.45
+              });
+            }
+          } else if (this.mode === 'fire') {
+            for (let i = 0; i < 55; i++) {
+              this.particles.push({
+                x: Math.random() * w,
+                y: h - Math.random() * (h * 0.8),
+                radius: 1.5 + Math.random() * 3.0,
+                speed: 1.2 + Math.random() * 2.4,
+                phase: Math.random() * Math.PI * 2,
+                swaySpeed: 0.02 + Math.random() * 0.03,
+                alpha: 0.5 + Math.random() * 0.45,
+                colorType: Math.random() > 0.4 ? 'orange' : 'gold'
+              });
+            }
+          } else if (this.mode === 'leaves') {
+            for (let i = 0; i < 32; i++) {
+              this.particles.push({
+                x: Math.random() * w,
+                y: Math.random() * h,
+                size: 9 + Math.random() * 8,
+                speed: 1.1 + Math.random() * 1.5,
+                rot: Math.random() * Math.PI * 2,
+                rotSpeed: (Math.random() - 0.5) * 0.04,
+                phase: Math.random() * Math.PI * 2,
+                sway: 1.2 + Math.random() * 1.5,
+                color: Math.random() > 0.5 ? 'rgba(215, 125, 45, 0.75)' : 'rgba(190, 85, 30, 0.7)'
+              });
+            }
+          } else if (this.mode === 'wind') {
+            for (let i = 0; i < 22; i++) {
+              this.particles.push({
+                x: Math.random() * w,
+                y: Math.random() * h,
+                len: 50 + Math.random() * 90,
+                speed: 4.5 + Math.random() * 4.5,
+                phase: Math.random() * Math.PI * 2,
+                alpha: 0.2 + Math.random() * 0.35
+              });
             }
           }
         },
@@ -2370,26 +3145,65 @@
           }
         },
 
-        toggle() {
-          state.rainEnabled = !state.rainEnabled;
+        setMode(mode, silent = false) {
+          this.mode = mode;
+          state.atmosphereMode = mode;
+          state.rainEnabled = (mode !== 'none');
+          localStorage.setItem(STORAGE_KEYS.ATMOSPHERE_MODE, mode);
           localStorage.setItem(STORAGE_KEYS.RAIN_ENABLED, state.rainEnabled);
+
           this.updateUI();
-          if (state.rainEnabled) {
-            this.start();
-            showToast('Đã bật hiệu ứng mưa nhẹ');
-          } else {
+          this.initParticles();
+
+          if (mode === 'none') {
             this.stop();
             if (this.canvas) this.canvas.classList.add('rain-disabled');
-            showToast('Đã tắt hiệu ứng mưa');
+            if (!silent) showToast('Đã tắt hiệu ứng không gian');
+          } else {
+            this.start();
+            if (!silent) {
+              const titles = {
+                rain: 'Mưa Rào Êm Dịu 🌧️',
+                snow: 'Tuyết Rơi Mùa Đông ❄️',
+                fire: 'Lửa Than Hồng Ấm Áp 🔥',
+                leaves: 'Lá Vàng Thu Rơi 🍂',
+                wind: 'Gió Thổi Thoang Thoảng 💨'
+              };
+              showToast(`Đã bật hiệu ứng: ${titles[mode] || mode}`);
+            }
           }
         },
 
         updateUI() {
-          const txt = state.rainEnabled ? 'Mưa: BẬT' : 'Mưa: TẮT';
+          const titles = {
+            rain: 'Không gian: Mưa 🌧️',
+            snow: 'Không gian: Tuyết ❄️',
+            fire: 'Không gian: Lửa 🔥',
+            leaves: 'Không gian: Lá thu 🍂',
+            wind: 'Không gian: Gió 💨',
+            none: 'Không gian: TẮT'
+          };
+          const txt = titles[this.mode] || 'Không gian: BẬT';
           const headerLbl = document.getElementById('rain-status-label');
           const zenLbl = document.getElementById('zen-rain-label');
           if (headerLbl) headerLbl.textContent = txt;
           if (zenLbl) zenLbl.textContent = txt;
+
+          document.querySelectorAll('.atmos-card').forEach(card => {
+            if (card.getAttribute('data-atmos') === this.mode) {
+              card.classList.add('active');
+            } else {
+              card.classList.remove('active');
+            }
+          });
+        },
+
+        // Legacy toggle support
+        toggle() {
+          const modes = ['rain', 'snow', 'fire', 'leaves', 'wind', 'none'];
+          const curIdx = modes.indexOf(this.mode);
+          const nextMode = modes[(curIdx + 1) % modes.length];
+          this.setMode(nextMode);
         },
 
         draw() {
@@ -2398,40 +3212,258 @@
           const h = this.height;
           ctx.clearRect(0, 0, w, h);
 
-          // Clear, elegant monochrome raindrops (crisp & visible)
           const isDark = (state.theme === 'dark');
-          ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.45)' : 'rgba(30, 30, 30, 0.35)';
-          ctx.lineWidth = 1.4;
-          ctx.lineCap = 'round';
 
-          // Single draw call for all particles -> maximum GPU speed, zero memory allocation
-          ctx.beginPath();
-          const drops = this.drops;
-          const len = drops.length;
-          for (let i = 0; i < len; i++) {
-            const d = drops[i];
-            ctx.moveTo(d.x, d.y);
-            ctx.lineTo(d.x + d.slant, d.y + d.len);
-
-            d.x += d.slant;
-            d.y += d.speed;
-
-            if (d.y > h) {
-              d.y = -d.len - (Math.random() * 20);
-              d.x = Math.random() * w;
+          if (this.mode === 'rain') {
+            ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.45)' : 'rgba(30, 30, 30, 0.35)';
+            ctx.lineWidth = 1.4;
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            const p = this.particles;
+            for (let i = 0; i < p.length; i++) {
+              const d = p[i];
+              ctx.moveTo(d.x, d.y);
+              ctx.lineTo(d.x + d.slant, d.y + d.len);
+              d.x += d.slant;
+              d.y += d.speed;
+              if (d.y > h) {
+                d.y = -d.len - (Math.random() * 20);
+                d.x = Math.random() * w;
+              }
+              if (d.x > w) d.x = 0;
             }
-            if (d.x > w) {
-              d.x = 0;
+            ctx.stroke();
+
+          } else if (this.mode === 'snow') {
+            ctx.fillStyle = isDark ? 'rgba(255, 255, 255, 0.75)' : 'rgba(70, 70, 70, 0.65)';
+            const p = this.particles;
+            for (let i = 0; i < p.length; i++) {
+              const s = p[i];
+              ctx.beginPath();
+              ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+              ctx.fill();
+              s.phase += s.swaySpeed;
+              s.x += Math.sin(s.phase) * 0.75;
+              s.y += s.speed;
+              if (s.y > h) {
+                s.y = -5;
+                s.x = Math.random() * w;
+              }
+              if (s.x > w) s.x = 0;
+              if (s.x < 0) s.x = w;
+            }
+
+          } else if (this.mode === 'fire') {
+            const p = this.particles;
+            for (let i = 0; i < p.length; i++) {
+              const em = p[i];
+              ctx.beginPath();
+              ctx.arc(em.x, em.y, em.radius, 0, Math.PI * 2);
+              const color = em.colorType === 'orange' 
+                ? `rgba(255, 120, 30, ${em.alpha})`
+                : `rgba(255, 210, 50, ${em.alpha})`;
+              ctx.fillStyle = color;
+              ctx.shadowColor = 'rgba(255, 120, 30, 0.6)';
+              ctx.shadowBlur = 6;
+              ctx.fill();
+              ctx.shadowBlur = 0;
+
+              em.phase += em.swaySpeed;
+              em.x += Math.sin(em.phase) * 0.65;
+              em.y -= em.speed;
+              em.alpha -= 0.002;
+              if (em.y < 0 || em.alpha <= 0.05) {
+                em.y = h + Math.random() * 20;
+                em.x = Math.random() * w;
+                em.alpha = 0.5 + Math.random() * 0.45;
+              }
+            }
+
+          } else if (this.mode === 'leaves') {
+            const p = this.particles;
+            for (let i = 0; i < p.length; i++) {
+              const lf = p[i];
+              ctx.save();
+              ctx.translate(lf.x, lf.y);
+              ctx.rotate(lf.rot);
+              ctx.fillStyle = lf.color;
+              ctx.beginPath();
+              ctx.ellipse(0, 0, lf.size, lf.size * 0.45, 0, 0, Math.PI * 2);
+              ctx.fill();
+              ctx.restore();
+
+              lf.rot += lf.rotSpeed;
+              lf.phase += 0.025;
+              lf.x += Math.sin(lf.phase) * lf.sway;
+              lf.y += lf.speed;
+              if (lf.y > h + 20) {
+                lf.y = -20;
+                lf.x = Math.random() * w;
+              }
+              if (lf.x > w + 20) lf.x = -10;
+              if (lf.x < -20) lf.x = w + 10;
+            }
+
+          } else if (this.mode === 'wind') {
+            ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.28)' : 'rgba(40, 40, 40, 0.22)';
+            ctx.lineWidth = 1.6;
+            ctx.lineCap = 'round';
+            const p = this.particles;
+            for (let i = 0; i < p.length; i++) {
+              const wnd = p[i];
+              ctx.beginPath();
+              ctx.moveTo(wnd.x, wnd.y);
+              const waveY = Math.sin(wnd.phase) * 6;
+              ctx.quadraticCurveTo(wnd.x + wnd.len * 0.5, wnd.y + waveY, wnd.x + wnd.len, wnd.y);
+              ctx.stroke();
+
+              wnd.phase += 0.035;
+              wnd.x += wnd.speed;
+              if (wnd.x > w + 50) {
+                wnd.x = -wnd.len - 20;
+                wnd.y = Math.random() * h;
+              }
             }
           }
-          ctx.stroke();
         }
       };
 
-      const rainToggleBtn = document.getElementById('btn-toggle-rain');
+      // Compatibility alias
+      const RainEngine = AtmosphereEngine;
+
+      // Atmosphere Modal Elements & Listeners
+      const modalAtmosphereSettings = document.getElementById('modal-atmosphere-settings');
+      const btnToggleRain = document.getElementById('btn-toggle-rain');
       const zenRainToggleBtn = document.getElementById('zen-btn-rain-toggle');
-      if (rainToggleBtn) rainToggleBtn.addEventListener('click', () => RainEngine.toggle());
-      if (zenRainToggleBtn) zenRainToggleBtn.addEventListener('click', () => RainEngine.toggle());
+      const btnCloseAtmosphereModal = document.getElementById('btn-close-atmosphere-modal');
+      const btnSaveAtmosphereModal = document.getElementById('btn-save-atmosphere-modal');
+      const atmosOptionCards = document.querySelectorAll('.atmos-card');
+
+      function openAtmosphereModal() {
+        AtmosphereEngine.updateUI();
+        modalAtmosphereSettings.classList.add('active');
+      }
+
+      function closeAtmosphereModal() {
+        modalAtmosphereSettings.classList.remove('active');
+      }
+
+      if (btnToggleRain) btnToggleRain.addEventListener('click', openAtmosphereModal);
+      if (zenRainToggleBtn) zenRainToggleBtn.addEventListener('click', openAtmosphereModal);
+      if (btnCloseAtmosphereModal) btnCloseAtmosphereModal.addEventListener('click', closeAtmosphereModal);
+      if (btnSaveAtmosphereModal) btnSaveAtmosphereModal.addEventListener('click', closeAtmosphereModal);
+
+      atmosOptionCards.forEach(card => {
+        card.addEventListener('click', () => {
+          const mode = card.getAttribute('data-atmos');
+          AtmosphereEngine.setMode(mode);
+        });
+      });
+
+      // -------------------------------------------------------------
+      // YOUTUBE PREMIUM MINI PLAYER & AD-FREE LAUNCHER
+      // -------------------------------------------------------------
+      function openYouTubePremium(targetUrl) {
+        const url = targetUrl || state.currentTrackUrl || 'https://www.youtube.com';
+        const w = 540;
+        const h = 420;
+        const left = Math.max(0, Math.floor((window.screen.width - w) / 2));
+        const top = Math.max(0, Math.floor((window.screen.height - h) / 2));
+        const features = `width=${w},height=${h},top=${top},left=${left},scrollbars=no,resizable=yes,status=no,toolbar=no,menubar=no,location=yes`;
+
+        const popWin = window.open(url, 'yt_premium_popup', features);
+        if (popWin) {
+          popWin.focus();
+          showToast('⚡ Đã mở Mini Player YouTube Premium (Không quảng cáo)');
+        } else {
+          window.open(url, '_blank');
+          showToast('Đang mở YouTube trong tab mới');
+        }
+      }
+
+      const modalYtPremium = document.getElementById('modal-youtube-premium');
+      const btnHeaderYtPremium = document.getElementById('btn-header-yt-premium');
+      const zenBtnYtPremium = document.getElementById('zen-btn-yt-premium');
+      const btnCloseYtPremiumModal = document.getElementById('btn-close-yt-premium-modal');
+      const btnSaveYtPremiumModal = document.getElementById('btn-save-yt-premium-modal');
+      const btnModalLaunchPopup = document.getElementById('btn-modal-launch-popup');
+      const btnModalOpenNewTab = document.getElementById('btn-modal-open-new-tab');
+      const btnYtLaunchPopout = document.getElementById('btn-yt-launch-popout');
+      const btnYtPopoutCurrent = document.getElementById('btn-yt-popout-current');
+      const ambientVolSlider = document.getElementById('ambient-vol-slider');
+      const ambientVolDisplay = document.getElementById('ambient-vol-display');
+      const btnStopAmbientAudio = document.getElementById('btn-stop-ambient-audio');
+      const ambientSoundBtns = document.querySelectorAll('.ambient-sound-btn');
+
+      function openYtPremiumModal() {
+        if (modalYtPremium) modalYtPremium.classList.add('active');
+      }
+
+      function closeYtPremiumModal() {
+        if (modalYtPremium) modalYtPremium.classList.remove('active');
+      }
+
+      if (btnHeaderYtPremium) btnHeaderYtPremium.addEventListener('click', openYtPremiumModal);
+      if (zenBtnYtPremium) zenBtnYtPremium.addEventListener('click', openYtPremiumModal);
+      if (btnYtLaunchPopout) btnYtLaunchPopout.addEventListener('click', openYtPremiumModal);
+      if (btnCloseYtPremiumModal) btnCloseYtPremiumModal.addEventListener('click', closeYtPremiumModal);
+      if (btnSaveYtPremiumModal) btnSaveYtPremiumModal.addEventListener('click', closeYtPremiumModal);
+
+      if (btnYtPopoutCurrent) {
+        btnYtPopoutCurrent.addEventListener('click', () => {
+          openYouTubePremium(state.currentTrackUrl);
+        });
+      }
+
+      if (btnModalLaunchPopup) {
+        btnModalLaunchPopup.addEventListener('click', () => {
+          openYouTubePremium(state.currentTrackUrl);
+          closeYtPremiumModal();
+        });
+      }
+
+      if (btnModalOpenNewTab) {
+        btnModalOpenNewTab.addEventListener('click', () => {
+          window.open(state.currentTrackUrl || 'https://www.youtube.com', '_blank');
+          closeYtPremiumModal();
+          showToast('Đang mở YouTube trong tab mới');
+        });
+      }
+
+      if (ambientVolSlider) {
+        ambientVolSlider.value = state.ambientVolume;
+        if (ambientVolDisplay) ambientVolDisplay.textContent = `${state.ambientVolume}%`;
+        ambientVolSlider.addEventListener('input', (e) => {
+          state.ambientVolume = parseInt(e.target.value, 10);
+          if (ambientVolDisplay) ambientVolDisplay.textContent = `${state.ambientVolume}%`;
+          localStorage.setItem(STORAGE_KEYS.AMBIENT_VOLUME, state.ambientVolume);
+          AudioEngine.setAmbientVolume(state.ambientVolume);
+        });
+      }
+
+      ambientSoundBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const type = btn.getAttribute('data-ambient');
+          if (btn.classList.contains('active')) {
+            btn.classList.remove('active');
+            AudioEngine.stopAmbient();
+            showToast('Đã dừng âm thanh nền');
+          } else {
+            ambientSoundBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            AudioEngine.startAmbient(type);
+            showToast(`Đang phát âm nền: ${btn.textContent.trim()}`);
+          }
+        });
+      });
+
+      if (btnStopAmbientAudio) {
+        btnStopAmbientAudio.addEventListener('click', () => {
+          ambientSoundBtns.forEach(b => b.classList.remove('active'));
+          AudioEngine.stopAmbient();
+          showToast('Đã tắt toàn bộ âm thanh nền');
+        });
+      }
 
       // 4. LIVE WALL CLOCK
       const wallClockEl = document.getElementById('live-wall-clock');
@@ -3652,6 +4684,9 @@
               <span class="yt-bookmark-title" title="${escapeHtml(track.title)}" style="${isCurrent ? 'font-weight: 700; color: var(--accent);' : ''}">${escapeHtml(track.title)}</span>
             </div>
             <div class="yt-bookmark-actions">
+              <button type="button" class="btn-track-popout yt-track-popout" data-url="${escapeHtml(track.url)}" title="Mở Mini Player YouTube Premium ⚡ (Không dính quảng cáo)">
+                ⚡
+              </button>
               <button type="button" class="yt-action-btn yt-track-edit" data-id="${track.id}" title="Chỉnh sửa link / tên">
                 <svg class="icon-sm" style="width: 12px; height: 12px;" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
               </button>
@@ -3661,13 +4696,22 @@
             </div>
           `;
 
-          // Click item to load & play
+          // Click item to load & play in embedded player
           el.addEventListener('click', (e) => {
             if (e.target.closest('.yt-bookmark-actions')) return;
             ytUrlInput.value = track.url;
             loadTrackByUrl(track.url);
             renderBookmarks();
           });
+
+          // Popout button: open in Safari Mini Player (100% Ad-Free YouTube Premium)
+          const popoutBtn = el.querySelector('.yt-track-popout');
+          if (popoutBtn) {
+            popoutBtn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              openYouTubePremium(track.url);
+            });
+          }
 
           // Edit button
           el.querySelector('.yt-track-edit').addEventListener('click', (e) => {
@@ -3701,7 +4745,7 @@
       // -------------------------------------------------------------
       // 12. INITIAL BOOTSTRAP
       // -------------------------------------------------------------
-      RainEngine.init();
+      AtmosphereEngine.init();
       renderExams();
       renderTodos();
       renderBookmarks();
@@ -3711,7 +4755,16 @@
       ytUrlInput.value = state.currentTrackUrl;
 
       // Close modals on backdrop click
-      [modalAddExam, modalAddQuote, modalAddSubject, modalGradeMatrix, modalAddTrack].forEach(modal => {
+      [
+        modalAddExam,
+        modalAddQuote,
+        modalAddSubject,
+        modalGradeMatrix,
+        modalAddTrack,
+        modalSoundSettings,
+        modalAtmosphereSettings,
+        modalYtPremium
+      ].forEach(modal => {
         if (!modal) return;
         modal.addEventListener('click', (e) => {
           if (e.target === modal) {
