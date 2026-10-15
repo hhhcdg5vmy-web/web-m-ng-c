@@ -1,0 +1,3295 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cố Lên Bro // Focus & Exam Studio</title>
+  
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       1. MONOCHROME DESIGN TOKENS (High Contrast Swiss Grid / Braun)
+       ========================================================================== */
+    :root {
+      --bg: #FAFAFA;
+      --bg-sub: #F0F0F0;
+      --bg-card: #FFFFFF;
+      --bg-hover: #E8E8E8;
+      --bg-active: #DCDCDC;
+      --border: #D8D8D8;
+      --border-sub: #E6E6E6;
+      --border-strong: #111111;
+      --text: #050505;
+      --text-sub: #505050;
+      --text-muted: #888888;
+      --accent: #050505;
+      --accent-inv: #FFFFFF;
+      --flip-bg: #FFFFFF;
+      --flip-border: #D0D0D0;
+      --flip-slit: rgba(0, 0, 0, 0.4);
+      --flip-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+      --radius: 4px;
+      --radius-sm: 2px;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    [data-theme="dark"] {
+      --bg: #050505; /* Deep OLED Black for sharp contrast */
+      --bg-sub: #111111;
+      --bg-card: #0D0D0D;
+      --bg-hover: #1E1E1E;
+      --bg-active: #2A2A2A;
+      --border: #282828;
+      --border-sub: #1C1C1C;
+      --border-strong: #404040;
+      --text: #FFFFFF; /* High contrast bright white */
+      --text-sub: #A8A8A8;
+      --text-muted: #6E6E6E;
+      --accent: #FFFFFF;
+      --accent-inv: #000000;
+      --flip-bg: #161616;
+      --flip-border: #333333;
+      --flip-slit: rgba(0, 0, 0, 0.95);
+      --flip-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Reset & Base */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    .mono {
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+    }
+
+    /* SVG Icons */
+    .icon {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      stroke-width: 1.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      display: inline-block;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+    .icon-lg { width: 18px; height: 18px; }
+    .icon-sm { width: 12px; height: 12px; }
+
+    /* ==========================================================================
+       2. TOP BAR / APP HEADER
+       ========================================================================== */
+    header.app-header {
+      height: 48px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      background: var(--bg);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      transition: var(--transition);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .brand-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 1px 6px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-sub);
+    }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--text);
+      display: inline-block;
+      animation: pulse 2s infinite ease-in-out;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.25; }
+      50% { opacity: 1; }
+    }
+
+    .header-center {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Buttons */
+    .btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 500;
+      height: 28px;
+      padding: 0 10px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: var(--transition);
+      white-space: nowrap;
+      user-select: none;
+    }
+    .btn:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-strong);
+    }
+    .btn:active {
+      background: var(--bg-active);
+    }
+    .btn-solid {
+      background: var(--accent);
+      color: var(--accent-inv);
+      border-color: var(--accent);
+    }
+    .btn-solid:hover {
+      background: var(--text-sub);
+      border-color: var(--text-sub);
+    }
+    .btn-icon {
+      width: 28px;
+      padding: 0;
+    }
+    .btn-sm {
+      height: 24px;
+      padding: 0 8px;
+      font-size: 11px;
+    }
+    .btn.active {
+      background: var(--accent);
+      color: var(--accent-inv);
+      border-color: var(--accent);
+    }
+
+    .kbd {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 1px 4px;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      background: var(--bg-sub);
+      color: var(--text-sub);
+    }
+
+    /* ==========================================================================
+       3. BENTO GRID LAYOUT (Desktop First)
+       ========================================================================== */
+    main.bento-container {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 280px 1fr 340px;
+      gap: 16px;
+      padding: 16px 24px 24px;
+      max-width: 1650px;
+      width: 100%;
+      margin: 0 auto;
+      transition: var(--transition);
+    }
+
+    .panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .panel-header {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border-sub);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg);
+    }
+
+    .panel-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-sub);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .panel-content {
+      padding: 14px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .col-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      height: calc(100vh - 88px);
+    }
+
+    /* ==========================================================================
+       4. CENTER REGION: 3D MECHANICAL FLIP CLOCK
+       ========================================================================== */
+    .center-stage {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      height: calc(100vh - 88px);
+    }
+
+    .timer-card {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 24px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .timer-progress-track {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--border);
+      overflow: hidden;
+    }
+    .timer-progress-bar {
+      height: 100%;
+      width: 100%;
+      background: var(--text);
+      transition: width 0.3s linear;
+    }
+
+    .timer-meta-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 4px;
+    }
+    .session-badge {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-sub);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .session-indicator {
+      width: 6px;
+      height: 6px;
+      background: var(--border-strong);
+      border-radius: 50%;
+    }
+
+    /* -------------------------------------------------------------
+       3D MECHANICAL SPLIT-FLAP CLOCK STYLES
+       ------------------------------------------------------------- */
+    .flip-clock-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: auto 0;
+      user-select: none;
+      perspective: 1200px;
+    }
+
+    .flip-clock-display {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(6px, 1.2vw, 14px);
+      flex-wrap: nowrap;
+    }
+
+    .flip-pair-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .flip-digits-row {
+      display: flex;
+      gap: 5px;
+      flex-wrap: nowrap;
+    }
+
+    .flip-group-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+      margin-top: 10px;
+    }
+
+    .flip-separator {
+      font-family: var(--font-mono);
+      font-size: clamp(2rem, 3.8vw, 3.8rem);
+      font-weight: 300;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: clamp(86px, 9.4vw, 130px);
+      margin: 0 2px;
+      line-height: 1;
+      user-select: none;
+    }
+
+    /* Individual Split Flap Card */
+    .flip-card-unit {
+      position: relative;
+      width: clamp(54px, 5.8vw, 82px);
+      height: clamp(86px, 9.4vw, 130px);
+      font-family: var(--font-mono);
+      font-size: clamp(3.4rem, 6vw, 6.2rem);
+      font-weight: 700;
+      color: var(--text);
+      background: var(--flip-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--flip-shadow);
+      perspective: 600px;
+      -webkit-perspective: 600px;
+    }
+
+    /* Card Halves Structure */
+    .card-half {
+      position: absolute;
+      left: 0;
+      right: 0;
+      overflow: hidden;
+      background: var(--flip-bg);
+      border: 1px solid var(--flip-border);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      transform-style: preserve-3d;
+      -webkit-transform-style: preserve-3d;
+    }
+
+    .card-half.top {
+      top: 0;
+      height: 50%;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+      border-top-left-radius: var(--radius);
+      border-top-right-radius: var(--radius);
+      transform-origin: 50% 100%;
+      -webkit-transform-origin: 50% 100%;
+    }
+
+    .card-half.bottom {
+      bottom: 0;
+      height: 50%;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom-left-radius: var(--radius);
+      border-bottom-right-radius: var(--radius);
+      transform-origin: 50% 0%;
+      -webkit-transform-origin: 50% 0%;
+    }
+
+    /* Seamless 200% height digits alignment */
+    .card-half.top .val {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 200%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      user-select: none;
+      letter-spacing: 0;
+    }
+
+    .card-half.bottom .val {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 200%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      user-select: none;
+      letter-spacing: 0;
+    }
+
+    /* Leaves are HIDDEN when idle, preventing Safari 3D ghosting/z-fighting */
+    .leaf-top, .leaf-bottom {
+      display: none;
+    }
+    .flip-card-unit.flip-active .leaf-top {
+      display: block;
+      z-index: 4;
+      animation: flipTop 0.28s cubic-bezier(0.37, 0, 0.63, 1) forwards;
+    }
+    .flip-card-unit.flip-active .leaf-bottom {
+      display: block;
+      z-index: 5;
+      animation: flipBottom 0.28s cubic-bezier(0.37, 0, 0.63, 1) 0.14s forwards;
+    }
+
+    @keyframes flipTop {
+      0% {
+        transform: rotateX(0deg);
+        filter: brightness(1);
+      }
+      100% {
+        transform: rotateX(-90deg);
+        filter: brightness(0.65);
+      }
+    }
+
+    @keyframes flipBottom {
+      0% {
+        transform: rotateX(90deg);
+        filter: brightness(0.65);
+      }
+      100% {
+        transform: rotateX(0deg);
+        filter: brightness(1);
+      }
+    }
+
+    /* Presets Row */
+    .preset-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+    .preset-chip {
+      height: 28px;
+      padding: 0 12px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      background: var(--bg-sub);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text-sub);
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .preset-chip:hover {
+      color: var(--text);
+      border-color: var(--border-strong);
+      background: var(--bg-hover);
+    }
+    .preset-chip.active {
+      color: var(--accent-inv);
+      background: var(--accent);
+      border-color: var(--accent);
+      font-weight: 600;
+    }
+
+    .custom-input-wrap {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg-sub);
+      height: 28px;
+      padding: 0 8px;
+    }
+    .custom-input-wrap input {
+      width: 58px;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 11px;
+      outline: none;
+      text-align: center;
+    }
+    .custom-input-wrap span {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-left: 2px;
+    }
+
+    .controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .btn-giant {
+      height: 42px;
+      padding: 0 28px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .quote-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      transition: var(--transition);
+    }
+    .quote-body { flex: 1; }
+    .quote-text {
+      font-size: 13px;
+      font-style: italic;
+      line-height: 1.6;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .quote-author {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .quote-actions { display: flex; gap: 6px; }
+
+    /* ==========================================================================
+       5. LEFT COLUMN: EXAMS & TO-DOS
+       ========================================================================== */
+    .exam-list { display: flex; flex-direction: column; gap: 10px; }
+    .exam-item {
+      padding: 10px 12px;
+      background: var(--bg-sub);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: var(--transition);
+      position: relative;
+    }
+    .exam-item:hover { border-color: var(--border-strong); }
+    .exam-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+    .exam-name { font-weight: 600; font-size: 12px; color: var(--text); }
+    .exam-date-str { font-size: 10px; color: var(--text-muted); font-family: var(--font-mono); }
+    .exam-countdown-chips { display: flex; align-items: center; gap: 6px; margin-top: 2px; }
+    .time-chip {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 3px 6px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      align-items: baseline;
+      gap: 2px;
+    }
+    .time-chip span { font-size: 9px; font-weight: 400; color: var(--text-muted); text-transform: uppercase; }
+    .exam-actions-group {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .exam-action-btn {
+      opacity: 0.65;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 3px;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+    .exam-item:hover .exam-action-btn { opacity: 1; }
+    .exam-edit-btn:hover { color: var(--text); background: var(--bg-hover); }
+    .exam-del-btn:hover { color: #ff5555; background: rgba(255, 85, 85, 0.1); }
+
+    /* To-Do List with Enhanced Delete and Actions */
+    .todo-list-wrap { display: flex; flex-direction: column; height: 100%; }
+    .todo-list { display: flex; flex-direction: column; gap: 8px; overflow-y: auto; max-height: 240px; padding-right: 2px; }
+    .todo-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      background: var(--bg-sub);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .todo-item:hover { border-color: var(--border-strong); }
+    .todo-checkbox {
+      width: 14px;
+      height: 14px;
+      border: 1px solid var(--border-strong);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background: var(--bg);
+      transition: var(--transition);
+    }
+    .todo-item.done .todo-checkbox { background: var(--accent); border-color: var(--accent); }
+    .todo-checkbox svg { display: none; stroke: var(--accent-inv); width: 10px; height: 10px; }
+    .todo-item.done .todo-checkbox svg { display: block; }
+    .todo-text { flex: 1; font-size: 12px; color: var(--text); word-break: break-word; transition: var(--transition); }
+    .todo-item.done .todo-text { text-decoration: line-through; color: var(--text-muted); }
+    .todo-del-btn {
+      opacity: 0.6;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+    .todo-item:hover .todo-del-btn {
+      opacity: 1;
+    }
+    .todo-del-btn:hover {
+      color: #ff5555 !important;
+      border-color: #ff5555 !important;
+      background: rgba(255, 85, 85, 0.1);
+    }
+    .todo-form { display: flex; gap: 6px; margin-top: 12px; }
+    .input-text {
+      flex: 1;
+      height: 28px;
+      background: var(--bg-sub);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0 10px;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: var(--text);
+      outline: none;
+      transition: var(--transition);
+    }
+    .input-text:focus { border-color: var(--border-strong); background: var(--bg); }
+
+    /* ==========================================================================
+       6. RIGHT COLUMN: TABS (YOUTUBE & VNEDU GPA CALCULATOR)
+       ========================================================================== */
+    .panel-tab-group {
+      display: inline-flex;
+      background: var(--bg-sub);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2px;
+      gap: 2px;
+    }
+    .panel-tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-sub);
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+    .panel-tab-btn:hover { color: var(--text); }
+    .panel-tab-btn.active {
+      background: var(--bg-card);
+      color: var(--text);
+      font-weight: 600;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+
+    /* YouTube Music Hub */
+    .yt-hub-container { display: flex; flex-direction: column; gap: 12px; }
+    .yt-screen-wrapper {
+      position: relative;
+      width: 100%;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #000;
+      aspect-ratio: 16 / 9;
+      transition: all 0.25s ease;
+    }
+    .audio-only-cover {
+      position: absolute;
+      inset: 0;
+      background: var(--bg-sub);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      z-index: 10;
+      user-select: none;
+    }
+    .yt-screen-wrapper.audio-only .audio-only-cover { display: flex; }
+    .audio-only-title {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-sub);
+    }
+
+    .audio-visualizer-bars { display: flex; align-items: flex-end; gap: 4px; height: 28px; }
+    .visualizer-bar {
+      width: 3px;
+      background: var(--text);
+      border-radius: 1px;
+      height: 4px;
+      transition: height 0.15s ease;
+    }
+    .visualizer-active .visualizer-bar:nth-child(1) { animation: bounce 0.8s infinite ease-in-out alternate; }
+    .visualizer-active .visualizer-bar:nth-child(2) { animation: bounce 1.1s infinite ease-in-out alternate 0.2s; }
+    .visualizer-active .visualizer-bar:nth-child(3) { animation: bounce 0.6s infinite ease-in-out alternate 0.4s; }
+    .visualizer-active .visualizer-bar:nth-child(4) { animation: bounce 1.3s infinite ease-in-out alternate 0.1s; }
+    .visualizer-active .visualizer-bar:nth-child(5) { animation: bounce 0.9s infinite ease-in-out alternate 0.3s; }
+    .visualizer-active .visualizer-bar:nth-child(6) { animation: bounce 1.2s infinite ease-in-out alternate 0.5s; }
+    .visualizer-active .visualizer-bar:nth-child(7) { animation: bounce 0.7s infinite ease-in-out alternate 0.2s; }
+    @keyframes bounce { 0% { height: 4px; } 100% { height: 26px; } }
+
+    #yt-player-target { width: 100%; height: 100%; border: none; }
+    .yt-controls-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 10px 12px;
+      background: var(--bg-sub);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .yt-ctrl-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .vol-slider-wrap { display: flex; align-items: center; gap: 6px; flex: 1; }
+    .slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 3px;
+      border-radius: 2px;
+      background: var(--border);
+      outline: none;
+      cursor: pointer;
+    }
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--text);
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+    .slider::-webkit-slider-thumb:hover { transform: scale(1.3); }
+
+    .yt-bookmarks-list { display: flex; flex-direction: column; gap: 6px; max-height: 180px; overflow-y: auto; }
+    .yt-bookmark-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 10px;
+      background: var(--bg-sub);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: var(--transition);
+      gap: 8px;
+    }
+    .yt-bookmark-item:hover { border-color: var(--border-strong); background: var(--bg-hover); }
+    .yt-bookmark-title {
+      font-size: 11px;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1;
+    }
+    .yt-bookmark-del { opacity: 0.6; background: transparent; border: none; color: var(--text-muted); cursor: pointer; padding: 2px; }
+    .yt-bookmark-item:hover .yt-bookmark-del { opacity: 1; }
+    .yt-bookmark-del:hover { color: #ff5555; }
+
+    /* -------------------------------------------------------------
+       VNEDU / NOTAN GPA CALCULATOR STYLES
+       ------------------------------------------------------------- */
+    .gpa-container { display: flex; flex-direction: column; gap: 10px; }
+    
+    .gpa-summary-card {
+      background: var(--bg-sub);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .gpa-hero-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+    .gpa-big-number {
+      font-family: var(--font-mono);
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--text);
+      letter-spacing: -0.04em;
+    }
+    .gpa-rank-pill {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      background: var(--accent);
+      color: var(--accent-inv);
+    }
+    .gpa-tip-text {
+      font-size: 11px;
+      color: var(--text-sub);
+      line-height: 1.4;
+    }
+
+    .grade-subjects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: calc(100vh - 350px);
+      overflow-y: auto;
+      padding-right: 2px;
+    }
+    .grade-row-item {
+      background: var(--bg-sub);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: var(--transition);
+    }
+    .grade-row-item:hover { border-color: var(--border-strong); }
+    .grade-row-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .grade-sub-name {
+      font-weight: 600;
+      font-size: 12px;
+      color: var(--text);
+    }
+    .grade-avg-badge {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: var(--radius-sm);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .grade-inputs-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr 0.8fr;
+      gap: 6px;
+    }
+    .grade-input-box {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .grade-input-box label {
+      font-size: 9px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+    .grade-input-box input {
+      height: 24px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0 6px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text);
+      outline: none;
+      transition: var(--transition);
+    }
+    .grade-input-box input:focus { border-color: var(--border-strong); }
+
+    /* Full Grade Matrix Table Modal */
+    .modal-box-large {
+      width: 860px;
+      max-width: 95vw;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .grade-matrix-table-wrap {
+      flex: 1;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin: 12px 0;
+    }
+    table.grade-matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 12px;
+    }
+    table.grade-matrix-table th {
+      background: var(--bg-sub);
+      padding: 8px 10px;
+      font-weight: 600;
+      font-size: 10px;
+      text-transform: uppercase;
+      color: var(--text-sub);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+    table.grade-matrix-table td {
+      padding: 6px 10px;
+      border-bottom: 1px solid var(--border-sub);
+      vertical-align: middle;
+    }
+    table.grade-matrix-table tr:hover td {
+      background: var(--bg-hover);
+    }
+
+    /* ==========================================================================
+       7. TRUE FULLSCREEN & ZEN FOCUS MODE
+       ========================================================================== */
+    body.zen-active {
+      overflow: hidden;
+      background: var(--bg) !important;
+    }
+    body.zen-active header.app-header,
+    body.zen-active .col-stack,
+    body.zen-active .quote-actions,
+    body.zen-active .preset-row,
+    body.zen-active .session-badge,
+    body.zen-active .panel-header {
+      display: none !important;
+    }
+    body.zen-active main.bento-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      max-width: 100vw;
+      width: 100vw;
+      height: 100vh;
+      margin: 0;
+    }
+    body.zen-active .center-stage {
+      width: 100%;
+      height: 100%;
+      max-width: 1100px;
+      justify-content: center;
+      align-items: center;
+      gap: 32px;
+      padding: 40px 24px;
+    }
+    body.zen-active .timer-card {
+      border: none;
+      background: transparent;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+      width: 100%;
+    }
+
+    /* Balanced, crisp Flip Units in Fullscreen / Zen Mode (Vừa vặn, không tràn mép, cực kỳ sắc nét) */
+    body.zen-active .flip-card-unit {
+      width: clamp(58px, 7.5vw, 98px);
+      height: clamp(90px, 11.5vw, 154px);
+      font-size: clamp(3.8rem, 7.5vw, 7.4rem);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+    }
+    body.zen-active .flip-separator {
+      height: clamp(90px, 11.5vw, 154px);
+      font-size: clamp(2.4rem, 4.5vw, 4.6rem);
+      margin: 0 4px;
+    }
+    
+    /* Ẩn hoàn toàn các chữ và nút gây xao nhãng khi tập trung */
+    body.zen-active .flip-group-tag,
+    body.zen-active .timer-meta-bar,
+    body.zen-active .controls-row {
+      display: none !important;
+    }
+
+    /* Chữ động lực thu nhỏ lại tinh tế, khiêm tốn */
+    body.zen-active .quote-card {
+      background: transparent;
+      border: none;
+      text-align: center;
+      max-width: 560px;
+      margin-top: 6px;
+    }
+    body.zen-active .quote-text {
+      font-size: 13px;
+      color: var(--text-muted);
+      opacity: 0.75;
+      line-height: 1.6;
+      font-style: italic;
+    }
+    body.zen-active .quote-author {
+      font-size: 10px;
+      color: var(--text-muted);
+      opacity: 0.5;
+      letter-spacing: 0.08em;
+      margin-top: 4px;
+    }
+
+    /* Floating bar tự động mờ dần khi học bài để không vướng mắt */
+    .zen-floating-bar {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: none;
+      align-items: center;
+      gap: 12px;
+      z-index: 100;
+      background: var(--bg-card);
+      border: 1px solid var(--border-strong);
+      padding: 6px 14px;
+      border-radius: 30px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+      opacity: 0.28;
+      transition: opacity 0.25s ease;
+    }
+    body.zen-active .zen-floating-bar { display: flex; }
+    .zen-floating-bar:hover { opacity: 1 !important; }
+
+    /* Khi đang bấm giờ chạy, tự động làm dịu các chữ phụ & ẩn bớt chi tiết thừa */
+    body.timer-running .flip-group-tag {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    body.timer-running .preset-row {
+      opacity: 0.3;
+      transition: opacity 0.3s ease;
+    }
+    body.timer-running .preset-row:hover {
+      opacity: 0.95;
+    }
+    body.timer-running .quote-text {
+      opacity: 0.75;
+      font-size: 12px;
+    }
+
+    /* Hiệu ứng mưa nhẹ nhàng êm dịu, không lag, không nóng máy (Canvas GPU) */
+    #rain-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 40;
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+    #rain-canvas.rain-disabled {
+      opacity: 0 !important;
+      display: none !important;
+    }
+
+    /* Subtle personal watermark (Vu Duy) */
+    .watermark-subtle {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--text);
+      opacity: 0.16;
+      user-select: none;
+      pointer-events: none;
+    }
+    .watermark-screen {
+      position: fixed;
+      bottom: 8px;
+      right: 14px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text);
+      opacity: 0.14;
+      pointer-events: none;
+      user-select: none;
+      z-index: 10;
+    }
+
+    /* ==========================================================================
+       8. MODAL DIALOGS & UTILS
+       ========================================================================== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-box {
+      width: 380px;
+      background: var(--bg);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+    }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; }
+    .modal-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+    .modal-form-group { display: flex; flex-direction: column; gap: 6px; }
+    .modal-label { font-size: 11px; font-weight: 500; color: var(--text-sub); }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 6px; }
+
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+    .toast-pill {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--accent);
+      color: var(--accent-inv);
+      font-size: 11px;
+      font-weight: 500;
+      font-family: var(--font-mono);
+      padding: 8px 16px;
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.25s ease;
+      pointer-events: none;
+      z-index: 200;
+    }
+    .toast-pill.show { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+  <!-- Ambient Rain Canvas (Hardware GPU accelerated, sub-0.1% CPU) -->
+  <canvas id="rain-canvas"></canvas>
+
+  <!-- ==========================================================================
+       HEADER: CỐ LÊN BRO
+       ========================================================================== -->
+  <header class="app-header">
+    <div class="brand">
+      <span class="status-dot" id="system-status-dot"></span>
+      <span>CỐ LÊN BRO</span>
+      <span class="brand-tag">FOCUS 01</span>
+    </div>
+
+    <div class="header-center mono" id="live-wall-clock">
+      00:00:00 • SYSTEM READY
+    </div>
+
+    <div class="header-actions">
+      <!-- Toggle Mechanical Flip Sound -->
+      <button class="btn btn-sm" id="btn-toggle-flip-sound" title="Bật/Tắt âm lật thẻ cơ học">
+        <svg class="icon" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+        <span id="flip-sound-status-label">Âm lật: BẬT</span>
+      </button>
+
+      <!-- Toggle Ambient Rain -->
+      <button class="btn btn-sm" id="btn-toggle-rain" title="Bật/Tắt hiệu ứng mưa nhẹ rơi">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"></path><line x1="8" y1="19" x2="8" y2="21"></line><line x1="12" y1="19" x2="12" y2="21"></line><line x1="16" y1="19" x2="16" y2="21"></line></svg>
+        <span id="rain-status-label">Mưa: BẬT</span>
+      </button>
+
+      <!-- Test Chime Bell -->
+      <button class="btn btn-sm" id="btn-sound-test" title="Thử âm chuông kết thúc">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+        <span>Test chuông</span>
+      </button>
+
+      <!-- Fullscreen / Zen Mode Button -->
+      <button class="btn btn-sm btn-solid" id="btn-toggle-zen" title="Mở rộng toàn màn hình (Phím F)">
+        <svg class="icon" viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+        <span>Toàn màn hình</span>
+        <span class="kbd">F</span>
+      </button>
+
+      <!-- Theme Switcher -->
+      <button class="btn btn-icon btn-sm" id="btn-theme-toggle" title="Đổi giao diện Sáng / Tối">
+        <svg class="icon icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       MAIN BENTO GRID
+       ========================================================================== -->
+  <main class="bento-container">
+    
+    <!-- LEFT COLUMN: Exam Milestones & Daily Tasks -->
+    <div class="col-stack">
+      
+      <!-- Panel 1: Exam Milestones -->
+      <div class="panel" style="flex: 1.1;">
+        <div class="panel-header">
+          <span class="panel-title">
+            <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            Kỳ thi quan trọng
+          </span>
+          <button class="btn btn-sm" id="btn-add-exam-modal" title="Thêm kỳ thi mới">
+            <svg class="icon-sm" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <span>Thêm</span>
+          </button>
+        </div>
+        <div class="panel-content">
+          <div class="exam-list" id="exam-items-container">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 2: To-Do Reminders (Mục tiêu giải đề) -->
+      <div class="panel" style="flex: 1;">
+        <div class="panel-header">
+          <span class="panel-title">
+            <svg class="icon" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+            Mục tiêu giải đề
+          </span>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span class="mono" id="todo-counter" style="font-size: 10px; color: var(--text-muted);">0/0</span>
+            <button class="btn btn-sm" id="btn-clear-done-todos" title="Xóa các mục đã xong" style="display: none; padding: 0 6px; height: 20px; font-size: 10px;">
+              <span>Xóa xong</span>
+            </button>
+          </div>
+        </div>
+        <div class="panel-content">
+          <div class="todo-list-wrap">
+            <div class="todo-list" id="todo-items-container">
+              <!-- Dynamically populated -->
+            </div>
+            <form class="todo-form" id="todo-add-form">
+              <input type="text" id="todo-input" class="input-text" placeholder="Nhập mục tiêu (VD: Đề Toán 2026 - 90p)..." required autocomplete="off">
+              <button type="submit" class="btn btn-solid btn-sm">Thêm</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CENTER REGION: 3D FLIP EXAM TIMER (60% Area) -->
+    <div class="center-stage">
+      
+      <!-- Primary Timer Card -->
+      <div class="timer-card">
+        <!-- 2px Progress Bar -->
+        <div class="timer-progress-track">
+          <div class="timer-progress-bar" id="timer-progress-fill"></div>
+        </div>
+
+        <!-- Meta bar -->
+        <div class="timer-meta-bar">
+          <div class="session-badge">
+            <span class="session-indicator" id="timer-status-indicator"></span>
+            <span id="timer-status-text">SẴN SÀNG LÀM ĐỀ</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <span class="watermark-subtle">VU DUY</span>
+            <div class="mono" id="timer-preset-tag" style="font-size: 11px; color: var(--text-muted);">
+              TARGET: 90 PHÚT
+            </div>
+          </div>
+        </div>
+
+        <!-- 3D MECHANICAL SPLIT-FLAP DIGITS -->
+        <div class="flip-clock-wrapper">
+          <div class="flip-clock-display">
+            
+            <!-- HOURS PAIR -->
+            <div class="flip-pair-group">
+              <div class="flip-digits-row">
+                <!-- H1 -->
+                <div class="flip-card-unit" id="flip-h1">
+                  <div class="card-half top top-static"><span class="val">0</span></div>
+                  <div class="card-half bottom bottom-static"><span class="val">0</span></div>
+                  <div class="card-half top leaf-top"><span class="val">0</span></div>
+                  <div class="card-half bottom leaf-bottom"><span class="val">0</span></div>
+                </div>
+                <!-- H2 -->
+                <div class="flip-card-unit" id="flip-h2">
+                  <div class="card-half top top-static"><span class="val">1</span></div>
+                  <div class="card-half bottom bottom-static"><span class="val">1</span></div>
+                  <div class="card-half top leaf-top"><span class="val">1</span></div>
+                  <div class="card-half bottom leaf-bottom"><span class="val">1</span></div>
+                </div>
+              </div>
+              <span class="flip-group-tag">GIỜ</span>
+            </div>
+
+            <div class="flip-separator">:</div>
+
+            <!-- MINUTES PAIR -->
+            <div class="flip-pair-group">
+              <div class="flip-digits-row">
+                <!-- M1 -->
+                <div class="flip-card-unit" id="flip-m1">
+                  <div class="card-half top top-static"><span class="val">3</span></div>
+                  <div class="card-half bottom bottom-static"><span class="val">3</span></div>
+                  <div class="card-half top leaf-top"><span class="val">3</span></div>
+                  <div class="card-half bottom leaf-bottom"><span class="val">3</span></div>
+                </div>
+                <!-- M2 -->
+                <div class="flip-card-unit" id="flip-m2">
+                  <div class="card-half top top-static"><span class="val">0</span></div>
+                  <div class="card-half bottom bottom-static"><span class="val">0</span></div>
+                  <div class="card-half top leaf-top"><span class="val">0</span></div>
+                  <div class="card-half bottom leaf-bottom"><span class="val">0</span></div>
+                </div>
+              </div>
+              <span class="flip-group-tag">PHÚT</span>
+            </div>
+
+            <div class="flip-separator">:</div>
+
+            <!-- SECONDS PAIR -->
+            <div class="flip-pair-group">
+              <div class="flip-digits-row">
+                <!-- S1 -->
+                <div class="flip-card-unit" id="flip-s1">
+                  <div class="card-half top top-static"><span class="val">0</span></div>
+                  <div class="card-half bottom bottom-static"><span class="val">0</span></div>
+                  <div class="card-half top leaf-top"><span class="val">0</span></div>
+                  <div class="card-half bottom leaf-bottom"><span class="val">0</span></div>
+                </div>
+                <!-- S2 -->
+                <div class="flip-card-unit" id="flip-s2">
+                  <div class="card-half top top-static"><span class="val">0</span></div>
+                  <div class="card-half bottom bottom-static"><span class="val">0</span></div>
+                  <div class="card-half top leaf-top"><span class="val">0</span></div>
+                  <div class="card-half bottom leaf-bottom"><span class="val">0</span></div>
+                </div>
+              </div>
+              <span class="flip-group-tag">GIÂY</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Presets Row -->
+        <div class="preset-row">
+          <button class="preset-chip" data-mins="120">120 Phút</button>
+          <button class="preset-chip active" data-mins="90">90 Phút</button>
+          <button class="preset-chip" data-mins="50">50 Phút</button>
+          <button class="preset-chip" data-mins="45">45 Phút</button>
+          <div class="custom-input-wrap" title="Nhập số phút tùy chỉnh">
+            <input type="number" id="custom-minutes-input" min="1" max="720" placeholder="Tùy chỉnh">
+            <span>phút</span>
+          </div>
+        </div>
+
+        <!-- Action Controls -->
+        <div class="controls-row">
+          <button class="btn btn-solid btn-giant" id="btn-timer-toggle">
+            <svg class="icon icon-lg" id="play-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            <span id="btn-timer-text">BẮT ĐẦU</span>
+          </button>
+          <button class="btn btn-giant" id="btn-timer-reset" title="Đặt lại đồng hồ (R)">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M23 4v6h-6"></path><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+            <span>ĐẶT LẠI</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Minimalist Motivational Quote Card -->
+      <div class="quote-card">
+        <div class="quote-body">
+          <div class="quote-text" id="quote-display-text">“Sự tập trung cao độ trong phòng thi chính là kết quả của hàng trăm giờ rèn luyện trong tĩnh lặng.”</div>
+          <div class="quote-author" id="quote-display-author">— NGUYÊN TẮC LUYỆN ĐỀ</div>
+        </div>
+        <div class="quote-actions">
+          <button class="btn btn-sm btn-icon" id="btn-quote-next" title="Đổi câu động viên khác">
+            <svg class="icon" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+          </button>
+          <button class="btn btn-sm btn-icon" id="btn-quote-add-modal" title="Thêm trích dẫn của bạn">
+            <svg class="icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN: DUAL PANEL (YOUTUBE MUSIC & VNEDU GPA CALCULATOR) -->
+    <div class="col-stack">
+      <div class="panel" style="height: 100%;">
+        <div class="panel-header" style="padding: 8px 12px; gap: 8px;">
+          <!-- Tabs Switcher -->
+          <div class="panel-tab-group">
+            <button class="panel-tab-btn active" id="tab-btn-music" title="Nghe nhạc YouTube">
+              <svg class="icon-sm" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+              <span>Nhạc</span>
+            </button>
+            <button class="panel-tab-btn" id="tab-btn-grades" title="Tính điểm trên lớp VnEdu / Notan">
+              <svg class="icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+              <span>Điểm VnEdu</span>
+            </button>
+          </div>
+
+          <!-- Dynamic Action Buttons for Active Tab -->
+          <div style="display: flex; gap: 4px;">
+            <button class="btn btn-sm" id="btn-audio-only-toggle" title="Ẩn video / Chỉ nghe nhạc">
+              <span id="audio-toggle-label">Ẩn video</span>
+            </button>
+            <button class="btn btn-sm" id="btn-open-matrix-modal" style="display: none;" title="Phóng to bảng điểm toàn màn hình">
+              <svg class="icon-sm" viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+              <span>Phóng to</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="panel-content" style="padding: 12px;">
+          
+          <!-- PANE 1: YOUTUBE MUSIC HUB -->
+          <div id="pane-music" class="yt-hub-container">
+            <!-- Video Iframe or Audio Visualizer Screen -->
+            <div class="yt-screen-wrapper" id="yt-screen-container">
+              <div id="yt-player-target"></div>
+              
+              <!-- Minimal Audio-Only Cover & Visualizer -->
+              <div class="audio-only-cover">
+                <span class="audio-only-title">CHẾ ĐỘ ÂM THANH // TẬP TRUNG</span>
+                <div class="audio-visualizer-bars" id="audio-visualizer">
+                  <div class="visualizer-bar"></div>
+                  <div class="visualizer-bar"></div>
+                  <div class="visualizer-bar"></div>
+                  <div class="visualizer-bar"></div>
+                  <div class="visualizer-bar"></div>
+                  <div class="visualizer-bar"></div>
+                  <div class="visualizer-bar"></div>
+                </div>
+                <span class="mono" style="font-size: 9px; color: var(--text-muted);">VIDEO ĐÃ ẨN ĐỂ TRÁNH XAO NHÃNG</span>
+              </div>
+            </div>
+
+            <!-- YouTube URL Input Bar -->
+            <div style="display: flex; gap: 6px;">
+              <input type="text" id="yt-url-input" class="input-text" placeholder="Dán link YouTube (Video / Playlist)..." autocomplete="off">
+              <button class="btn btn-solid btn-sm" id="btn-yt-load">Phát</button>
+              <button class="btn btn-sm btn-icon" id="btn-yt-save" title="Lưu vào danh sách yêu thích">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+              </button>
+            </div>
+
+            <!-- Player Controls -->
+            <div class="yt-controls-bar">
+              <div class="yt-ctrl-row">
+                <button class="btn btn-sm" id="btn-yt-playpause">
+                  <svg class="icon" id="yt-play-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                  <span id="yt-play-text">Phát</span>
+                </button>
+                <a href="https://youtu.be/SnTEWNqd3JY" target="_blank" rel="noopener noreferrer" class="btn btn-sm" id="btn-yt-external" title="Mở trên YouTube">
+                  <span>Mở tab mới</span>
+                  <svg class="icon-sm" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                </a>
+              </div>
+
+              <div class="yt-ctrl-row">
+                <div class="vol-slider-wrap">
+                  <svg class="icon-sm" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                  <input type="range" class="slider" id="yt-volume-slider" min="0" max="100" value="80">
+                  <span class="mono" id="yt-volume-val" style="font-size: 10px; width: 26px; text-align: right; color: var(--text-muted);">80%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Saved Playlists Header -->
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 4px;">
+              <span class="mono" style="font-size: 10px; font-weight: 600; text-transform: uppercase; color: var(--text-sub);">
+                Danh sách tuyển chọn
+              </span>
+              <span class="mono" id="yt-tracks-count" style="font-size: 10px; color: var(--text-muted);">4 tracks</span>
+            </div>
+
+            <!-- Bookmarks List -->
+            <div class="yt-bookmarks-list" id="yt-bookmarks-container">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- PANE 2: VNEDU / NOTAN GPA CALCULATOR -->
+          <div id="pane-grades" class="gpa-container" style="display: none;">
+            
+            <!-- Summary GPA Card -->
+            <div class="gpa-summary-card">
+              <div class="gpa-hero-row">
+                <div>
+                  <div style="font-size: 10px; font-family: var(--font-mono); text-transform: uppercase; color: var(--text-muted); margin-bottom: 2px;">
+                    ĐIỂM TRUNG BÌNH (GPA)
+                  </div>
+                  <div class="gpa-big-number mono" id="gpa-overall-num">0.00</div>
+                </div>
+                <div class="gpa-rank-pill" id="gpa-rank-badge">CHƯA TÍNH</div>
+              </div>
+              <div class="gpa-tip-text" id="gpa-advice-text">
+                Nhập điểm các môn (TX, GK, CK) để tính ĐTB tự động theo quy chế VnEdu.
+              </div>
+            </div>
+
+            <!-- Controls row: Add subject & Reset -->
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 6px;">
+              <button class="btn btn-sm btn-solid" id="btn-add-subject-modal" style="flex: 1;">
+                <svg class="icon-sm" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <span>Thêm môn</span>
+              </button>
+              <button class="btn btn-sm" id="btn-reset-grades" title="Đặt lại điểm mẫu">
+                <span>Đặt lại</span>
+              </button>
+            </div>
+
+            <!-- Scrollable Subjects List -->
+            <div class="grade-subjects-list" id="grade-subjects-container">
+              <!-- Dynamically populated -->
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Floating Controls Bar in Zen / Fullscreen Mode -->
+  <div class="zen-floating-bar mono">
+    <button class="btn btn-sm btn-solid" id="zen-btn-timer-toggle">
+      <span>TẠM DỪNG / TIẾP TỤC</span>
+      <span class="kbd">Space</span>
+    </button>
+    <button class="btn btn-sm" id="zen-btn-sound-toggle">
+      <span id="zen-sound-label">Âm lật: BẬT</span>
+    </button>
+    <button class="btn btn-sm" id="zen-btn-rain-toggle">
+      <span id="zen-rain-label">Mưa: BẬT</span>
+    </button>
+    <button class="btn btn-sm" id="zen-btn-exit">
+      <span>Thoát toàn màn hình</span>
+      <span class="kbd">ESC</span>
+    </button>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-pill" id="app-toast">Thông báo</div>
+
+  <!-- ==========================================================================
+       MODALS: ADD EXAM, ADD QUOTE, ADD SUBJECT, EXPANDED GRADE MATRIX
+       ========================================================================== -->
+  <!-- Modal: Add / Edit Exam -->
+  <div class="modal-overlay" id="modal-add-exam">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title" id="modal-exam-title">Thêm Kỳ Thi Quan Trọng</div>
+        <button class="btn btn-sm btn-icon" id="btn-close-exam-modal">
+          <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <form id="form-add-exam">
+        <input type="hidden" id="input-exam-id" value="">
+        <div class="modal-form-group">
+          <label class="modal-label">Tên kỳ thi</label>
+          <input type="text" id="input-exam-name" class="input-text" placeholder="VD: Kỳ thi Tốt nghiệp THPT 2027" required>
+        </div>
+        <div class="modal-form-group" style="margin-top: 10px;">
+          <label class="modal-label">Thời gian thi</label>
+          <input type="datetime-local" id="input-exam-date" class="input-text" required>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-sm" id="btn-cancel-exam-modal">Hủy</button>
+          <button type="submit" class="btn btn-solid btn-sm" id="btn-submit-exam">Lưu kỳ thi</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Add Quote -->
+  <div class="modal-overlay" id="modal-add-quote">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">Thêm Câu Động Viên Cá Nhân</div>
+        <button class="btn btn-sm btn-icon" id="btn-close-quote-modal">
+          <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <form id="form-add-quote">
+        <div class="modal-form-group">
+          <label class="modal-label">Nội dung câu trích dẫn</label>
+          <input type="text" id="input-quote-text" class="input-text" placeholder="VD: Kiên trì mỗi ngày là chìa khóa..." required>
+        </div>
+        <div class="modal-form-group" style="margin-top: 10px;">
+          <label class="modal-label">Tác giả / Lời nhắc</label>
+          <input type="text" id="input-quote-author" class="input-text" placeholder="VD: Tự nhắc nhở bản thân" required>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-sm" id="btn-cancel-quote-modal">Hủy</button>
+          <button type="submit" class="btn btn-solid btn-sm">Thêm trích dẫn</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Add Subject -->
+  <div class="modal-overlay" id="modal-add-subject">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">Thêm Môn Học Mới</div>
+        <button class="btn btn-sm btn-icon" id="btn-close-subject-modal">
+          <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <form id="form-add-subject">
+        <div class="modal-form-group">
+          <label class="modal-label">Tên môn học</label>
+          <input type="text" id="input-subject-name" class="input-text" placeholder="VD: Tiếng Pháp, Tin chuyên đề..." required>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-sm" id="btn-cancel-subject-modal">Hủy</button>
+          <button type="submit" class="btn btn-solid btn-sm">Thêm môn</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Expanded Grade Matrix (Bảng Điểm VnEdu Khổ Lớn) -->
+  <div class="modal-overlay" id="modal-grade-matrix">
+    <div class="modal-box modal-box-large">
+      <div class="modal-header">
+        <div class="modal-title" style="display: flex; align-items: center; gap: 8px;">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+          <span>BẢNG ĐIỂM CHI TIẾT VNEDU / NOTAN</span>
+        </div>
+        <button class="btn btn-sm btn-icon" id="btn-close-matrix-modal">
+          <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <!-- Quick GPA Banner inside Matrix -->
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: var(--bg-sub); border: 1px solid var(--border); border-radius: var(--radius); margin-top: 6px;">
+        <div style="display: flex; align-items: baseline; gap: 12px;">
+          <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">ĐTB CÁC MÔN:</span>
+          <span class="mono" id="matrix-gpa-overall" style="font-size: 1.6rem; font-weight: 800; color: var(--text);">0.00</span>
+        </div>
+        <div class="gpa-rank-pill" id="matrix-gpa-rank">CHƯA TÍNH</div>
+      </div>
+
+      <!-- Spreadsheet Table -->
+      <div class="grade-matrix-table-wrap">
+        <table class="grade-matrix-table">
+          <thead>
+            <tr>
+              <th style="width: 160px;">MÔN HỌC</th>
+              <th>ĐIỂM THƯỜNG XUYÊN (HS 1)</th>
+              <th style="width: 110px;">GIỮA KỲ (HS 2)</th>
+              <th style="width: 110px;">CUỐI KỲ (HS 3)</th>
+              <th style="width: 90px; text-align: center;">ĐTB MÔN</th>
+              <th style="width: 44px; text-align: center;">XÓA</th>
+            </tr>
+          </thead>
+          <tbody id="matrix-table-tbody">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="modal-actions" style="justify-content: space-between; align-items: center;">
+        <span style="font-size: 11px; color: var(--text-muted);">
+          Công thức: (Tổng TX + GK×2 + CK×3) ÷ (Số cột TX + 5)
+        </span>
+        <button type="button" class="btn btn-solid btn-sm" id="btn-save-close-matrix">Đóng bảng điểm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       JAVASCRIPT LOGIC
+       ========================================================================== -->
+  <script>
+    (function() {
+      'use strict';
+
+      // 1. STATE & STORAGE MANAGEMENT
+      const STORAGE_KEYS = {
+        THEME: 'chrono_theme',
+        EXAMS: 'chrono_exams',
+        TODOS: 'chrono_todos',
+        TRACKS: 'chrono_tracks',
+        QUOTES: 'chrono_quotes',
+        SUBJECTS: 'chrono_vnedu_subjects',
+        CURRENT_TRACK: 'chrono_current_track',
+        CUSTOM_MINUTES: 'chrono_custom_mins',
+        SOUND_ENABLED: 'chrono_sound_flip',
+        RAIN_ENABLED: 'chrono_rain_enabled'
+      };
+
+      const DEFAULT_QUOTES = [
+        { text: "Sự tập trung cao độ trong phòng thi chính là kết quả của hàng trăm giờ rèn luyện trong tĩnh lặng.", author: "Nguyên tắc luyện đề" },
+        { text: "Kỷ luật là cầu nối giữa mục tiêu và sự thành tựu.", author: "Jim Rohn" },
+        { text: "Đừng mong bài thi dễ hơn, hãy rèn cho mình bản lĩnh vững vàng hơn.", author: "Tâm thế phòng thi" },
+        { text: "Một đề thi giải trọn vẹn hôm nay quý giá hơn mười đề thi bỏ dở ngày mai.", author: "Phương pháp Pomodoro" },
+        { text: "Thời gian làm bài không đo bằng phút, mà đo bằng mức độ tập trung trong từng phút.", author: "Khẩu hiệu bàn học" },
+        { text: "Mỗi lỗi sai được sửa cẩn thận là một điểm số được cứu lại cho ngày thi chính thức.", author: "Kinh nghiệm ôn luyện" }
+      ];
+
+      const DEFAULT_EXAMS = [
+        { id: 'ex-1', name: 'Kỳ thi Tốt nghiệp THPT 2027', date: '2027-06-25T07:30' },
+        { id: 'ex-2', name: 'Kỳ thi Đánh giá năng lực ĐHQG', date: '2027-03-28T08:00' },
+        { id: 'ex-3', name: 'Thi thử khảo sát chất lượng', date: '2026-12-15T13:30' }
+      ];
+
+      const DEFAULT_TODOS = [
+        { id: 'td-1', text: 'Giải đề Toán số 08 - bấm giờ 90 phút nghiêm túc', done: false },
+        { id: 'td-2', text: 'Sửa chi tiết 5 câu sai phần Sóng ánh sáng đề Lý', done: true },
+        { id: 'td-3', text: 'Học thuộc 20 cấu trúc từ vựng Tiếng Anh chuyên đề Điền từ', done: false }
+      ];
+
+      const DEFAULT_TRACKS = [
+        { id: 'tr-1', title: 'Lofi Chill Study Beats (Đề xuất)', url: 'https://youtu.be/SnTEWNqd3JY?si=ZFDIoq-uh8uXCbS2' },
+        { id: 'tr-2', title: 'Deep Focus Alpha Waves (432Hz)', url: 'https://www.youtube.com/watch?v=WPni755-Krg' },
+        { id: 'tr-3', title: 'Coffee Shop Acoustic & Ambient Rain', url: 'https://www.youtube.com/watch?v=lTRiuFIWV54' },
+        { id: 'tr-4', title: 'Classical Cello & Piano Study Session', url: 'https://www.youtube.com/watch?v=4xDzrJKXOOY' }
+      ];
+
+      // Default VnEdu School Subjects
+      const DEFAULT_SUBJECTS = [
+        { id: 'sub-toan', name: 'Toán', tx: '8.5, 9.0, 9.5', gk: '8.5', ck: '8.5' },
+        { id: 'sub-van', name: 'Ngữ văn', tx: '7.5, 8.0', gk: '7.5', ck: '8.0' },
+        { id: 'sub-anh', name: 'Tiếng Anh', tx: '9.0, 9.5', gk: '8.5', ck: '9.0' },
+        { id: 'sub-ly', name: 'Vật lí', tx: '8.0, 8.5', gk: '8.0', ck: '8.0' },
+        { id: 'sub-hoa', name: 'Hóa học', tx: '8.5, 9.0', gk: '8.5', ck: '8.5' },
+        { id: 'sub-sinh', name: 'Sinh học', tx: '8.0, 8.5', gk: '8.0', ck: '8.0' },
+        { id: 'sub-su', name: 'Lịch sử', tx: '8.0, 8.5', gk: '8.0', ck: '8.5' },
+        { id: 'sub-dia', name: 'Địa lí', tx: '8.5, 8.5', gk: '8.5', ck: '8.5' },
+        { id: 'sub-gdcd', name: 'GDCD / KT&PL', tx: '9.0, 9.0', gk: '9.0', ck: '9.0' },
+        { id: 'sub-tin', name: 'Tin học', tx: '9.0, 9.5', gk: '9.0', ck: '9.5' },
+        { id: 'sub-cn', name: 'Công nghệ', tx: '8.5, 9.0', gk: '8.5', ck: '8.5' }
+      ];
+
+      const state = {
+        theme: localStorage.getItem(STORAGE_KEYS.THEME) || 'dark',
+        timer: {
+          totalSeconds: 90 * 60,
+          remainingSeconds: 90 * 60,
+          isRunning: false,
+          intervalId: null,
+          currentDigits: { h1: '0', h2: '1', m1: '3', m2: '0', s1: '0', s2: '0' }
+        },
+        soundEnabled: localStorage.getItem(STORAGE_KEYS.SOUND_ENABLED) !== 'false',
+        rainEnabled: localStorage.getItem(STORAGE_KEYS.RAIN_ENABLED) !== 'false',
+        exams: JSON.parse(localStorage.getItem(STORAGE_KEYS.EXAMS)) || DEFAULT_EXAMS,
+        todos: JSON.parse(localStorage.getItem(STORAGE_KEYS.TODOS)) || DEFAULT_TODOS,
+        tracks: JSON.parse(localStorage.getItem(STORAGE_KEYS.TRACKS)) || DEFAULT_TRACKS,
+        quotes: JSON.parse(localStorage.getItem(STORAGE_KEYS.QUOTES)) || DEFAULT_QUOTES,
+        subjects: JSON.parse(localStorage.getItem(STORAGE_KEYS.SUBJECTS)) || DEFAULT_SUBJECTS,
+        activeRightTab: 'music',
+        currentQuoteIndex: 0,
+        isZenMode: false,
+        isAudioOnly: false,
+        ytPlayer: null,
+        ytReady: false,
+        currentTrackUrl: localStorage.getItem(STORAGE_KEYS.CURRENT_TRACK) || DEFAULT_TRACKS[0].url
+      };
+
+      // -------------------------------------------------------------
+      // 2. SYNTHESIZED TACTILE SOUNDS (Web Audio API)
+      // -------------------------------------------------------------
+      const AudioEngine = {
+        ctx: null,
+        init() {
+          if (!this.ctx) {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            this.ctx = new AudioContext();
+          }
+          if (this.ctx.state === 'suspended') {
+            this.ctx.resume();
+          }
+        },
+        
+        playPaperFlip() {
+          if (!state.soundEnabled) return;
+          this.init();
+          const now = this.ctx.currentTime;
+
+          try {
+            // Paper friction flutter (noise)
+            const bufferSize = Math.floor(this.ctx.sampleRate * 0.04);
+            const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+              data[i] = Math.random() * 2 - 1;
+            }
+
+            const noiseSource = this.ctx.createBufferSource();
+            noiseSource.buffer = buffer;
+
+            const bandpass = this.ctx.createBiquadFilter();
+            bandpass.type = 'bandpass';
+            bandpass.frequency.setValueAtTime(2200, now);
+            bandpass.Q.setValueAtTime(2.2, now);
+
+            const noiseGain = this.ctx.createGain();
+            noiseGain.gain.setValueAtTime(0.0001, now);
+            noiseGain.gain.linearRampToValueAtTime(0.045, now + 0.005);
+            noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.038);
+
+            noiseSource.connect(bandpass);
+            bandpass.connect(noiseGain);
+            noiseGain.connect(this.ctx.destination);
+
+            noiseSource.start(now);
+            noiseSource.stop(now + 0.04);
+
+            // Subtle mechanical click / thump
+            const osc = this.ctx.createOscillator();
+            const clickGain = this.ctx.createGain();
+
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(420, now + 0.012);
+            osc.frequency.exponentialRampToValueAtTime(80, now + 0.042);
+
+            clickGain.gain.setValueAtTime(0.0001, now + 0.012);
+            clickGain.gain.linearRampToValueAtTime(0.05, now + 0.015);
+            clickGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.045);
+
+            osc.connect(clickGain);
+            clickGain.connect(this.ctx.destination);
+
+            osc.start(now + 0.012);
+            osc.stop(now + 0.048);
+          } catch(e) {}
+        },
+
+        playAlarm(type = 'alarm') {
+          this.init();
+          const now = this.ctx.currentTime;
+          if (type === 'test') {
+            this.createHarmonicChime(now, 587.33);
+          } else {
+            this.createHarmonicChime(now, 523.25);
+            this.createHarmonicChime(now + 0.45, 659.25);
+            this.createHarmonicChime(now + 0.9, 783.99);
+            this.createHarmonicChime(now + 1.35, 1046.50);
+          }
+        },
+        createHarmonicChime(startTime, fundamentalFreq) {
+          const osc1 = this.ctx.createOscillator();
+          const osc2 = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+
+          osc1.type = 'sine';
+          osc1.frequency.setValueAtTime(fundamentalFreq, startTime);
+
+          osc2.type = 'triangle';
+          osc2.frequency.setValueAtTime(fundamentalFreq * 2.02, startTime);
+
+          gain.gain.setValueAtTime(0.0001, startTime);
+          gain.gain.exponentialRampToValueAtTime(0.3, startTime + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 1.8);
+
+          osc1.connect(gain);
+          osc2.connect(gain);
+          gain.connect(this.ctx.destination);
+
+          osc1.start(startTime);
+          osc2.start(startTime);
+          osc1.stop(startTime + 1.85);
+          osc2.stop(startTime + 1.85);
+        }
+      };
+
+      function showToast(msg) {
+        const toast = document.getElementById('app-toast');
+        toast.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2600);
+      }
+
+      // -------------------------------------------------------------
+      // 3. THEME & SOUND CONTROLS
+      // -------------------------------------------------------------
+      const themeToggleBtn = document.getElementById('btn-theme-toggle');
+      function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        state.theme = theme;
+        localStorage.setItem(STORAGE_KEYS.THEME, theme);
+      }
+      applyTheme(state.theme);
+
+      themeToggleBtn.addEventListener('click', () => {
+        const nextTheme = state.theme === 'dark' ? 'light' : 'dark';
+        applyTheme(nextTheme);
+        showToast(nextTheme === 'dark' ? 'Đã bật chế độ Tối (Tương phản cao)' : 'Đã bật chế độ Sáng');
+      });
+
+      const flipSoundBtn = document.getElementById('btn-toggle-flip-sound');
+      const flipSoundLabel = document.getElementById('flip-sound-status-label');
+      const zenSoundBtn = document.getElementById('zen-btn-sound-toggle');
+      const zenSoundLabel = document.getElementById('zen-sound-label');
+
+      function updateSoundUI() {
+        const txt = state.soundEnabled ? 'Âm lật: BẬT' : 'Âm lật: TẮT';
+        flipSoundLabel.textContent = txt;
+        zenSoundLabel.textContent = txt;
+        localStorage.setItem(STORAGE_KEYS.SOUND_ENABLED, state.soundEnabled);
+      }
+      updateSoundUI();
+
+      function toggleFlipSound() {
+        state.soundEnabled = !state.soundEnabled;
+        updateSoundUI();
+        if (state.soundEnabled) {
+          AudioEngine.playPaperFlip();
+          showToast('Đã bật âm lật thẻ cơ học');
+        } else {
+          showToast('Đã tắt âm lật thẻ (Chế độ im lặng)');
+        }
+      }
+      flipSoundBtn.addEventListener('click', toggleFlipSound);
+      zenSoundBtn.addEventListener('click', toggleFlipSound);
+
+      document.getElementById('btn-sound-test').addEventListener('click', () => {
+        AudioEngine.playAlarm('test');
+        showToast('Đang phát chuông thử nghiệm');
+      });
+
+      // -------------------------------------------------------------
+      // RAIN AMBIENT ENGINE (Ultra-lightweight, Sub-0.1% CPU, Cold & Smooth)
+      // -------------------------------------------------------------
+      const RainEngine = {
+        canvas: null,
+        ctx: null,
+        drops: [],
+        count: 90,
+        rafId: null,
+        width: 0,
+        height: 0,
+        isRunning: false,
+
+        init() {
+          this.canvas = document.getElementById('rain-canvas');
+          if (!this.canvas) {
+            this.canvas = document.createElement('canvas');
+            this.canvas.id = 'rain-canvas';
+            document.body.prepend(this.canvas);
+          }
+          this.ctx = this.canvas.getContext('2d', { alpha: true });
+          this.resize();
+          window.addEventListener('resize', () => this.resize(), { passive: true });
+
+          // Pre-allocate drops to prevent GC spikes & laptop heat
+          this.drops = [];
+          for (let i = 0; i < this.count; i++) {
+            this.drops.push({
+              x: Math.random() * (this.width || window.innerWidth),
+              y: Math.random() * (this.height || window.innerHeight),
+              len: 16 + Math.random() * 22,
+              speed: 13 + Math.random() * 9,
+              slant: 1.4 + Math.random() * 0.8
+            });
+          }
+
+          // Auto-pause when tab is hidden or minimized -> 0% CPU consumption
+          document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+              this.stop();
+            } else if (state.rainEnabled) {
+              this.start();
+            }
+          });
+
+          this.updateUI();
+          if (state.rainEnabled) {
+            this.start();
+          } else {
+            if (this.canvas) this.canvas.classList.add('rain-disabled');
+          }
+        },
+
+        resize() {
+          this.width = window.innerWidth;
+          this.height = window.innerHeight;
+          const dpr = Math.min(window.devicePixelRatio || 1, 2);
+          if (this.canvas) {
+            this.canvas.width = this.width * dpr;
+            this.canvas.height = this.height * dpr;
+            if (this.canvas.style) {
+              this.canvas.style.width = this.width + 'px';
+              this.canvas.style.height = this.height + 'px';
+            }
+            if (this.ctx) {
+              if (this.ctx.resetTransform) this.ctx.resetTransform();
+              else this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+              this.ctx.scale(dpr, dpr);
+            }
+          }
+        },
+
+        start() {
+          if (this.isRunning) return;
+          this.isRunning = true;
+          if (this.canvas) this.canvas.classList.remove('rain-disabled');
+          const render = () => {
+            if (!this.isRunning) return;
+            this.draw();
+            this.rafId = requestAnimationFrame(render);
+          };
+          this.rafId = requestAnimationFrame(render);
+        },
+
+        stop() {
+          this.isRunning = false;
+          if (this.rafId) {
+            cancelAnimationFrame(this.rafId);
+            this.rafId = null;
+          }
+          if (this.ctx && this.canvas) {
+            this.ctx.clearRect(0, 0, this.width, this.height);
+          }
+        },
+
+        toggle() {
+          state.rainEnabled = !state.rainEnabled;
+          localStorage.setItem(STORAGE_KEYS.RAIN_ENABLED, state.rainEnabled);
+          this.updateUI();
+          if (state.rainEnabled) {
+            this.start();
+            showToast('Đã bật hiệu ứng mưa nhẹ');
+          } else {
+            this.stop();
+            if (this.canvas) this.canvas.classList.add('rain-disabled');
+            showToast('Đã tắt hiệu ứng mưa');
+          }
+        },
+
+        updateUI() {
+          const txt = state.rainEnabled ? 'Mưa: BẬT' : 'Mưa: TẮT';
+          const headerLbl = document.getElementById('rain-status-label');
+          const zenLbl = document.getElementById('zen-rain-label');
+          if (headerLbl) headerLbl.textContent = txt;
+          if (zenLbl) zenLbl.textContent = txt;
+        },
+
+        draw() {
+          const ctx = this.ctx;
+          const w = this.width;
+          const h = this.height;
+          ctx.clearRect(0, 0, w, h);
+
+          // Clear, elegant monochrome raindrops (crisp & visible)
+          const isDark = (state.theme === 'dark');
+          ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.45)' : 'rgba(30, 30, 30, 0.35)';
+          ctx.lineWidth = 1.4;
+          ctx.lineCap = 'round';
+
+          // Single draw call for all particles -> maximum GPU speed, zero memory allocation
+          ctx.beginPath();
+          const drops = this.drops;
+          const len = drops.length;
+          for (let i = 0; i < len; i++) {
+            const d = drops[i];
+            ctx.moveTo(d.x, d.y);
+            ctx.lineTo(d.x + d.slant, d.y + d.len);
+
+            d.x += d.slant;
+            d.y += d.speed;
+
+            if (d.y > h) {
+              d.y = -d.len - (Math.random() * 20);
+              d.x = Math.random() * w;
+            }
+            if (d.x > w) {
+              d.x = 0;
+            }
+          }
+          ctx.stroke();
+        }
+      };
+
+      const rainToggleBtn = document.getElementById('btn-toggle-rain');
+      const zenRainToggleBtn = document.getElementById('zen-btn-rain-toggle');
+      if (rainToggleBtn) rainToggleBtn.addEventListener('click', () => RainEngine.toggle());
+      if (zenRainToggleBtn) zenRainToggleBtn.addEventListener('click', () => RainEngine.toggle());
+
+      // 4. LIVE WALL CLOCK
+      const wallClockEl = document.getElementById('live-wall-clock');
+      function updateWallClock() {
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('vi-VN', { hour12: false });
+        const dateStr = now.toLocaleDateString('vi-VN', { weekday: 'short', day: '2-digit', month: '2-digit', year: 'numeric' }).toUpperCase();
+        wallClockEl.textContent = `${timeStr} • ${dateStr}`;
+      }
+      setInterval(updateWallClock, 1000);
+      updateWallClock();
+
+      // -------------------------------------------------------------
+      // 5. 3D MECHANICAL SPLIT-FLAP CONTROLLER
+      // -------------------------------------------------------------
+      const flipUnits = {
+        h1: document.getElementById('flip-h1'),
+        h2: document.getElementById('flip-h2'),
+        m1: document.getElementById('flip-m1'),
+        m2: document.getElementById('flip-m2'),
+        s1: document.getElementById('flip-s1'),
+        s2: document.getElementById('flip-s2')
+      };
+
+      function flipCard(unitEl, oldVal, newVal) {
+        if (!unitEl || oldVal === newVal) return;
+
+        const topStatic = unitEl.querySelector('.top-static .val');
+        const bottomStatic = unitEl.querySelector('.bottom-static .val');
+        const leafTop = unitEl.querySelector('.leaf-top .val');
+        const leafBottom = unitEl.querySelector('.leaf-bottom .val');
+
+        topStatic.textContent = newVal;
+        bottomStatic.textContent = oldVal;
+        leafTop.textContent = oldVal;
+        leafBottom.textContent = newVal;
+
+        unitEl.classList.remove('flip-active');
+        void unitEl.offsetWidth;
+        unitEl.classList.add('flip-active');
+
+        setTimeout(() => {
+          bottomStatic.textContent = newVal;
+          unitEl.classList.remove('flip-active');
+        }, 360);
+      }
+
+      function setStaticCard(unitEl, val) {
+        if (!unitEl) return;
+        unitEl.querySelectorAll('.val').forEach(el => el.textContent = val);
+      }
+
+      function getDigitsObject(totalSecs) {
+        const h = Math.floor(totalSecs / 3600);
+        const m = Math.floor((totalSecs % 3600) / 60);
+        const s = totalSecs % 60;
+        const hStr = String(h).padStart(2, '0');
+        const mStr = String(m).padStart(2, '0');
+        const sStr = String(s).padStart(2, '0');
+        return {
+          h1: hStr[0], h2: hStr[1],
+          m1: mStr[0], m2: mStr[1],
+          s1: sStr[0], s2: sStr[1]
+        };
+      }
+
+      const progressFill = document.getElementById('timer-progress-fill');
+      const timerToggleBtn = document.getElementById('btn-timer-toggle');
+      const timerResetBtn = document.getElementById('btn-timer-reset');
+      const timerStatusText = document.getElementById('timer-status-text');
+      const timerPresetTag = document.getElementById('timer-preset-tag');
+      const presetChips = document.querySelectorAll('.preset-chip');
+      const customMinInput = document.getElementById('custom-minutes-input');
+
+      function updateClockDisplay(animate = true) {
+        const next = getDigitsObject(state.timer.remainingSeconds);
+        const prev = state.timer.currentDigits;
+        let hasFlipped = false;
+
+        ['h1', 'h2', 'm1', 'm2', 's1', 's2'].forEach(key => {
+          if (animate && prev[key] !== next[key]) {
+            flipCard(flipUnits[key], prev[key], next[key]);
+            hasFlipped = true;
+          } else if (!animate) {
+            setStaticCard(flipUnits[key], next[key]);
+          }
+        });
+
+        if (animate && hasFlipped && state.timer.isRunning) {
+          AudioEngine.playPaperFlip();
+        }
+
+        state.timer.currentDigits = next;
+
+        const elapsed = state.timer.totalSeconds - state.timer.remainingSeconds;
+        const pct = state.timer.totalSeconds > 0 ? (elapsed / state.timer.totalSeconds) * 100 : 0;
+        progressFill.style.width = `${pct}%`;
+
+        const timeStr = `${next.h1}${next.h2}:${next.m1}${next.m2}:${next.s1}${next.s2}`;
+        if (state.timer.isRunning) {
+          document.title = `[${timeStr}] CỐ LÊN BRO // ĐANG TẬP TRUNG`;
+        } else {
+          document.title = `Cố Lên Bro // Focus & Exam Studio`;
+        }
+      }
+
+      function setTimerDuration(minutes) {
+        state.timer.totalSeconds = minutes * 60;
+        state.timer.remainingSeconds = minutes * 60;
+        if (state.timer.isRunning) pauseTimer();
+        timerPresetTag.textContent = `TARGET: ${minutes} PHÚT`;
+        timerStatusText.textContent = `SẴN SÀNG (${minutes} PHÚT)`;
+        updateClockDisplay(false);
+      }
+
+      function startTimer() {
+        if (state.timer.remainingSeconds <= 0) {
+          state.timer.remainingSeconds = state.timer.totalSeconds;
+        }
+        state.timer.isRunning = true;
+        document.body.classList.add('timer-running');
+        timerToggleBtn.classList.add('btn-solid');
+        document.getElementById('btn-timer-text').textContent = 'TẠM DỪNG';
+        document.getElementById('play-icon').innerHTML = '<rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect>';
+        timerStatusText.textContent = 'ĐANG TẬP TRUNG LÀM ĐỀ';
+
+        AudioEngine.init();
+
+        state.timer.intervalId = setInterval(() => {
+          if (state.timer.remainingSeconds > 0) {
+            state.timer.remainingSeconds--;
+            updateClockDisplay(true);
+          } else {
+            clearInterval(state.timer.intervalId);
+            state.timer.isRunning = false;
+            document.body.classList.remove('timer-running');
+            document.getElementById('btn-timer-text').textContent = 'BẮT ĐẦU';
+            document.getElementById('play-icon').innerHTML = '<polygon points="5 3 19 12 5 21 5 3"></polygon>';
+            timerStatusText.textContent = 'HẾT GIỜ LÀM BÀI';
+            AudioEngine.playAlarm('alarm');
+            showToast('Đã hết giờ làm bài! Dừng bút và xem lại bài thi.');
+            updateClockDisplay(false);
+          }
+        }, 1000);
+
+        updateClockDisplay(true);
+      }
+
+      function pauseTimer() {
+        state.timer.isRunning = false;
+        document.body.classList.remove('timer-running');
+        clearInterval(state.timer.intervalId);
+        document.getElementById('btn-timer-text').textContent = 'TIẾP TỤC';
+        document.getElementById('play-icon').innerHTML = '<polygon points="5 3 19 12 5 21 5 3"></polygon>';
+        timerStatusText.textContent = 'ĐANG TẠM DỪNG';
+        updateClockDisplay(false);
+      }
+
+      function resetTimer() {
+        pauseTimer();
+        document.body.classList.remove('timer-running');
+        state.timer.remainingSeconds = state.timer.totalSeconds;
+        document.getElementById('btn-timer-text').textContent = 'BẮT ĐẦU';
+        timerStatusText.textContent = 'ĐÃ ĐẶT LẠI';
+        updateClockDisplay(false);
+        showToast('Đã đặt lại đồng hồ');
+      }
+
+      timerToggleBtn.addEventListener('click', () => {
+        if (state.timer.isRunning) pauseTimer();
+        else startTimer();
+      });
+
+      document.getElementById('zen-btn-timer-toggle').addEventListener('click', () => {
+        timerToggleBtn.click();
+      });
+
+      timerResetBtn.addEventListener('click', resetTimer);
+
+      presetChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          presetChips.forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          const mins = parseInt(chip.getAttribute('data-mins'), 10);
+          setTimerDuration(mins);
+          customMinInput.value = '';
+        });
+      });
+
+      customMinInput.addEventListener('change', () => {
+        const val = parseInt(customMinInput.value, 10);
+        if (val && val > 0 && val <= 720) {
+          presetChips.forEach(c => c.classList.remove('active'));
+          setTimerDuration(val);
+          localStorage.setItem(STORAGE_KEYS.CUSTOM_MINUTES, val);
+        }
+      });
+
+      // 6. MOTIVATIONAL QUOTES
+      const quoteTextEl = document.getElementById('quote-display-text');
+      const quoteAuthorEl = document.getElementById('quote-display-author');
+      const nextQuoteBtn = document.getElementById('btn-quote-next');
+      const addQuoteModalBtn = document.getElementById('btn-quote-add-modal');
+      const modalAddQuote = document.getElementById('modal-add-quote');
+      const closeQuoteModalBtn = document.getElementById('btn-close-quote-modal');
+      const cancelQuoteModalBtn = document.getElementById('btn-cancel-quote-modal');
+      const formAddQuote = document.getElementById('form-add-quote');
+
+      function displayQuote(index) {
+        if (!state.quotes || state.quotes.length === 0) return;
+        const q = state.quotes[index % state.quotes.length];
+        quoteTextEl.textContent = `“${q.text}”`;
+        quoteAuthorEl.textContent = `— ${q.author.toUpperCase()}`;
+        state.currentQuoteIndex = index;
+      }
+
+      nextQuoteBtn.addEventListener('click', () => {
+        const nextIdx = (state.currentQuoteIndex + 1) % state.quotes.length;
+        displayQuote(nextIdx);
+      });
+
+      addQuoteModalBtn.addEventListener('click', () => {
+        modalAddQuote.classList.add('active');
+        document.getElementById('input-quote-text').focus();
+      });
+
+      function closeQuoteModal() {
+        modalAddQuote.classList.remove('active');
+        formAddQuote.reset();
+      }
+      closeQuoteModalBtn.addEventListener('click', closeQuoteModal);
+      cancelQuoteModalBtn.addEventListener('click', closeQuoteModal);
+
+      formAddQuote.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const text = document.getElementById('input-quote-text').value.trim();
+        const author = document.getElementById('input-quote-author').value.trim() || 'Cá nhân';
+        if (text) {
+          state.quotes.unshift({ text, author });
+          localStorage.setItem(STORAGE_KEYS.QUOTES, JSON.stringify(state.quotes));
+          displayQuote(0);
+          closeQuoteModal();
+          showToast('Đã thêm trích dẫn mới');
+        }
+      });
+
+      // 7. FULLSCREEN & ZEN FOCUS MODE
+      const zenToggleBtn = document.getElementById('btn-toggle-zen');
+      const zenExitBtn = document.getElementById('zen-btn-exit');
+
+      function enterFullscreenMode() {
+        state.isZenMode = true;
+        document.body.classList.add('zen-active');
+
+        if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        }
+        showToast('Toàn màn hình: Nhấn ESC hoặc F để thoát');
+        updateClockDisplay(false);
+      }
+
+      function exitFullscreenMode() {
+        state.isZenMode = false;
+        document.body.classList.remove('zen-active');
+
+        if (document.fullscreenElement && document.exitFullscreen) {
+          document.exitFullscreen().catch(() => {});
+        }
+        updateClockDisplay(false);
+      }
+
+      function toggleZenFullscreen() {
+        if (state.isZenMode) exitFullscreenMode();
+        else enterFullscreenMode();
+      }
+
+      zenToggleBtn.addEventListener('click', toggleZenFullscreen);
+      zenExitBtn.addEventListener('click', exitFullscreenMode);
+
+      document.addEventListener('fullscreenchange', () => {
+        if (!document.fullscreenElement && state.isZenMode) {
+          exitFullscreenMode();
+        }
+      });
+
+      window.addEventListener('keydown', (e) => {
+        if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+          if (e.key === 'Escape') document.activeElement.blur();
+          return;
+        }
+
+        if (e.key === 'f' || e.key === 'F') {
+          e.preventDefault();
+          toggleZenFullscreen();
+        } else if (e.key === 'Escape' && state.isZenMode) {
+          exitFullscreenMode();
+        } else if (e.code === 'Space') {
+          e.preventDefault();
+          timerToggleBtn.click();
+        } else if (e.key === 'r' || e.key === 'R') {
+          e.preventDefault();
+          resetTimer();
+        }
+      });
+
+      // 8. EXAMS COUNTDOWN
+      const examContainer = document.getElementById('exam-items-container');
+      const addExamBtn = document.getElementById('btn-add-exam-modal');
+      const modalAddExam = document.getElementById('modal-add-exam');
+      const closeExamModalBtn = document.getElementById('btn-close-exam-modal');
+      const cancelExamModalBtn = document.getElementById('btn-cancel-exam-modal');
+      const formAddExam = document.getElementById('form-add-exam');
+
+      function calculateRemainingTime(targetIso) {
+        const target = new Date(targetIso).getTime();
+        const now = Date.now();
+        const diff = target - now;
+
+        if (isNaN(diff) || diff <= 0) {
+          return { days: 0, hours: 0, mins: 0, expired: true };
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        return { days, hours, mins, expired: false };
+      }
+
+      function renderExams() {
+        examContainer.innerHTML = '';
+        if (state.exams.length === 0) {
+          examContainer.innerHTML = '<div style="font-size: 11px; color: var(--text-muted); text-align: center; padding: 16px;">Chưa có kỳ thi nào. Bấm Thêm để tạo mới.</div>';
+          return;
+        }
+
+        state.exams.forEach(exam => {
+          const t = calculateRemainingTime(exam.date);
+          const dateObj = new Date(exam.date);
+          const dateFormatted = isNaN(dateObj.getTime()) ? exam.date : dateObj.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+          const item = document.createElement('div');
+          item.className = 'exam-item';
+          item.innerHTML = `
+            <div class="exam-top">
+              <span class="exam-name">${escapeHtml(exam.name)}</span>
+              <div class="exam-actions-group">
+                <button class="exam-action-btn exam-edit-btn" data-id="${exam.id}" title="Chỉnh sửa kỳ thi">
+                  <svg class="icon-sm" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                </button>
+                <button class="exam-action-btn exam-del-btn" data-id="${exam.id}" title="Xóa kỳ thi">
+                  <svg class="icon-sm" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                </button>
+              </div>
+            </div>
+            <div class="exam-date-str">${dateFormatted}</div>
+            <div class="exam-countdown-chips">
+              ${t.expired ? 
+                '<span class="mono" style="font-size: 11px; color: var(--text-muted);">ĐÃ DIỄN RA</span>' : 
+                `
+                <div class="time-chip">${t.days} <span>NGÀY</span></div>
+                <div class="time-chip">${t.hours} <span>GIỜ</span></div>
+                <div class="time-chip">${t.mins} <span>PHÚT</span></div>
+                `
+              }
+            </div>
+          `;
+          examContainer.appendChild(item);
+        });
+
+        // Edit exam listeners
+        examContainer.querySelectorAll('.exam-edit-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const id = btn.getAttribute('data-id');
+            const exam = state.exams.find(x => x.id === id);
+            if (!exam) return;
+
+            document.getElementById('modal-exam-title').textContent = 'Chỉnh Sửa Kỳ Thi';
+            document.getElementById('input-exam-id').value = exam.id;
+            document.getElementById('input-exam-name').value = exam.name;
+
+            const d = new Date(exam.date);
+            if (!isNaN(d.getTime())) {
+              const pad = (n) => String(n).padStart(2, '0');
+              const localIso = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+              document.getElementById('input-exam-date').value = localIso;
+            } else {
+              document.getElementById('input-exam-date').value = exam.date;
+            }
+
+            document.getElementById('btn-submit-exam').textContent = 'Cập nhật';
+            modalAddExam.classList.add('active');
+            document.getElementById('input-exam-name').focus();
+          });
+        });
+
+        // Delete exam listeners
+        examContainer.querySelectorAll('.exam-del-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const id = btn.getAttribute('data-id');
+            const exam = state.exams.find(x => x.id === id);
+            const name = exam ? exam.name : 'kỳ thi';
+            state.exams = state.exams.filter(x => x.id !== id);
+            localStorage.setItem(STORAGE_KEYS.EXAMS, JSON.stringify(state.exams));
+            renderExams();
+            showToast('Đã xóa kỳ thi: ' + name);
+          });
+        });
+      }
+
+      setInterval(renderExams, 30000);
+
+      addExamBtn.addEventListener('click', () => {
+        document.getElementById('modal-exam-title').textContent = 'Thêm Kỳ Thi Quan Trọng';
+        document.getElementById('input-exam-id').value = '';
+        document.getElementById('btn-submit-exam').textContent = 'Lưu kỳ thi';
+        formAddExam.reset();
+        modalAddExam.classList.add('active');
+        document.getElementById('input-exam-name').focus();
+      });
+
+      function closeExamModal() {
+        modalAddExam.classList.remove('active');
+        document.getElementById('input-exam-id').value = '';
+        formAddExam.reset();
+      }
+      closeExamModalBtn.addEventListener('click', closeExamModal);
+      cancelExamModalBtn.addEventListener('click', closeExamModal);
+
+      formAddExam.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const id = document.getElementById('input-exam-id').value.trim();
+        const name = document.getElementById('input-exam-name').value.trim();
+        const date = document.getElementById('input-exam-date').value;
+        if (!name || !date) return;
+
+        if (id) {
+          // Edit existing exam
+          const target = state.exams.find(x => x.id === id);
+          if (target) {
+            target.name = name;
+            target.date = date;
+            showToast('Đã cập nhật kỳ thi: ' + name);
+          }
+        } else {
+          // Add new exam
+          state.exams.push({ id: 'ex-' + Date.now(), name, date });
+          showToast('Đã lưu kỳ thi mới: ' + name);
+        }
+
+        state.exams.sort((a, b) => new Date(a.date) - new Date(b.date));
+        localStorage.setItem(STORAGE_KEYS.EXAMS, JSON.stringify(state.exams));
+        renderExams();
+        closeExamModal();
+      });
+
+      // -------------------------------------------------------------
+      // 9. ENHANCED TO-DO & REMINDERS LIST
+      // -------------------------------------------------------------
+      const todoContainer = document.getElementById('todo-items-container');
+      const todoForm = document.getElementById('todo-add-form');
+      const todoInput = document.getElementById('todo-input');
+      const todoCounter = document.getElementById('todo-counter');
+      const clearDoneBtn = document.getElementById('btn-clear-done-todos');
+
+      function updateTodoCounter() {
+        const total = state.todos.length;
+        const done = state.todos.filter(t => t.done).length;
+        todoCounter.textContent = `${done}/${total}`;
+        clearDoneBtn.style.display = done > 0 ? 'inline-flex' : 'none';
+      }
+
+      function renderTodos() {
+        todoContainer.innerHTML = '';
+        if (state.todos.length === 0) {
+          todoContainer.innerHTML = '<div style="font-size: 11px; color: var(--text-muted); text-align: center; padding: 16px;">Chưa có mục tiêu nào. Hãy thêm mục tiêu mới bên dưới.</div>';
+          updateTodoCounter();
+          return;
+        }
+
+        state.todos.forEach(todo => {
+          const el = document.createElement('div');
+          el.className = `todo-item ${todo.done ? 'done' : ''}`;
+          el.innerHTML = `
+            <div class="todo-checkbox" title="Đánh dấu hoàn thành">
+              <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <span class="todo-text">${escapeHtml(todo.text)}</span>
+            <button class="todo-del-btn" data-id="${todo.id}" title="Xóa mục tiêu này">
+              <svg class="icon-sm" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            </button>
+          `;
+
+          el.addEventListener('click', (e) => {
+            if (e.target.closest('.todo-del-btn')) return;
+            todo.done = !todo.done;
+            localStorage.setItem(STORAGE_KEYS.TODOS, JSON.stringify(state.todos));
+            renderTodos();
+          });
+
+          el.querySelector('.todo-del-btn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            state.todos = state.todos.filter(t => t.id !== todo.id);
+            localStorage.setItem(STORAGE_KEYS.TODOS, JSON.stringify(state.todos));
+            renderTodos();
+            showToast('Đã xóa mục tiêu');
+          });
+
+          todoContainer.appendChild(el);
+        });
+
+        updateTodoCounter();
+      }
+
+      todoForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const text = todoInput.value.trim();
+        if (text) {
+          state.todos.push({ id: 'td-' + Date.now(), text, done: false });
+          localStorage.setItem(STORAGE_KEYS.TODOS, JSON.stringify(state.todos));
+          todoInput.value = '';
+          renderTodos();
+          showToast('Đã thêm mục tiêu giải đề mới');
+        }
+      });
+
+      clearDoneBtn.addEventListener('click', () => {
+        state.todos = state.todos.filter(t => !t.done);
+        localStorage.setItem(STORAGE_KEYS.TODOS, JSON.stringify(state.todos));
+        renderTodos();
+        showToast('Đã xóa các mục đã hoàn thành');
+      });
+
+      // -------------------------------------------------------------
+      // 10. RIGHT COLUMN TABS & VNEDU GPA CALCULATOR ENGINE
+      // -------------------------------------------------------------
+      const tabBtnMusic = document.getElementById('tab-btn-music');
+      const tabBtnGrades = document.getElementById('tab-btn-grades');
+      const paneMusic = document.getElementById('pane-music');
+      const paneGrades = document.getElementById('pane-grades');
+      const audioOnlyToggleBtn = document.getElementById('btn-audio-only-toggle');
+      const openMatrixModalBtn = document.getElementById('btn-open-matrix-modal');
+
+      function switchRightTab(tab) {
+        state.activeRightTab = tab;
+        if (tab === 'music') {
+          tabBtnMusic.classList.add('active');
+          tabBtnGrades.classList.remove('active');
+          paneMusic.style.display = 'flex';
+          paneGrades.style.display = 'none';
+          audioOnlyToggleBtn.style.display = 'inline-flex';
+          openMatrixModalBtn.style.display = 'none';
+        } else {
+          tabBtnMusic.classList.remove('active');
+          tabBtnGrades.classList.add('active');
+          paneMusic.style.display = 'none';
+          paneGrades.style.display = 'flex';
+          audioOnlyToggleBtn.style.display = 'none';
+          openMatrixModalBtn.style.display = 'inline-flex';
+          renderGrades();
+        }
+      }
+
+      tabBtnMusic.addEventListener('click', () => switchRightTab('music'));
+      tabBtnGrades.addEventListener('click', () => switchRightTab('grades'));
+
+      // GPA Math Functions
+      function parseScoreList(str) {
+        if (!str) return [];
+        return String(str).replace(/,/g, ' ').split(/\s+/)
+          .map(v => parseFloat(v))
+          .filter(v => !isNaN(v) && v >= 0 && v <= 10);
+      }
+
+      function calcSubjectAverage(sub) {
+        const txScores = parseScoreList(sub.tx);
+        const gk = sub.gk !== '' && !isNaN(parseFloat(sub.gk)) ? parseFloat(sub.gk) : null;
+        const ck = sub.ck !== '' && !isNaN(parseFloat(sub.ck)) ? parseFloat(sub.ck) : null;
+
+        let totalWeighted = txScores.reduce((a, b) => a + b, 0);
+        let totalWeights = txScores.length;
+
+        if (gk !== null && gk >= 0 && gk <= 10) {
+          totalWeighted += gk * 2;
+          totalWeights += 2;
+        }
+        if (ck !== null && ck >= 0 && ck <= 10) {
+          totalWeighted += ck * 3;
+          totalWeights += 3;
+        }
+
+        if (totalWeights === 0) return null;
+        return Math.round((totalWeighted / totalWeights) * 10) / 10;
+      }
+
+      function calcOverallGPA() {
+        const validAverages = [];
+        state.subjects.forEach(sub => {
+          const avg = calcSubjectAverage(sub);
+          if (avg !== null) validAverages.push(avg);
+        });
+
+        if (validAverages.length === 0) {
+          return { gpa: null, rank: 'CHƯA TÍNH', advice: 'Nhập điểm các môn để bắt đầu tính điểm trung bình.' };
+        }
+
+        const sum = validAverages.reduce((a, b) => a + b, 0);
+        const overall = Math.round((sum / validAverages.length) * 100) / 100;
+
+        // Classification based on VnEdu / Circular 22 / 58
+        let rank = 'CHƯA ĐẠT';
+        let advice = '';
+
+        const minScore = Math.min(...validAverages);
+        const countOver8 = validAverages.filter(v => v >= 8.0).length;
+
+        if (overall >= 9.0 && minScore >= 6.5) {
+          rank = 'XUẤT SẮC';
+          advice = 'Thành tích xuất sắc! Giữ vững phong độ cho kỳ thi cuối kỳ.';
+        } else if (overall >= 8.0 && minScore >= 6.5 && countOver8 >= 6) {
+          rank = 'HỌC SINH GIỎI';
+          advice = 'Đang đạt chuẩn Học sinh Giỏi. Đảm bảo điểm thi cuối kỳ >= 8.0!';
+        } else if (overall >= 6.5 && minScore >= 5.0) {
+          rank = 'HỌC SINH KHÁ';
+          const diff = Math.round((8.0 - overall) * 100) / 100;
+          advice = `Cần kéo ĐTB thêm +${diff} nữa ở bài thi cuối kỳ để lên Học sinh Giỏi.`;
+        } else if (overall >= 5.0 && minScore >= 3.5) {
+          rank = 'TRUNG BÌNH';
+          advice = 'Cần ôn tập kỹ các bài thi cuối kỳ (hệ số 3) để nâng học lực.';
+        } else {
+          rank = 'CẦN CỐ GẮNG';
+          advice = 'Hãy tập trung làm thêm đề luyện tập mỗi ngày để kéo điểm lên.';
+        }
+
+        return { gpa: overall.toFixed(2), rank, advice, minScore };
+      }
+
+      const gpaOverallNum = document.getElementById('gpa-overall-num');
+      const gpaRankBadge = document.getElementById('gpa-rank-badge');
+      const gpaAdviceText = document.getElementById('gpa-advice-text');
+      const gradeSubjectsContainer = document.getElementById('grade-subjects-container');
+
+      function renderGrades() {
+        const stats = calcOverallGPA();
+        gpaOverallNum.textContent = stats.gpa !== null ? stats.gpa : '0.00';
+        gpaRankBadge.textContent = stats.rank;
+        gpaAdviceText.textContent = stats.advice;
+
+        // Also update matrix modal stats if open
+        const matrixGpaNum = document.getElementById('matrix-gpa-overall');
+        const matrixRankBadge = document.getElementById('matrix-gpa-rank');
+        if (matrixGpaNum) matrixGpaNum.textContent = stats.gpa !== null ? stats.gpa : '0.00';
+        if (matrixRankBadge) matrixRankBadge.textContent = stats.rank;
+
+        gradeSubjectsContainer.innerHTML = '';
+        state.subjects.forEach((sub, idx) => {
+          const avg = calcSubjectAverage(sub);
+          const el = document.createElement('div');
+          el.className = 'grade-row-item';
+          el.innerHTML = `
+            <div class="grade-row-top">
+              <span class="grade-sub-name">${escapeHtml(sub.name)}</span>
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span class="grade-avg-badge ${avg !== null && avg < 5 ? 'style="color:#ff5555"' : ''}">
+                  ${avg !== null ? avg.toFixed(1) : '--'}
+                </span>
+                ${state.subjects.length > 1 ? `
+                  <button class="todo-del-btn sub-del-btn" data-id="${sub.id}" title="Xóa môn này">
+                    <svg class="icon-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                  </button>
+                ` : ''}
+              </div>
+            </div>
+            <div class="grade-inputs-grid">
+              <div class="grade-input-box">
+                <label>TX (HS 1)</label>
+                <input type="text" class="sub-tx-input" data-idx="${idx}" value="${escapeHtml(sub.tx)}" placeholder="8, 9, 8.5">
+              </div>
+              <div class="grade-input-box">
+                <label>GK (HS 2)</label>
+                <input type="number" step="0.1" min="0" max="10" class="sub-gk-input" data-idx="${idx}" value="${escapeHtml(sub.gk)}" placeholder="8.0">
+              </div>
+              <div class="grade-input-box">
+                <label>CK (HS 3)</label>
+                <input type="number" step="0.1" min="0" max="10" class="sub-ck-input" data-idx="${idx}" value="${escapeHtml(sub.ck)}" placeholder="8.5">
+              </div>
+            </div>
+          `;
+
+          // Input change events
+          el.querySelector('.sub-tx-input').addEventListener('input', (e) => {
+            sub.tx = e.target.value;
+            saveGrades();
+            renderGrades();
+          });
+          el.querySelector('.sub-gk-input').addEventListener('input', (e) => {
+            sub.gk = e.target.value;
+            saveGrades();
+            renderGrades();
+          });
+          el.querySelector('.sub-ck-input').addEventListener('input', (e) => {
+            sub.ck = e.target.value;
+            saveGrades();
+            renderGrades();
+          });
+
+          // Delete subject button
+          const delBtn = el.querySelector('.sub-del-btn');
+          if (delBtn) {
+            delBtn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              state.subjects = state.subjects.filter(s => s.id !== sub.id);
+              saveGrades();
+              renderGrades();
+            });
+          }
+
+          gradeSubjectsContainer.appendChild(el);
+        });
+      }
+
+      function saveGrades() {
+        localStorage.setItem(STORAGE_KEYS.SUBJECTS, JSON.stringify(state.subjects));
+      }
+
+      // Reset grades
+      document.getElementById('btn-reset-grades').addEventListener('click', () => {
+        if (confirm('Bạn có muốn đặt lại toàn bộ điểm số về danh sách mẫu ban đầu không?')) {
+          state.subjects = JSON.parse(JSON.stringify(DEFAULT_SUBJECTS));
+          saveGrades();
+          renderGrades();
+          showToast('Đã đặt lại bảng điểm mẫu');
+        }
+      });
+
+      // Add Subject Modal
+      const modalAddSubject = document.getElementById('modal-add-subject');
+      const addSubjectModalBtn = document.getElementById('btn-add-subject-modal');
+      const closeSubjectModalBtn = document.getElementById('btn-close-subject-modal');
+      const cancelSubjectModalBtn = document.getElementById('btn-cancel-subject-modal');
+      const formAddSubject = document.getElementById('form-add-subject');
+
+      addSubjectModalBtn.addEventListener('click', () => {
+        modalAddSubject.classList.add('active');
+        document.getElementById('input-subject-name').focus();
+      });
+
+      function closeSubjectModal() {
+        modalAddSubject.classList.remove('active');
+        formAddSubject.reset();
+      }
+      closeSubjectModalBtn.addEventListener('click', closeSubjectModal);
+      cancelSubjectModalBtn.addEventListener('click', closeSubjectModal);
+
+      formAddSubject.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('input-subject-name').value.trim();
+        if (name) {
+          state.subjects.push({
+            id: 'sub-' + Date.now(),
+            name,
+            tx: '',
+            gk: '',
+            ck: ''
+          });
+          saveGrades();
+          renderGrades();
+          closeSubjectModal();
+          showToast(`Đã thêm môn ${name}`);
+        }
+      });
+
+      // Expanded Grade Matrix Spreadsheet Modal
+      const modalGradeMatrix = document.getElementById('modal-grade-matrix');
+      const closeMatrixModalBtn = document.getElementById('btn-close-matrix-modal');
+      const saveCloseMatrixBtn = document.getElementById('btn-save-close-matrix');
+      const matrixTableTbody = document.getElementById('matrix-table-tbody');
+
+      function openMatrixModal() {
+        renderMatrixTable();
+        modalGradeMatrix.classList.add('active');
+      }
+
+      function closeMatrixModal() {
+        modalGradeMatrix.classList.remove('active');
+        renderGrades();
+      }
+
+      openMatrixModalBtn.addEventListener('click', openMatrixModal);
+      closeMatrixModalBtn.addEventListener('click', closeMatrixModal);
+      saveCloseMatrixBtn.addEventListener('click', closeMatrixModal);
+
+      function renderMatrixTable() {
+        matrixTableTbody.innerHTML = '';
+        state.subjects.forEach((sub, idx) => {
+          const avg = calcSubjectAverage(sub);
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td style="font-weight: 600;">${escapeHtml(sub.name)}</td>
+            <td>
+              <input type="text" class="input-text matrix-tx" data-idx="${idx}" value="${escapeHtml(sub.tx)}" placeholder="Ví dụ: 8.5, 9, 8" style="height: 24px; font-size: 11px;">
+            </td>
+            <td>
+              <input type="number" step="0.1" min="0" max="10" class="input-text matrix-gk" data-idx="${idx}" value="${escapeHtml(sub.gk)}" placeholder="8.0" style="height: 24px; font-size: 11px;">
+            </td>
+            <td>
+              <input type="number" step="0.1" min="0" max="10" class="input-text matrix-ck" data-idx="${idx}" value="${escapeHtml(sub.ck)}" placeholder="8.5" style="height: 24px; font-size: 11px;">
+            </td>
+            <td style="text-align: center; font-family: var(--font-mono); font-weight: 700;">
+              ${avg !== null ? avg.toFixed(1) : '--'}
+            </td>
+            <td style="text-align: center;">
+              <button class="todo-del-btn matrix-del-sub" data-id="${sub.id}" title="Xóa môn">
+                <svg class="icon-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </td>
+          `;
+
+          tr.querySelector('.matrix-tx').addEventListener('input', (e) => {
+            sub.tx = e.target.value;
+            saveGrades();
+            renderMatrixTable();
+          });
+          tr.querySelector('.matrix-gk').addEventListener('input', (e) => {
+            sub.gk = e.target.value;
+            saveGrades();
+            renderMatrixTable();
+          });
+          tr.querySelector('.matrix-ck').addEventListener('input', (e) => {
+            sub.ck = e.target.value;
+            saveGrades();
+            renderMatrixTable();
+          });
+          tr.querySelector('.matrix-del-sub').addEventListener('click', (e) => {
+            e.stopPropagation();
+            state.subjects = state.subjects.filter(s => s.id !== sub.id);
+            saveGrades();
+            renderMatrixTable();
+          });
+
+          matrixTableTbody.appendChild(tr);
+        });
+
+        const stats = calcOverallGPA();
+        document.getElementById('matrix-gpa-overall').textContent = stats.gpa !== null ? stats.gpa : '0.00';
+        document.getElementById('matrix-gpa-rank').textContent = stats.rank;
+      }
+
+      // -------------------------------------------------------------
+      // 11. YOUTUBE MUSIC HUB
+      // -------------------------------------------------------------
+      const ytUrlInput = document.getElementById('yt-url-input');
+      const ytLoadBtn = document.getElementById('btn-yt-load');
+      const ytSaveBtn = document.getElementById('btn-yt-save');
+      const ytPlayPauseBtn = document.getElementById('btn-yt-playpause');
+      const ytPlayText = document.getElementById('yt-play-text');
+      const ytPlayIcon = document.getElementById('yt-play-icon');
+      const ytVolumeSlider = document.getElementById('yt-volume-slider');
+      const ytVolumeVal = document.getElementById('yt-volume-val');
+      const ytBookmarksContainer = document.getElementById('yt-bookmarks-container');
+      const ytTracksCount = document.getElementById('yt-tracks-count');
+      const ytExternalBtn = document.getElementById('btn-yt-external');
+      const audioToggleLabel = document.getElementById('audio-toggle-label');
+      const ytScreenContainer = document.getElementById('yt-screen-container');
+      const audioVisualizer = document.getElementById('audio-visualizer');
+
+      function parseYouTubeSource(url) {
+        if (!url) return { type: 'video', id: 'SnTEWNqd3JY' };
+        let videoId = '';
+        let listId = '';
+
+        const listMatch = url.match(/[?&]list=([a-zA-Z0-9_-]+)/);
+        if (listMatch) listId = listMatch[1];
+
+        const regExp = /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|shorts\/))([\w-]{11})/;
+        const match = url.match(regExp);
+        if (match && match[1]) videoId = match[1];
+
+        if (listId && !videoId) return { type: 'playlist', id: listId };
+        return { type: 'video', id: videoId || 'SnTEWNqd3JY', playlist: listId };
+      }
+
+      window.onYouTubeIframeAPIReady = function() {
+        const initial = parseYouTubeSource(state.currentTrackUrl);
+        const playerVars = { autoplay: 0, controls: 1, modestbranding: 1, rel: 0 };
+
+        if (window.location.protocol.startsWith('http') && window.location.origin && window.location.origin !== 'null') {
+          playerVars.origin = window.location.origin;
+        }
+
+        const playerConfig = {
+          height: '100%',
+          width: '100%',
+          playerVars: playerVars,
+          events: {
+            onReady: onPlayerReady,
+            onStateChange: onPlayerStateChange
+          }
+        };
+
+        if (initial.type === 'playlist') {
+          playerConfig.playerVars.listType = 'playlist';
+          playerConfig.playerVars.list = initial.id;
+        } else {
+          playerConfig.videoId = initial.id;
+        }
+
+        state.ytPlayer = new YT.Player('yt-player-target', playerConfig);
+      };
+
+      function onPlayerReady() {
+        state.ytReady = true;
+        const currentVol = parseInt(ytVolumeSlider.value, 10);
+        state.ytPlayer.setVolume(currentVol);
+      }
+
+      function onPlayerStateChange(event) {
+        if (event.data === YT.PlayerState.PLAYING) {
+          ytPlayText.textContent = 'Tạm dừng';
+          ytPlayIcon.innerHTML = '<rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect>';
+          audioVisualizer.classList.add('visualizer-active');
+        } else {
+          ytPlayText.textContent = 'Phát';
+          ytPlayIcon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"></polygon>';
+          audioVisualizer.classList.remove('visualizer-active');
+        }
+      }
+
+      const tag = document.createElement('script');
+      tag.src = "https://www.youtube.com/iframe_api";
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      function loadTrackByUrl(url) {
+        state.currentTrackUrl = url;
+        localStorage.setItem(STORAGE_KEYS.CURRENT_TRACK, url);
+        ytExternalBtn.href = url;
+
+        const src = parseYouTubeSource(url);
+        if (state.ytReady && state.ytPlayer) {
+          if (src.type === 'playlist') {
+            state.ytPlayer.loadPlaylist({ list: src.id, listType: 'playlist' });
+          } else {
+            state.ytPlayer.loadVideoById(src.id);
+          }
+          state.ytPlayer.playVideo();
+        }
+        showToast('Đang kết nối luồng phát...');
+      }
+
+      ytLoadBtn.addEventListener('click', () => {
+        const url = ytUrlInput.value.trim();
+        if (url) loadTrackByUrl(url);
+      });
+
+      ytPlayPauseBtn.addEventListener('click', () => {
+        if (!state.ytReady || !state.ytPlayer) return;
+        const playerState = state.ytPlayer.getPlayerState();
+        if (playerState === YT.PlayerState.PLAYING) {
+          state.ytPlayer.pauseVideo();
+        } else {
+          state.ytPlayer.playVideo();
+        }
+      });
+
+      ytVolumeSlider.addEventListener('input', (e) => {
+        const val = parseInt(e.target.value, 10);
+        ytVolumeVal.textContent = `${val}%`;
+        if (state.ytReady && state.ytPlayer) {
+          state.ytPlayer.setVolume(val);
+        }
+      });
+
+      audioOnlyToggleBtn.addEventListener('click', () => {
+        state.isAudioOnly = !state.isAudioOnly;
+        if (state.isAudioOnly) {
+          ytScreenContainer.classList.add('audio-only');
+          audioToggleLabel.textContent = 'Hiện video';
+          audioOnlyToggleBtn.classList.add('btn-solid');
+          showToast('Đã bật chế độ chỉ nghe âm thanh');
+        } else {
+          ytScreenContainer.classList.remove('audio-only');
+          audioToggleLabel.textContent = 'Ẩn video';
+          audioOnlyToggleBtn.classList.remove('btn-solid');
+        }
+      });
+
+      ytSaveBtn.addEventListener('click', () => {
+        const url = ytUrlInput.value.trim() || state.currentTrackUrl;
+        if (!url) return;
+        const customTitle = prompt('Nhập tên gợi nhớ cho link nhạc này:', 'Giai điệu tập trung');
+        if (customTitle) {
+          state.tracks.unshift({ id: 'tr-' + Date.now(), title: customTitle, url: url });
+          localStorage.setItem(STORAGE_KEYS.TRACKS, JSON.stringify(state.tracks));
+          renderBookmarks();
+          showToast('Đã lưu vào danh sách nhạc');
+        }
+      });
+
+      function renderBookmarks() {
+        ytBookmarksContainer.innerHTML = '';
+        ytTracksCount.textContent = `${state.tracks.length} tracks`;
+
+        state.tracks.forEach(track => {
+          const el = document.createElement('div');
+          el.className = 'yt-bookmark-item';
+          el.innerHTML = `
+            <svg class="icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            <span class="yt-bookmark-title" title="${escapeHtml(track.title)}">${escapeHtml(track.title)}</span>
+            <button class="yt-bookmark-del" data-id="${track.id}" title="Xóa track này">
+              <svg class="icon-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+          `;
+
+          el.addEventListener('click', (e) => {
+            if (e.target.closest('.yt-bookmark-del')) return;
+            ytUrlInput.value = track.url;
+            loadTrackByUrl(track.url);
+          });
+
+          el.querySelector('.yt-bookmark-del').addEventListener('click', (e) => {
+            e.stopPropagation();
+            state.tracks = state.tracks.filter(t => t.id !== track.id);
+            localStorage.setItem(STORAGE_KEYS.TRACKS, JSON.stringify(state.tracks));
+            renderBookmarks();
+          });
+
+          ytBookmarksContainer.appendChild(el);
+        });
+      }
+
+      function escapeHtml(str) {
+        if (!str) return '';
+        return str
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      // -------------------------------------------------------------
+      // 12. INITIAL BOOTSTRAP
+      // -------------------------------------------------------------
+      RainEngine.init();
+      renderExams();
+      renderTodos();
+      renderBookmarks();
+      renderGrades();
+      displayQuote(0);
+      setTimerDuration(90);
+      ytUrlInput.value = state.currentTrackUrl;
+
+      // Close modals on backdrop click
+      [modalAddExam, modalAddQuote, modalAddSubject, modalGradeMatrix].forEach(modal => {
+        if (!modal) return;
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            modal.classList.remove('active');
+          }
+        });
+      });
+
+    })();
+  </script>
+
+  <!-- Subtle Faint Personal Signature -->
+  <div class="watermark-screen">VU DUY</div>
+</body>
+</html>
