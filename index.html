@@ -662,24 +662,38 @@
     .exam-actions-group {
       display: flex;
       align-items: center;
-      gap: 3px;
+      gap: 5px;
     }
-    .exam-action-btn {
-      opacity: 0.65;
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      padding: 3px;
+    .btn-exam-action {
+      height: 22px;
+      padding: 0 8px;
+      font-size: 11px;
+      font-family: var(--font-sans);
+      font-weight: 500;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text-sub);
       border-radius: var(--radius-sm);
+      cursor: pointer;
       display: inline-flex;
       align-items: center;
-      justify-content: center;
+      gap: 4px;
       transition: var(--transition);
+      white-space: nowrap;
     }
-    .exam-item:hover .exam-action-btn { opacity: 1; }
-    .exam-edit-btn:hover { color: var(--text); background: var(--bg-hover); }
-    .exam-del-btn:hover { color: #ff5555; background: rgba(255, 85, 85, 0.1); }
+    .btn-exam-action:hover {
+      background: var(--bg-hover);
+      color: var(--text);
+      border-color: var(--border-strong);
+    }
+    .btn-exam-action.btn-exam-del:hover {
+      background: rgba(255, 85, 85, 0.12);
+      border-color: #ff5555;
+      color: #ff5555;
+    }
+    .exam-item {
+      cursor: pointer;
+    }
 
     /* To-Do List with Enhanced Delete and Actions */
     .todo-list-wrap { display: flex; flex-direction: column; height: 100%; }
@@ -1708,9 +1722,12 @@
           <label class="modal-label">Thời gian thi</label>
           <input type="datetime-local" id="input-exam-date" class="input-text" required>
         </div>
-        <div class="modal-actions">
-          <button type="button" class="btn btn-sm" id="btn-cancel-exam-modal">Hủy</button>
-          <button type="submit" class="btn btn-solid btn-sm" id="btn-submit-exam">Lưu kỳ thi</button>
+        <div class="modal-actions" style="display: flex; align-items: center; justify-content: space-between;">
+          <button type="button" class="btn btn-sm" id="btn-modal-delete-exam" style="color: #ff5555; border-color: rgba(255,85,85,0.3); display: none;">Xóa kỳ thi</button>
+          <div style="display: flex; gap: 8px; margin-left: auto;">
+            <button type="button" class="btn btn-sm" id="btn-cancel-exam-modal">Hủy</button>
+            <button type="submit" class="btn btn-solid btn-sm" id="btn-submit-exam">Lưu kỳ thi</button>
+          </div>
         </div>
       </form>
     </div>
@@ -2553,7 +2570,21 @@
       function renderExams() {
         examContainer.innerHTML = '';
         if (state.exams.length === 0) {
-          examContainer.innerHTML = '<div style="font-size: 11px; color: var(--text-muted); text-align: center; padding: 16px;">Chưa có kỳ thi nào. Bấm Thêm để tạo mới.</div>';
+          examContainer.innerHTML = `
+            <div style="font-size: 11px; color: var(--text-muted); text-align: center; padding: 24px 12px; display: flex; flex-direction: column; align-items: center; gap: 10px;">
+              <span>Chưa có kỳ thi nào.</span>
+              <button class="btn btn-sm" id="btn-restore-default-exams" style="font-size: 11px;">Khôi phục 3 kỳ thi mẫu</button>
+            </div>
+          `;
+          const restoreBtn = document.getElementById('btn-restore-default-exams');
+          if (restoreBtn) {
+            restoreBtn.addEventListener('click', () => {
+              state.exams = JSON.parse(JSON.stringify(DEFAULT_EXAMS));
+              localStorage.setItem(STORAGE_KEYS.EXAMS, JSON.stringify(state.exams));
+              renderExams();
+              showToast('Đã khôi phục các kỳ thi mẫu');
+            });
+          }
           return;
         }
 
@@ -2564,15 +2595,19 @@
 
           const item = document.createElement('div');
           item.className = 'exam-item';
+          item.setAttribute('data-id', exam.id);
+          item.title = 'Bấm để chỉnh sửa kỳ thi này';
           item.innerHTML = `
             <div class="exam-top">
               <span class="exam-name">${escapeHtml(exam.name)}</span>
               <div class="exam-actions-group">
-                <button class="exam-action-btn exam-edit-btn" data-id="${exam.id}" title="Chỉnh sửa kỳ thi">
-                  <svg class="icon-sm" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                <button type="button" class="btn-exam-action btn-exam-edit" data-id="${exam.id}" title="Chỉnh sửa kỳ thi">
+                  <svg class="icon-sm" style="width: 11px; height: 11px;" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                  <span>Sửa</span>
                 </button>
-                <button class="exam-action-btn exam-del-btn" data-id="${exam.id}" title="Xóa kỳ thi">
-                  <svg class="icon-sm" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                <button type="button" class="btn-exam-action btn-exam-del" data-id="${exam.id}" title="Xóa kỳ thi này">
+                  <svg class="icon-sm" style="width: 11px; height: 11px;" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                  <span>Xóa</span>
                 </button>
               </div>
             </div>
@@ -2588,38 +2623,18 @@
               }
             </div>
           `;
+
+          // Tap anywhere on exam card to edit
+          item.addEventListener('click', (e) => {
+            if (e.target.closest('.btn-exam-del')) return;
+            openExamEditModal(exam.id);
+          });
+
           examContainer.appendChild(item);
         });
 
-        // Edit exam listeners
-        examContainer.querySelectorAll('.exam-edit-btn').forEach(btn => {
-          btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const id = btn.getAttribute('data-id');
-            const exam = state.exams.find(x => x.id === id);
-            if (!exam) return;
-
-            document.getElementById('modal-exam-title').textContent = 'Chỉnh Sửa Kỳ Thi';
-            document.getElementById('input-exam-id').value = exam.id;
-            document.getElementById('input-exam-name').value = exam.name;
-
-            const d = new Date(exam.date);
-            if (!isNaN(d.getTime())) {
-              const pad = (n) => String(n).padStart(2, '0');
-              const localIso = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
-              document.getElementById('input-exam-date').value = localIso;
-            } else {
-              document.getElementById('input-exam-date').value = exam.date;
-            }
-
-            document.getElementById('btn-submit-exam').textContent = 'Cập nhật';
-            modalAddExam.classList.add('active');
-            document.getElementById('input-exam-name').focus();
-          });
-        });
-
         // Delete exam listeners
-        examContainer.querySelectorAll('.exam-del-btn').forEach(btn => {
+        examContainer.querySelectorAll('.btn-exam-del').forEach(btn => {
           btn.addEventListener('click', (e) => {
             e.stopPropagation();
             const id = btn.getAttribute('data-id');
@@ -2633,12 +2648,48 @@
         });
       }
 
+      function openExamEditModal(examId) {
+        const exam = state.exams.find(x => x.id === examId);
+        if (!exam) return;
+
+        document.getElementById('modal-exam-title').textContent = 'Chỉnh Sửa Kỳ Thi';
+        document.getElementById('input-exam-id').value = exam.id;
+        document.getElementById('input-exam-name').value = exam.name;
+
+        const d = new Date(exam.date);
+        if (!isNaN(d.getTime())) {
+          const pad = (n) => String(n).padStart(2, '0');
+          const localIso = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+          document.getElementById('input-exam-date').value = localIso;
+        } else {
+          document.getElementById('input-exam-date').value = exam.date;
+        }
+
+        document.getElementById('btn-submit-exam').textContent = 'Cập nhật kỳ thi';
+        const modalDelBtn = document.getElementById('btn-modal-delete-exam');
+        if (modalDelBtn) {
+          modalDelBtn.style.display = 'inline-flex';
+          modalDelBtn.onclick = () => {
+            state.exams = state.exams.filter(x => x.id !== examId);
+            localStorage.setItem(STORAGE_KEYS.EXAMS, JSON.stringify(state.exams));
+            renderExams();
+            closeExamModal();
+            showToast('Đã xóa kỳ thi: ' + exam.name);
+          };
+        }
+
+        modalAddExam.classList.add('active');
+        document.getElementById('input-exam-name').focus();
+      }
+
       setInterval(renderExams, 30000);
 
       addExamBtn.addEventListener('click', () => {
         document.getElementById('modal-exam-title').textContent = 'Thêm Kỳ Thi Quan Trọng';
         document.getElementById('input-exam-id').value = '';
         document.getElementById('btn-submit-exam').textContent = 'Lưu kỳ thi';
+        const modalDelBtn = document.getElementById('btn-modal-delete-exam');
+        if (modalDelBtn) modalDelBtn.style.display = 'none';
         formAddExam.reset();
         modalAddExam.classList.add('active');
         document.getElementById('input-exam-name').focus();
